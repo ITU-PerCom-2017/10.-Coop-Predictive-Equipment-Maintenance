@@ -10,8 +10,10 @@ The Rpi will be running several java programs
 * Algorithm for calculating position of items 
 
 
-## LoPy - Pycon
+## LoPy - Pycon 
 Recievers for Estimote beacons. The LoPy will only take care of measuring RSSI, ID, and timecode on each regisetered Estimote beacon. these dates will be passed on from the recievers (LoPy) to the backend placed on the Access point(RPI)
+
+The LoPy communicates via WiFi with the accesspoint with the backend,  and it recieves data  bluetooth low energy on the beacons 
 
 ## Estimote beacons
 Esitmote beacons will function as the marking of where each customer / basket is
