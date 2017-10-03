@@ -1,27 +1,18 @@
 import java.net.InetAddress;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Beacon {
-    public static InetAddress recieverAdress;
-    public static double beaconId;
-    public static double distanceToReciever;
+    private static double beaconId;
+    private static double distanceToReciever;
+    private static InetAddress recieverAdress;
 
-    public Beacon (double ssid) {
+    private long timeNow;
+    public Beacon (double ssid, double distToR, InetAddress reciever) {
         beaconId = ssid;
-    }
+        recieverAdress = reciever;
+        distanceToReciever = distToR;
+        timeNow = System.currentTimeMillis();
 
-    public static double getBeaconId() {
-        return beaconId;
-    }
-
-    public static void setBeaconId(double beaconId) {
-        Beacon.beaconId = beaconId;
-    }
-
-    public static double getDistanceToReciever() {
-        return distanceToReciever;
-    }
-
-    public static void setDistanceToReciever(double distanceToReciever) {
-        Beacon.distanceToReciever = distanceToReciever;
     }
 }
