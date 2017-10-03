@@ -2,7 +2,8 @@
 ## Rapsberry Pi
 will be the backend - The RPI will function as an accesspoint, which takes care of all the incomming data comming from the LoPy's, which works as recievers for the Estimote beacons. 
 
-The Rpi will be running several java programs
+The Rpi will be running several java programs and it will be hosting a mySQL database
+
 
 ## JAVA
 * Java class for handling incomming data
