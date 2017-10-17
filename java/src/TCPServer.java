@@ -9,7 +9,7 @@ class TCPServer {
     public static void main(String argv[]) throws Exception {
 
 
-        //Server socket, idealy it should be one socket for all beacons,
+        //Server socket, ideally it should be one socket for all beacons,
         //it seams that tcp does not allow for that
 
 
@@ -27,23 +27,23 @@ class TCPServer {
             Socket connectionSocketBeacon4 = beaconSocket4.accept();
 
             //Instantiate Buffers
-            BufferedReader inFromBeaacon1 =
+            BufferedReader inFromBeacon1 =
                     new BufferedReader(new InputStreamReader(connectionSocketBeacon1.getInputStream()));
 
-            BufferedReader inFromBeaacon2 =
+            BufferedReader inFromBeacon2 =
                     new BufferedReader(new InputStreamReader(connectionSocketBeacon2.getInputStream()));
-            BufferedReader inFromBeaacon3 =
+            BufferedReader inFromBeacon3 =
                     new BufferedReader(new InputStreamReader(connectionSocketBeacon3.getInputStream()));
 
-            BufferedReader inFromBeaacon4 =
+            BufferedReader inFromBeacon4 =
                     new BufferedReader(new InputStreamReader(connectionSocketBeacon4.getInputStream()));
 
 
             //message for testing purposes
-            String beacon1Sentence = inFromBeaacon1.readLine();
-            String beacon2Sentence = inFromBeaacon2.readLine();
-            String beacon3Sentence = inFromBeaacon3.readLine();
-            String beacon4Sentence = inFromBeaacon4.readLine();
+            String beacon1Sentence = inFromBeacon1.readLine();
+            String beacon2Sentence = inFromBeacon2.readLine();
+            String beacon3Sentence = inFromBeacon3.readLine();
+            String beacon4Sentence = inFromBeacon4.readLine();
 
 
             //Create beacon object with data
@@ -52,14 +52,14 @@ class TCPServer {
             Beacon beacon3 = new Beacon(60236,2927,12321,connectionSocketBeacon3.getInetAddress());
             Beacon beacon4 = new Beacon(36290,59043,12321,connectionSocketBeacon4.getInetAddress());
 
-            //Add beacon to datamap, using ip adress as key and beacon object as value
+            //Add beacon to data map, using ip address as key and beacon object as value
             dataMap.put(connectionSocketBeacon1.getInetAddress(),beacon1);
             dataMap.put(connectionSocketBeacon2.getInetAddress(),beacon2);
             dataMap.put(connectionSocketBeacon3.getInetAddress(),beacon3);
             dataMap.put(connectionSocketBeacon4.getInetAddress(),beacon4);
 
 
-            //Prints the incomming messages on the server, for testing purposes.
+            //Prints the incoming messages on the server, for testing purposes.
             System.out.println("From " + connectionSocketBeacon1.getInetAddress() + " : " + beacon1Sentence);
             System.out.println("From " + connectionSocketBeacon2.getInetAddress() + " : " + beacon2Sentence);
             System.out.println("From " + connectionSocketBeacon3.getInetAddress() + " : " + beacon3Sentence);
