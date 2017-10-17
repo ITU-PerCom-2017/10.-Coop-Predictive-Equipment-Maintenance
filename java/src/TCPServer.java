@@ -14,42 +14,61 @@ class TCPServer {
 
 
         ServerSocket beaconSocket1 = new ServerSocket(6789);
+        ServerSocket beaconSocket2 = new ServerSocket(6790);
+        ServerSocket beaconSocket3 = new ServerSocket(6791);
+        ServerSocket beaconSocket4 = new ServerSocket(6792);
+
 
         while (true) {
-            /*
-            Huston we have a problem, only one client can be connected to the host on
-            the same port at the time, when using TCP. We can solve this
-             by suing UDP or we can use MQTT. which has the features of TCP,
-              but the freedom of UDP
-             */
 
 
-            //Instantiate a socket for beacon 1
+
+            //Instantiate sockets
             Socket connectionSocketBeacon1 = beaconSocket1.accept();
+            Socket connectionSocketBeacon2 = beaconSocket2.accept();
+            Socket connectionSocketBeacon3 = beaconSocket3.accept();
+            Socket connectionSocketBeacon4 = beaconSocket4.accept();
 
-            //Instantiate Buffer for data comming from beacon 1
+
+            //Instantiate Buffers
             BufferedReader inFromBeaacon1 =
                     new BufferedReader(new InputStreamReader(connectionSocketBeacon1.getInputStream()));
 
-            //Output stream to client, for testing purposes,
-            // for now we can use netcat to send messages to the server
-            DataOutputStream outToClient1 = new DataOutputStream(connectionSocketBeacon1.getOutputStream());
+            BufferedReader inFromBeaacon2 =
+                    new BufferedReader(new InputStreamReader(connectionSocketBeacon2.getInputStream()));
+            BufferedReader inFromBeaacon3 =
+                    new BufferedReader(new InputStreamReader(connectionSocketBeacon3.getInputStream()));
+
+            BufferedReader inFromBeaacon4 =
+                    new BufferedReader(new InputStreamReader(connectionSocketBeacon4.getInputStream()));
+
 
             //message for testing purposes
-            String beacon1Sentence;
-            beacon1Sentence = inFromBeaacon1.readLine();
+            String beacon1Sentence = inFromBeaacon1.readLine();
+            String beacon2Sentence = inFromBeaacon2.readLine();
+            String beacon3Sentence = inFromBeaacon3.readLine();
+            String beacon4Sentence = inFromBeaacon4.readLine();
+
 
             //Create beacon object with data
-            Beacon beacon = new Beacon(123123,12321,connectionSocketBeacon1.getInetAddress());
+            Beacon beacon1 = new Beacon(2951,54413,12321,connectionSocketBeacon1.getInetAddress());
+            Beacon beacon2 = new Beacon(43684,33774,12321,connectionSocketBeacon2.getInetAddress());
+            Beacon beacon3 = new Beacon(60236,2927,12321,connectionSocketBeacon3.getInetAddress());
+            Beacon beacon4 = new Beacon(36290,59043,12321,connectionSocketBeacon4.getInetAddress());
 
             //Add beacon to datamap, using ip adress as key and beacon object as value
-            dataMap.put(connectionSocketBeacon1.getInetAddress(),beacon);
+            dataMap.put(connectionSocketBeacon1.getInetAddress(),beacon1);
+            dataMap.put(connectionSocketBeacon2.getInetAddress(),beacon2);
+            dataMap.put(connectionSocketBeacon3.getInetAddress(),beacon3);
+            dataMap.put(connectionSocketBeacon4.getInetAddress(),beacon4);
+
 
             //Prints the incomming messages on the server, for testing purposes.
             System.out.println("Received: " + beacon1Sentence);
+            System.out.println("Received: " + beacon2Sentence);
+            System.out.println("Received: " + beacon3Sentence);
+            System.out.println("Received: " + beacon4Sentence);
 
-            //Sending data back to client for testing purposes
-            outToClient1.writeBytes(":" + beacon1Sentence);
         }
     }
 }
