@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 class TCPServer {
-    public static Map<InetAddress,Beacon> dataMap = new HashMap<>();
+    private static PathDatabase mDatabase;
 
     public static void main(String argv[]) throws Exception {
 
@@ -17,6 +17,7 @@ class TCPServer {
         ServerSocket beaconSocket2 = new ServerSocket(6790);
         ServerSocket beaconSocket3 = new ServerSocket(6791);
         ServerSocket beaconSocket4 = new ServerSocket(6792);
+
 
 
         while (true) {
@@ -46,18 +47,6 @@ class TCPServer {
             String beacon3Sentence = inFromBeacon3.readLine();
             String beacon4Sentence = inFromBeacon4.readLine();
 
-
-            //Create beacon object with data
-            Beacon beacon1 = new Beacon(2951,54413,12321,connectionSocketBeacon1.getInetAddress());
-            Beacon beacon2 = new Beacon(43684,33774,12321,connectionSocketBeacon2.getInetAddress());
-            Beacon beacon3 = new Beacon(60236,2927,12321,connectionSocketBeacon3.getInetAddress());
-            Beacon beacon4 = new Beacon(36290,59043,12321,connectionSocketBeacon4.getInetAddress());
-
-            //Add beacon to data map, using ip address as key and beacon object as value
-            dataMap.put(connectionSocketBeacon1.getInetAddress(),beacon1);
-            dataMap.put(connectionSocketBeacon2.getInetAddress(),beacon2);
-            dataMap.put(connectionSocketBeacon3.getInetAddress(),beacon3);
-            dataMap.put(connectionSocketBeacon4.getInetAddress(),beacon4);
 
 
             //Prints the incoming messages on the server, for testing purposes.
