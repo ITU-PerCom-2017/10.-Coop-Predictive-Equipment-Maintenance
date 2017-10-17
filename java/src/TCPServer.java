@@ -20,15 +20,11 @@ class TCPServer {
 
 
         while (true) {
-
-
-
             //Instantiate sockets
             Socket connectionSocketBeacon1 = beaconSocket1.accept();
             Socket connectionSocketBeacon2 = beaconSocket2.accept();
             Socket connectionSocketBeacon3 = beaconSocket3.accept();
             Socket connectionSocketBeacon4 = beaconSocket4.accept();
-
 
             //Instantiate Buffers
             BufferedReader inFromBeaacon1 =
@@ -64,10 +60,10 @@ class TCPServer {
 
 
             //Prints the incomming messages on the server, for testing purposes.
-            System.out.println("Received: " + beacon1Sentence);
-            System.out.println("Received: " + beacon2Sentence);
-            System.out.println("Received: " + beacon3Sentence);
-            System.out.println("Received: " + beacon4Sentence);
+            System.out.println("From " + connectionSocketBeacon1.getInetAddress() + " : " + beacon1Sentence);
+            System.out.println("From " + connectionSocketBeacon2.getInetAddress() + " : " + beacon2Sentence);
+            System.out.println("From " + connectionSocketBeacon3.getInetAddress() + " : " + beacon3Sentence);
+            System.out.println("From " + connectionSocketBeacon4.getInetAddress() + " : " + beacon4Sentence);
 
         }
     }
