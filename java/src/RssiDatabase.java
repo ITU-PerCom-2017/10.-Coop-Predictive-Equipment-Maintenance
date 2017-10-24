@@ -29,47 +29,53 @@ public class RssiDatabase {
         Double doubleTime = System.currentTimeMillis() * 0.001;
         Integer time = doubleTime.intValue();
 
+        // If the beacon already exist, get the map and store the data.
         if (mPathMap.containsKey(beaconId)) {
 
-            Map<Integer,Map<String, Integer>> tempTimeMap = mPathMap.get(beaconId);
+            Map<Integer,Map<String, Integer>> timeMap = mPathMap.get(beaconId);
 
-            if (tempTimeMap.containsKey(time)) {
+            // If the beacon already has data from that timestamp, get the map and store the rssi data.
+            if (timeMap.containsKey(time)) {
 
-                Map<String, Integer> tempReceiverMap = tempTimeMap.get(time);
+                Map<String, Integer> receiverMap = timeMap.get(time);
 
-                tempReceiverMap.put(receiverId, rssi);
+                receiverMap.put(receiverId, rssi);
 
+                // Else create a new map and store the rssi data.
             } else {
 
-                Map<String, Integer> tempReceiverMap = new HashMap<>();
+                Map<String, Integer> receiverMap = new HashMap<>();
 
-                tempReceiverMap.put(receiverId, rssi);
+                receiverMap.put(receiverId, rssi);
 
-                tempTimeMap.put(time, tempReceiverMap);
+                timeMap.put(time, receiverMap);
 
             }
 
+            // If the beacon does not exist, create a map for each data type and store the data.
         } else {
 
-            Map<Integer,Map<String, Integer>> tempTimeMap = new HashMap<>();
+            Map<Integer,Map<String, Integer>> timeMap = new HashMap<>(180); // 180 correspond to 3 minutes of data collection.
 
-            Map<String, Integer> tempReceiverMap = new HashMap<>();
+            Map<String, Integer> receiverMap = new HashMap<>();
 
-            tempReceiverMap.put(receiverId, rssi);
+            receiverMap.put(receiverId, rssi);
 
-            tempTimeMap.put(time, tempReceiverMap);
+            timeMap.put(time, receiverMap);
 
-            mPathMap.put(beaconId, tempTimeMap);
+            mPathMap.put(beaconId, timeMap);
 
 
         }
     }
 
 
+    // Method to get the entire database
     public Map<String,Map<Integer,Map<String, Integer>>> getDatabase() {
         return mPathMap;
     }
 
+    // Method to get the data from a single beacon
     public Map<Integer,Map<String, Integer>> getBeaconData(String beaconId) {
         return mPathMap.get(beaconId);
     }
