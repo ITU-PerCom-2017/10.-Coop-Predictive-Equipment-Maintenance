@@ -12,12 +12,10 @@ class TCPServer {
         //Server socket, ideally it should be one socket for all beacons,
         //it seams that tcp does not allow for that
 
-
         ServerSocket beaconSocket1 = new ServerSocket(6789);
         ServerSocket beaconSocket2 = new ServerSocket(6790);
         ServerSocket beaconSocket3 = new ServerSocket(6791);
         ServerSocket beaconSocket4 = new ServerSocket(6792);
-
 
 
         while (true) {
@@ -43,18 +41,16 @@ class TCPServer {
 
             //message for testing purposes
             String beacon1Sentence = inFromBeacon1.readLine();
-           /*
             String beacon2Sentence = inFromBeacon2.readLine();
             String beacon3Sentence = inFromBeacon3.readLine();
             String beacon4Sentence = inFromBeacon4.readLine();
-            */
+
 
             //Prints the incoming messages on the server, for testing purposes.
             System.out.println("From " + connectionSocketBeacon1.getInetAddress() + " : " + beacon1Sentence);
-          /*  System.out.println("From " + connectionSocketBeacon2.getInetAddress() + " : " + beacon2Sentence);
+            System.out.println("From " + connectionSocketBeacon2.getInetAddress() + " : " + beacon2Sentence);
             System.out.println("From " + connectionSocketBeacon3.getInetAddress() + " : " + beacon3Sentence);
             System.out.println("From " + connectionSocketBeacon4.getInetAddress() + " : " + beacon4Sentence);
-            */
 
         }
     }
