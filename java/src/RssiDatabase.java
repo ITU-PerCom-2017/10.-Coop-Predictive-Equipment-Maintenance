@@ -4,7 +4,7 @@ import java.util.Map;
 /**
  * Created by Johnni on 17-10-2017.
  */
-public class PathDatabase {
+public class RssiDatabase {
 
 
     // First  map: Beacon ID map
@@ -13,7 +13,7 @@ public class PathDatabase {
     private Map<String,Map<Integer,Map<String, Integer>>> mPathMap;
 
 
-    public PathDatabase() {
+    public RssiDatabase() {
 
         if (mPathMap != null) {
             mPathMap  = new HashMap<>();
