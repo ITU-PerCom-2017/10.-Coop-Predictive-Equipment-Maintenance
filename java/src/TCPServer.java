@@ -11,15 +11,13 @@ class TCPServer {
         for(int i = 0; i<4; i++){
             final int tempPort = port+i;
             Thread t = new Thread(() -> {
-                ServerSocket beaconSocket1 = null;
+                ServerSocket beaconSocket = null;
                 try {
-                    beaconSocket1 = new ServerSocket(tempPort);
-                    Socket connectionSocketBeacon1 = beaconSocket1.accept();
-                    BufferedReader inFromBeacon1 = new BufferedReader(new InputStreamReader(connectionSocketBeacon1.getInputStream()));
-                    //message for testing purposes
-                    String beacon1Sentence = inFromBeacon1.readLine();
-                    //Prints the incoming messages on the server, for testing purposes.
-                    System.out.println("From " + connectionSocketBeacon1.getInetAddress() + " : " + beacon1Sentence);
+                    beaconSocket = new ServerSocket(tempPort);
+                    Socket connectionSocketBeacon = beaconSocket.accept();
+                    BufferedReader inFromBeacon = new BufferedReader(new InputStreamReader(connectionSocketBeacon.getInputStream()));
+                    String beaconSentence = inFromBeacon.readLine();
+                    System.out.println("From " + connectionSocketBeacon.getInetAddress() + " : " + beaconSentence);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
