@@ -1,58 +1,86 @@
+
 from network import Bluetooth
 from network import WLAN
+import socket
 #from network import socket
 import pycom
 import time
 import machine
 import binascii
-import gc
+from machine import Timer
+pycom.heartbeat(False)
 
-beaconlist = ['b9407f30-f5f8-466e-aff9-25556b57fe6d']
-beaconevents = []
-timelastdata = time.time()
+chrono = Timer.Chrono()
 
-def new_adv_event(event):
-    global beaconlist, beaconevents, timelastdata
-    if event.events() == Bluetooth.NEW_ADV_EVENT:
-        anydata = True
-        while anydata:
-            adv = bluetooth.get_adv()
-            if adv != None:
-                timelastdata = time.time()
-                devid = binascii.hexlify(adv[0]).decode('utf-8')
-                print(adv[0])
-                rssi = str(adv[3]*-1)
-                if devid in beaconlist:
-                    if len(beaconevents) > 5:
-                        beaconevents.pop(0)
-                        print(devid)
-                    beaconevents.append([devid, rssi])
-            else:
-                anydata = False
+wlan = WLAN(mode=WLAN.STA)
+nets = wlan.scan()
 
-print('Starting BLE scan')
 bluetooth = Bluetooth()
-bluetooth.callback(trigger = Bluetooth.NEW_ADV_EVENT, handler = new_adv_event)
-bluetooth.init()
 bluetooth.start_scan(-1)
-
-cycles = 0
-p_in = machine.Pin('G17',machine.Pin.IN, pull=machine.Pin.PULL_UP)
-
+adv = None
+chrono.start()
 while True:
-    if p_in() == 0:
-        print('pin')
+
+    adv = bluetooth.get_adv()
+    if adv != None:
+        print(adv, '\n')
+        #print(adv.data, '\n')
+        #print(binascii.hexlify(adv.data).decode("utf-8"), '\n')
+        #print(bluetooth.resolve_adv_data(adv.data, Bluetooth.ADV_MANUFACTURER_DATA), '\n')
+
+
+    lap = chrono.read()
+    if lap > 2:
+        print("breaking")
         bluetooth.stop_scan()
         break
+pycom.rgbled(0x7f0000)
 
-    cycles += 1
-    # Run garbage collector every 20 cycles.
-    if cycles%20 == 0:
-        gc.collect()
-    # If no BLE event for 10 seconds, hard reset
-    if time.time() - timelastdata > 10:
-        machine.reset()
+for net in nets:
+     if net.ssid == 'cooppifi':
+         print('rpi found!')
+         wlan.connect(net.ssid, auth=(net.sec, 'cooppifi2017'), timeout=5000)
+         for _ in range(60):
+             time.sleep(1)
+             if wlan.isconnected():
+                 print("connected to rpi")
+                 break
+             print('.', end='')
 
+         else:
+             print("could not connect")
+
+            #while not wlan.isconnected():
+            #    pycom.rgbled(0x7f0000)
+            #    machine.idle() # save power while waiting
+            #print('WLAN connection succeeded!')
+            #break
+time.sleep(2)
+pycom.rgbled(0x7f7f00) # yellow
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#address = ("10.42.0.1", 6789)
+#s.connect(socket.getaddrinfo('10.42.0.1', 6790)[0][-1])
+data = b'fedePenis'
+#data = b'hello tcp'
+
+time.sleep(2)
+
+print("sending")
+for _ in range(10):
+    s.connect(socket.getaddrinfo('10.42.0.1', 6790)[0][-1])
+    pycom.rgbled(0x007f00)
+    time.sleep(0.5)
+    pycom.rgbled(0x000000) # turn off led
+    time.sleep(0.5)
+    print('.')
+    s.send(data)
+    s.close()
+
+
+
+
+#s.close()
+#s.sendto(key, address)
 
 
 #s = socket.socket()
