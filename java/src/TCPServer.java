@@ -33,7 +33,7 @@ class TCPServer {
 
 
 
-    public static void main(String argv[])  {
+    public static void main(String args[])  {
 
         for(int i = 0; i < RECEIVERS; i++) {
             final int tempPort = START_PORT+i;
