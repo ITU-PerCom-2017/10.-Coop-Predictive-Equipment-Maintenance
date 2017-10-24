@@ -14,10 +14,19 @@ class TCPServer {
             ServerSocket serverSocket = null;
 
             try {
+<<<<<<< HEAD
                 serverSocket = new ServerSocket(port);
                 Socket connectionSocket = serverSocket.accept();
 
                 // While loop that reads the incoming data.
+=======
+                beaconSocket = new ServerSocket(port);
+                Socket connectionSocket = beaconSocket.accept();
+                if(connectionSocket.isConnected()){
+                    System.out.println("Connected on socket " + port);
+
+                }
+>>>>>>> 92e547aafbc107b5a414cca4b2963c9ee7aabe27
                 while(true) {
                     BufferedReader beaconReader = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
                     String beaconSentence = beaconReader.readLine();
@@ -26,7 +35,16 @@ class TCPServer {
                     // It closes the connection and open it again.
                     if(beaconSentence == null) {
                         connectionSocket.close();
+<<<<<<< HEAD
                         connectionSocket = serverSocket.accept();
+=======
+                        System.out.println("Connection lost on socket " + port);
+                        connectionSocket = beaconSocket.accept();
+                        if(connectionSocket.isConnected()){
+                            System.out.println("Connected on socket " + port);
+
+                        }g
+>>>>>>> 92e547aafbc107b5a414cca4b2963c9ee7aabe27
                     }
 
                     // Translate the data here and store it in the rssi database. Example:
