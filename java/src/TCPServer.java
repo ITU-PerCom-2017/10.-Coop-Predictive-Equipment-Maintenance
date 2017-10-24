@@ -2,7 +2,7 @@ import java.io.*;
 import java.net.*;
 
 class TCPServer {
-    private static final int START_PORT = 6780; // Port to start from
+    private static final int START_PORT = 6789; // Port to start from
     private static final int RECEIVERS = 4; // Number of receivers
 
     private static RssiDatabase mDatabase;
@@ -14,8 +14,7 @@ class TCPServer {
             try {
                 beaconSocket = new ServerSocket(port);
                 Socket connectionSocket = beaconSocket.accept();
-                boolean connected = true;
-                while(connected) {
+                while(true) {
                     BufferedReader beaconReader = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
                     String beaconSentence = beaconReader.readLine();
                     if(beaconSentence == null) {
