@@ -18,22 +18,26 @@ nets = wlan.scan()
 bluetooth = Bluetooth()
 bluetooth.start_scan(-1)
 adv = None
+mac = b'\x80z\xbf\xe5\x00\x12'
+
+print(mac.decode('utf-8'))
+
 chrono.start()
 while True:
 
     adv = bluetooth.get_adv()
     if adv != None:
-        print(adv, '\n')
+        print(adv[0], '\n')
         #print(adv.data, '\n')
         #print(binascii.hexlify(adv.data).decode("utf-8"), '\n')
         #print(bluetooth.resolve_adv_data(adv.data, Bluetooth.ADV_MANUFACTURER_DATA), '\n')
-
 
     lap = chrono.read()
     if lap > 2:
         print("breaking")
         bluetooth.stop_scan()
         break
+
 pycom.rgbled(0x7f0000)
 
 for net in nets:
@@ -57,7 +61,7 @@ for net in nets:
             #break
 time.sleep(2)
 pycom.rgbled(0x7f7f00) # yellow
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
 #address = ("10.42.0.1", 6789)
 #s.connect(socket.getaddrinfo('10.42.0.1', 6790)[0][-1])
 data = b'fedePenis'
@@ -67,6 +71,7 @@ time.sleep(2)
 
 print("sending")
 for _ in range(10):
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect(socket.getaddrinfo('10.42.0.1', 6790)[0][-1])
     pycom.rgbled(0x007f00)
     time.sleep(0.5)
