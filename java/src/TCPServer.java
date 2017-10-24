@@ -2,32 +2,41 @@ import java.io.*;
 import java.net.*;
 
 class TCPServer {
-    private static final int PORT = 6789;
+    private static final int START_PORT = 6780; // Port to start from
+    private static final int RECEIVERS = 4; // Number of receivers
+
     private static RssiDatabase mDatabase;
 
-    public static void main(String argv[])  {
-        for(int i = 0; i<4; i++){
-            final int tempPort = PORT+i;
-            Thread t = new Thread(() -> {
-                ServerSocket beaconSocket = null;
-                try {
-                    beaconSocket = new ServerSocket(tempPort);
-                    Socket connectionSocket = beaconSocket.accept();
+    private static void createInputSocket(int port) {
+        Thread t = new Thread(() -> {
 
-                    while(true) {
-                        BufferedReader beaconReader = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-                        String beaconSentence = beaconReader.readLine();
+            ServerSocket beaconSocket = null;
+            try {
+                beaconSocket = new ServerSocket(port);
+                Socket connectionSocket = beaconSocket.accept();
 
+                while(true) {
 
-                        System.out.println("From " + connectionSocket.getInetAddress() + " : " + beaconSentence);
-                    }
+                    BufferedReader beaconReader = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+                    String beaconSentence = beaconReader.readLine();
 
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("From " + connectionSocket.getInetAddress() + " : " + beaconSentence);
                 }
-            });
-            t.start();
-        }
 
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        t.start();
+    }
+
+
+
+    public static void main(String argv[])  {
+
+        for(int i = 0; i < RECEIVERS; i++) {
+            final int tempPort = START_PORT+i;
+            createInputSocket(tempPort);
+        }
     }
 }
