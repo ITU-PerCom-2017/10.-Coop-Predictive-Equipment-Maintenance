@@ -14,12 +14,21 @@ class TCPServer {
             try {
                 beaconSocket = new ServerSocket(port);
                 Socket connectionSocket = beaconSocket.accept();
+                if(connectionSocket.isConnected()){
+                    System.out.println("Connected on socket " + port);
+
+                }
                 while(true) {
                     BufferedReader beaconReader = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
                     String beaconSentence = beaconReader.readLine();
                     if(beaconSentence == null) {
                         connectionSocket.close();
+                        System.out.println("Connection lost on socket " + port);
                         connectionSocket = beaconSocket.accept();
+                        if(connectionSocket.isConnected()){
+                            System.out.println("Connected on socket " + port);
+
+                        }g
                     }
                     System.out.println("From " + connectionSocket.getInetAddress() + " : " + beaconSentence);
                 }
