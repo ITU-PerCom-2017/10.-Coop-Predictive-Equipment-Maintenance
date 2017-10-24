@@ -32,7 +32,7 @@ class TCPServer {
                     new BufferedReader(new InputStreamReader(connectionSocketBeacon1.getInputStream()));
 
             BufferedReader inFromBeacon2 =
-                    new BufferedReader(new InputStreamRegiader(connectionSocketBeacon2.getInputStream()));
+                    new BufferedReader(new InputStreamReader(connectionSocketBeacon2.getInputStream()));
 
             BufferedReader inFromBeacon3 =
                     new BufferedReader(new InputStreamReader(connectionSocketBeacon3.getInputStream()));

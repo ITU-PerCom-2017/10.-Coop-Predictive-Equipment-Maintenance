@@ -1,5 +1,5 @@
 *.class
-.idea/
+.idea/*.*
 out
 test
 10.-Coop-Predictive-Equipment-Maintenance.iml
