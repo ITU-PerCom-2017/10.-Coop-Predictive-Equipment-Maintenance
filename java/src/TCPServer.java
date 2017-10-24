@@ -7,20 +7,30 @@ class TCPServer {
 
     private static RssiDatabase mDatabase;
 
+    // Method for creating an input socket using a new thread.
     private static void createInputSocket(int port) {
         Thread t = new Thread(() -> {
 
-            ServerSocket beaconSocket = null;
+            ServerSocket serverSocket = null;
+
             try {
-                beaconSocket = new ServerSocket(port);
-                Socket connectionSocket = beaconSocket.accept();
+                serverSocket = new ServerSocket(port);
+                Socket connectionSocket = serverSocket.accept();
+
+                // While loop that reads the incoming data.
                 while(true) {
                     BufferedReader beaconReader = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
                     String beaconSentence = beaconReader.readLine();
+
+                    // The client is not connected if the data is null.
+                    // It closes the connection and open it again.
                     if(beaconSentence == null) {
                         connectionSocket.close();
-                        connectionSocket = beaconSocket.accept();
+                        connectionSocket = serverSocket.accept();
                     }
+
+                    // Translate the data here and store it in the rssi database. Example:
+                    //mDatabase.putBeaconRssi("receiverId", "beaconId", 50);
                     System.out.println("From " + connectionSocket.getInetAddress() + " : " + beaconSentence);
                 }
 
@@ -33,8 +43,9 @@ class TCPServer {
 
 
 
-    public static void main(String args[])  {
+    public static void main(String args[]) {
 
+        // Creates XX number of receiver sockets. Each with a unique port
         for(int i = 0; i < RECEIVERS; i++) {
             final int tempPort = START_PORT+i;
             createInputSocket(tempPort);

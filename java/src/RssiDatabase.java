@@ -13,6 +13,7 @@ public class RssiDatabase {
     private Map<String,Map<Integer,Map<String, Integer>>> mPathMap;
 
 
+    // Singleton constructor
     public RssiDatabase() {
 
         if (mPathMap != null) {
@@ -21,8 +22,10 @@ public class RssiDatabase {
     }
 
 
+    // Primary method to put beacon rssi data into the database
     public void putBeaconRssi(String receiverId, String beaconId, Integer rssi) {
 
+        // Reads the time from the system. This is used for keys later.
         Double doubleTime = System.currentTimeMillis() * 0.001;
         Integer time = doubleTime.intValue();
 
@@ -63,8 +66,12 @@ public class RssiDatabase {
     }
 
 
-    public Map<String,Map<Integer,Map<String, Integer>>> getPathMap() {
+    public Map<String,Map<Integer,Map<String, Integer>>> getDatabase() {
         return mPathMap;
+    }
+
+    public Map<Integer,Map<String, Integer>> getBeaconData(String beaconId) {
+        return mPathMap.get(beaconId);
     }
 }
 
