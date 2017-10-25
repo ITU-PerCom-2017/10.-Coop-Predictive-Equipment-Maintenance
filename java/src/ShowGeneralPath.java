@@ -19,6 +19,7 @@ public class ShowGeneralPath extends JApplet {
         Container container = getContentPane();
         JPanel panel = new JPanel();
         canvas = new Canvas1();
+
         container.add(canvas);
     }
     class Canvas1 extends Canvas {
@@ -27,6 +28,7 @@ public class ShowGeneralPath extends JApplet {
         public Canvas1() {
             setBackground(Color.gray);
             setSize(400, 200);
+
 
         }
         public void addPoint(int startX, int startY,GeneralPath appendToPath){
@@ -59,20 +61,31 @@ public class ShowGeneralPath extends JApplet {
                 try {
                     Thread.sleep(1000);
                     g2d.setPaint(Color.white);
+                    //Centers coordinates on screen. (0,0)
+                    g2d.translate(canvas.getWidth()/2,canvas.getHeight()/2);
                     g2d.draw((GeneralPath) generalPath.elementAt(i));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-            for(int i =0; i< 1000; i++){
-                try {
-                    Thread.sleep(10);
-                    addPoint(i,i*2,beaconPath1);
-                    g2d.draw((GeneralPath) generalPath.elementAt(0));
+            for(int i =0; i-canvas.getWidth()/2< canvas.getWidth()/2; i++){
+                for(int j =0-canvas.getHeight()/2; j<canvas.getHeight()/2; j++){
+                    try {
+                        Thread.sleep(10);
+                        if(i<canvas.getWidth()/2) {
+                            addPoint(i, j, beaconPath1);
+                        }if(i==canvas.getWidth()/2){
+                            i= -canvas.getWidth()*2;
+                            j= -canvas.getWidth()*2;
 
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                        }
+                        g2d.draw((GeneralPath) generalPath.elementAt(0));
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
+
             }
         }
     }
