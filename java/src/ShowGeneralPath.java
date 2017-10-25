@@ -27,33 +27,14 @@ public class ShowGeneralPath extends JApplet {
         public Canvas1() {
             setBackground(Color.gray);
             setSize(400, 200);
-            generalPath = new Vector();
-            GeneralPath beaconPath1, beaconPath2,beaconPath3;
 
-            beaconPath1 = new GeneralPath();
-            beaconPath1.moveTo(25, 35);
-            beaconPath1.lineTo(35, 50);
-            beaconPath1.lineTo(50, 20);
-            beaconPath1.lineTo(80, 30);
-            beaconPath1.curveTo(20, 100, 110, 60, 40, 100);
-            generalPath.addElement(beaconPath1);
-
-            beaconPath2 = new GeneralPath();
-            beaconPath2.moveTo(120, 120);
-            beaconPath2.lineTo(120, 180);
-            beaconPath2.lineTo(180, 120);
-            beaconPath2.lineTo(180, 180);
-            beaconPath2.closePath();
-            generalPath.addElement(beaconPath2);
-
-            beaconPath3 = new GeneralPath();
-            beaconPath3.moveTo(250, 120);
-            beaconPath3.lineTo(70, 80);
-            beaconPath3.lineTo(220, 40);
-            beaconPath3.lineTo(280, 40);
-            beaconPath3.lineTo(230, 80);
-            beaconPath3.closePath();
-            generalPath.addElement(beaconPath3);
+        }
+        public void addPoint(int startX, int startY,GeneralPath appendToPath){
+            GeneralPath tempPath;
+            tempPath = new GeneralPath();
+            tempPath.moveTo(startX,startY);
+            tempPath.lineTo(startX,startY);
+            appendToPath.append(tempPath,true);
         }
         public void paint(Graphics g) {
             Graphics2D g2d = (Graphics2D) g;
@@ -64,10 +45,34 @@ public class ShowGeneralPath extends JApplet {
             g.drawOval(canvas.getWidth()/10*9,canvas.getHeight()/(beaconSize/2)*9,beaconSize,beaconSize);
             g.drawOval(canvas.getWidth()/10,canvas.getHeight()/(beaconSize/2)*9,beaconSize,beaconSize);
             g.drawOval(canvas.getWidth()/10*9,canvas.getHeight()/(beaconSize/2),beaconSize,beaconSize);
+            generalPath = new Vector();
+            GeneralPath beaconPath1;
 
-            for (int i = 0; i < generalPath.size(); i++) {
-                g2d.setPaint(Color.white);
-                g2d.draw((GeneralPath) generalPath.elementAt(i));
+            beaconPath1 = new GeneralPath();
+            beaconPath1.moveTo(25, 35);
+            beaconPath1.lineTo(35, 50);
+            beaconPath1.lineTo(50, 20);
+            beaconPath1.lineTo(80, 30);
+            beaconPath1.curveTo(20, 100, 110, 60, 40, 100);
+            generalPath.addElement(beaconPath1);
+            for (int i = 0; i < generalPath.size(); i++){
+                try {
+                    Thread.sleep(1000);
+                    g2d.setPaint(Color.white);
+                    g2d.draw((GeneralPath) generalPath.elementAt(i));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            for(int i =0; i< 1000; i++){
+                try {
+                    Thread.sleep(10);
+                    addPoint(i,i*2,beaconPath1);
+                    g2d.draw((GeneralPath) generalPath.elementAt(0));
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
