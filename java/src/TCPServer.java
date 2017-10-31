@@ -45,7 +45,7 @@ class TCPServer {
 
                     // Translate the data here and store it in the rssi database. Example:
                     //mDatabase.putBeaconRssi("receiverId", "beaconId", 50);
-                    System.out.println("From " + connectionSocket.getInetAddress() + " : " + beaconSentence);
+                    System.out.println("From " + connectionSocket.getInetAddress() + " : " + beaconSentence.toString());
                 }
 
             } catch (IOException e) {
