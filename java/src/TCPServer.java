@@ -1,5 +1,8 @@
+import sun.misc.IOUtils;
+
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 
 class TCPServer {
     private static final int START_PORT = 6789; // Port to start from
@@ -25,13 +28,14 @@ class TCPServer {
                 }
 
                 while(true) {
-                    BufferedInputStream beaconReader = new BufferedInputStream(connectionSocket.getInputStream());
-                    int beaconSentence = beaconReader.read();
 
+//                    String beaconSentence =  new BufferedInputStream(new InputStreamReader(connectionSocket.getInputStream()));
+                    Scanner s = new Scanner(connectionSocket.getInputStream()).useDelimiter("");
+                    String results = s.hasNext() ? s.next() : "";
 
                     // The client is not connected if the data is null.
                     // It closes the connection and open it again.
-                    if(beaconSentence == 0) {
+                    if(results == null) {
 
                         connectionSocket.close();
 
@@ -46,7 +50,7 @@ class TCPServer {
 
                     // Translate the data here and store it in the rssi database. Example:
                     //mDatabase.putBeaconRssi("receiverId", "beaconId", 50);
-                    System.out.println("From " + connectionSocket.getInetAddress() + " : " + beaconSentence);
+                    System.out.println("From " + connectionSocket.getInetAddress() + " : " + results);
 
                 }
 
