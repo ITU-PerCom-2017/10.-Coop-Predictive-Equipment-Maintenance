@@ -35,9 +35,8 @@ class TCPServer {
                     byte[] buffer = new byte[1024];
                     result = "" + inputStream.read(buffer,1,3 );
 
-                    if (result.length() >=1 ){
+                    if (result.toString() != "-1" ){
                         System.out.println(result);
-
                     }
                     //String beaconSentence =  new BufferedInputStream(new InputStreamReader(connectionSocket.getInputStream()));
                     //Scanner s = new Scanner(inputStream).useDelimiter("&#092");
