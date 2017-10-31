@@ -38,7 +38,7 @@ class TCPServer {
                         result.write(buffer, 0,length);
                     }
                    String resultString = result.toString("UTF-8");
-                    System.out.println(resultString);
+                    System.out.println("resultString " + resultString);
 
                     //String beaconSentence =  new BufferedInputStream(new InputStreamReader(connectionSocket.getInputStream()));
                     //Scanner s = new Scanner(inputStream).useDelimiter("&#092");
@@ -59,7 +59,7 @@ class TCPServer {
 
                     // Translate the data here and store it in the rssi database. Example:
                     //mDatabase.putBeaconRssi("receiverId", "beaconId", 50);
-                    System.out.println("From " + connectionSocket.getInetAddress() + " : " + results);
+                    //System.out.println("From " + connectionSocket.getInetAddress() + " : " + resultString);
 
                 }
 
