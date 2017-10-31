@@ -30,13 +30,13 @@ class TCPServer {
                 }
                 // The client is not connected if the data is null.
                 // It closes the connection and open it again.
-                connectionSocket.close();
-                connectionSocket = serverSocket.accept();
 
                 if(connected){
                     InputStream inputStream = connectionSocket.getInputStream();
                     BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
                     String line = String.valueOf(bufferedReader);
+                    connectionSocket.close();
+                    connectionSocket = serverSocket.accept();
 
                     // Translate the data here and store it in the rssi database. Example:
                     //mDatabase.putBeaconRssi("receiverId", "beaconId", 50);
