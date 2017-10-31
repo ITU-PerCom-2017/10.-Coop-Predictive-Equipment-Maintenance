@@ -32,24 +32,11 @@ class TCPServer {
                 while(true) {
 
                     InputStream inputStream = connectionSocket.getInputStream();
-                    /*
-                    String result ="";
-                    byte[] buffer = new byte[1024];
-                    result = "" + inputStream.read(buffer,1,3 );
-                    */
-                    BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-                    String line = "";
-                    String result = "";
-                    while((line = bufferedReader.readLine()) != null) {
-                        result += line;
-                    }
 
+                    String result = inputMethod(inputStream);
                     if (result.length() >= 1 ){
                         System.out.println(result);
                     }
-                    //String beaconSentence =  new BufferedInputStream(new InputStreamReader(connectionSocket.getInputStream()));
-                    //Scanner s = new Scanner(inputStream).useDelimiter("&#092");
-                    //String results = s.hasNext() ? s.next() : "";
 
                     // The client is not connected if the data is null.
                     // It closes the connection and open it again.
@@ -68,7 +55,16 @@ class TCPServer {
         });
         t.start();
     }
+    private static String inputMethod(InputStream i) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int length;
 
+        while((length = i.read(buffer)) != -1){
+            byteArrayOutputStream.write(buffer,0,length);
+        }
+        return byteArrayOutputStream.toString("UTF-8");
+    }
 
 
     public static void main(String args[]) {
