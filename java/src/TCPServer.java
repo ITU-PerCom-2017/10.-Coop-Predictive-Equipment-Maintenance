@@ -31,12 +31,14 @@ class TCPServer {
                 while(true) {
 
                     InputStream inputStream = connectionSocket.getInputStream();
-                    //ByteArrayOutputStream result = new ByteArrayOutputStream();
+                    String result ="";
                     byte[] buffer = new byte[1024];
-                    int count = inputStream.read(buffer);
-                    System.out.println(count);
-                    System.out.println(inputStream.read());
+                    result = "" + inputStream.read(buffer,1,3 );
 
+                    if (result.length() >=1 ){
+                        System.out.println(result);
+
+                    }
                     //String beaconSentence =  new BufferedInputStream(new InputStreamReader(connectionSocket.getInputStream()));
                     //Scanner s = new Scanner(inputStream).useDelimiter("&#092");
                     //String results = s.hasNext() ? s.next() : "";
