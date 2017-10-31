@@ -35,7 +35,7 @@ class TCPServer {
 
                     String result = inputMethod(inputStream);
                     if (result.length() >= 1 ){
-                        System.out.println(result);
+                        System.out.println(result );
                     }
 
                     // The client is not connected if the data is null.
@@ -63,7 +63,14 @@ class TCPServer {
         while((length = i.read(buffer)) != -1){
             byteArrayOutputStream.write(buffer,0,length);
         }
-        return byteArrayOutputStream.toString("UTF-8");
+        return asciiBytesToString(byteArrayOutputStream.toByteArray());
+
+    }
+
+    private static String asciiBytesToString( final byte[] ascii )
+    {
+        //deprecated constructor allowing data to be copied directly into String char[]. So convenient...
+        return new String( ascii, 0 );
     }
 
 
