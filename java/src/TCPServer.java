@@ -21,9 +21,9 @@ class TCPServer {
 
                 serverSocket = new ServerSocket(port);
                 Socket connectionSocket = serverSocket.accept();
-                boolean connected = false;
+
                 // While loop that reads the incoming data.
-                if(connectionSocket.isConnected() && !connected){
+                if(connectionSocket.isConnected()){
                     System.out.println("Connected on socket " + port);
 
                 }
@@ -31,24 +31,19 @@ class TCPServer {
                 while(true) {
 
                     InputStream inputStream = connectionSocket.getInputStream();
-                    StringBuilder inputStringBuilder = new StringBuilder();
-
                     /*
                     String result ="";
                     byte[] buffer = new byte[1024];
                     result = "" + inputStream.read(buffer,1,3 );
                     */
-
                     BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
                     String line = String.valueOf(bufferedReader);
-                    String result = bufferedReader.readLine();
+                    String result = "";
                     while(line != null) {
-                        inputStringBuilder.append(line);
-                        inputStringBuilder.append('\n');
-                        line = String.valueOf(bufferedReader.lines().findFirst());
+                        result += line;
+                        System.out.println(result.toString());
 
                     }
-                    System.out.println(inputStringBuilder.toString());
 
                     //String beaconSentence =  new BufferedInputStream(new InputStreamReader(connectionSocket.getInputStream()));
                     //Scanner s = new Scanner(inputStream).useDelimiter("&#092");
@@ -56,14 +51,14 @@ class TCPServer {
 
                     // The client is not connected if the data is null.
                     // It closes the connection and open it again.
-                    connectionSocket.close();
-                    System.out.println("Connection lost on socket " + port);
-                    connectionSocket = serverSocket.accept();
+                        connectionSocket.close();
+                        System.out.println("Connection lost on socket " + port);
+                        connectionSocket = serverSocket.accept();
 
-                    if(connectionSocket.isConnected()){
-                        System.out.println("Connected on socket " + port);
+                        if(connectionSocket.isConnected()){
+                            System.out.println("Connected on socket " + port);
 
-                    }
+                        }
 
                     // Translate the data here and store it in the rssi database. Example:
                     //mDatabase.putBeaconRssi("receiverId", "beaconId", 50);
