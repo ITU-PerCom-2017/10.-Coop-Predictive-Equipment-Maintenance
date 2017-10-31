@@ -23,7 +23,7 @@ class TCPServer {
                 Socket connectionSocket = serverSocket.accept();
 
                 // While loop that reads the incoming data.
-                if(connectionSocket.isConnected() && !true){
+                if(connectionSocket.getInetAddress() != null){
                     System.out.println("Connected on socket " + port);
                     connected = true;
 
@@ -42,7 +42,7 @@ class TCPServer {
                     String result = "";
                     while(line != null) {
                         result += line;
-                        System.out.println(line.getBytes());
+                        System.out.println(line);
 
                     }
 
