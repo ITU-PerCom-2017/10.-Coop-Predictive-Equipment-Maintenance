@@ -53,14 +53,8 @@ class TCPServer {
 
                     // The client is not connected if the data is null.
                     // It closes the connection and open it again.
-                        connectionSocket.close();
-                        System.out.println("Connection lost on socket " + port);
-                        connectionSocket = serverSocket.accept();
-
-                        if(connectionSocket.isConnected()){
-                            System.out.println("Connected on socket " + port);
-
-                        }
+                    connectionSocket.close();
+                    connectionSocket = serverSocket.accept();
 
                     // Translate the data here and store it in the rssi database. Example:
                     //mDatabase.putBeaconRssi("receiverId", "beaconId", 50);
