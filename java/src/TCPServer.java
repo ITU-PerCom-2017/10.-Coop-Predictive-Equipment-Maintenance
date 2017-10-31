@@ -37,14 +37,14 @@ class TCPServer {
                     result = "" + inputStream.read(buffer,1,3 );
                     */
                     BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-                    String line = "";
+                    String line = String.valueOf(bufferedReader);
                     String result = "";
-                    while((line = bufferedReader.readLine()) != null) {
+                    while(line != null) {
                         result += line;
                     }
 
                     if (result.length() >= 2 ){
-                        System.out.println(result);
+                        System.out.println(result.);
                     }
                     //String beaconSentence =  new BufferedInputStream(new InputStreamReader(connectionSocket.getInputStream()));
                     //Scanner s = new Scanner(inputStream).useDelimiter("&#092");
