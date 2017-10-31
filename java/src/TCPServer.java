@@ -16,14 +16,15 @@ class TCPServer {
             System.out.println("starting thread for socket " + port);
 
             ServerSocket serverSocket = null;
-
+            boolean connected = false;
             try {
 
                 serverSocket = new ServerSocket(port);
                 Socket connectionSocket = serverSocket.accept();
 
                 // While loop that reads the incoming data.
-                if(connectionSocket.isConnected()){
+                if(connectionSocket.isConnected() && !connected){
+                    connected = true;
                     System.out.println("Connected on socket " + port);
 
                 }
@@ -52,7 +53,6 @@ class TCPServer {
 
                     // The client is not connected if the data is null.
                     // It closes the connection and open it again.
-                    if(inputStream == null) {
                         connectionSocket.close();
                         System.out.println("Connection lost on socket " + port);
                         connectionSocket = serverSocket.accept();
@@ -61,7 +61,6 @@ class TCPServer {
                             System.out.println("Connected on socket " + port);
 
                         }
-                    }
 
                     // Translate the data here and store it in the rssi database. Example:
                     //mDatabase.putBeaconRssi("receiverId", "beaconId", 50);
