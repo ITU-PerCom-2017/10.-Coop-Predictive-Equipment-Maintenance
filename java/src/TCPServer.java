@@ -29,8 +29,9 @@ class TCPServer {
 
                 while(true) {
 
-//                    String beaconSentence =  new BufferedInputStream(new InputStreamReader(connectionSocket.getInputStream()));
-                    Scanner s = new Scanner(connectionSocket.getInputStream()).useDelimiter("&#092");
+                    InputStream inputStream = connectionSocket.getInputStream();
+                    //String beaconSentence =  new BufferedInputStream(new InputStreamReader(connectionSocket.getInputStream()));
+                    Scanner s = new Scanner(inputStream).useDelimiter("&#092");
                     String results = s.hasNext() ? s.next() : "";
 
                     // The client is not connected if the data is null.
