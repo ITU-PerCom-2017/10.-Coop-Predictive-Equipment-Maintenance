@@ -41,7 +41,7 @@ class TCPServer {
                     String result = "";
                     while(line != null) {
                         result += line;
-                        System.out.println(result);
+                        System.out.println(result.toString());
 
                     }
 
