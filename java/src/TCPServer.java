@@ -25,12 +25,13 @@ class TCPServer {
                 }
 
                 while(true) {
-                    BufferedReader beaconReader = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-                    String beaconSentence = beaconReader.readLine();
+                    BufferedInputStream beaconReader = new BufferedInputStream(connectionSocket.getInputStream());
+                    int beaconSentence = beaconReader.read();
+
 
                     // The client is not connected if the data is null.
                     // It closes the connection and open it again.
-                    if(beaconSentence == null) {
+                    if(beaconSentence == 0) {
 
                         connectionSocket.close();
 
@@ -45,7 +46,8 @@ class TCPServer {
 
                     // Translate the data here and store it in the rssi database. Example:
                     //mDatabase.putBeaconRssi("receiverId", "beaconId", 50);
-                    System.out.println("From " + connectionSocket.getInetAddress() + " : " + beaconSentence.toString());
+                    System.out.println("From " + connectionSocket.getInetAddress() + " : " + beaconSentence);
+
                 }
 
             } catch (IOException e) {
