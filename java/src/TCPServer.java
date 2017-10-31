@@ -13,8 +13,8 @@ class TCPServer {
     // Method for creating an input socket using a new thread.
     private static void createInputSocket(int port) {
         Thread t = new Thread(() -> {
+            boolean connected = false;
             System.out.println("starting thread for socket " + port);
-
             ServerSocket serverSocket = null;
 
             try {
@@ -23,8 +23,9 @@ class TCPServer {
                 Socket connectionSocket = serverSocket.accept();
 
                 // While loop that reads the incoming data.
-                if(connectionSocket.isConnected()){
+                if(connectionSocket.isConnected() && !true){
                     System.out.println("Connected on socket " + port);
+                    connected = true;
 
                 }
 
@@ -41,7 +42,7 @@ class TCPServer {
                     String result = "";
                     while(line != null) {
                         result += line;
-                        System.out.println(line);
+                        System.out.println(line.getBytes());
 
                     }
 
