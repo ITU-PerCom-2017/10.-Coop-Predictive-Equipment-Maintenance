@@ -31,11 +31,19 @@ class TCPServer {
                 while(true) {
 
                     InputStream inputStream = connectionSocket.getInputStream();
+                    /*
                     String result ="";
                     byte[] buffer = new byte[1024];
                     result = "" + inputStream.read(buffer,1,3 );
+                    */
+                    BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+                    String line = "";
+                    String result = "";
+                    while((line = bufferedReader.readLine()) != null) {
+                        result += line;
+                    }
 
-                    if (result.toString() != "-1" ){
+                    if (result.length() >= 2 ){
                         System.out.println(result);
                     }
                     //String beaconSentence =  new BufferedInputStream(new InputStreamReader(connectionSocket.getInputStream()));
