@@ -12,6 +12,7 @@ class TCPServer {
 
     // Method for creating an input socket using a new thread.
     private static void createInputSocket(int port) {
+
         Thread t = new Thread(() -> {
             System.out.println("starting thread for socket " + port);
 
@@ -35,7 +36,7 @@ class TCPServer {
 
                     String result = inputMethod(inputStream);
                     if (result.length() >= 1 ){
-                        System.out.println(result );
+                        System.out.println(result);
                     }
 
                     // The client is not connected if the data is null.
@@ -56,23 +57,34 @@ class TCPServer {
         t.start();
     }
     private static String inputMethod(InputStream i) throws IOException {
+        String result;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
         byte[] buffer = new byte[1024];
         int length;
 
         while((length = i.read(buffer)) != -1){
             byteArrayOutputStream.write(buffer,0,length);
         }
-        return asciiBytesToString(byteArrayOutputStream.toByteArray()).toString();
-
+        result = byteArrayOutputStream.toString();
+        System.out.println("Input in ASCII "+ stringToBytesASCII(result));
+        System.out.println("Input in STRING "+ asciiBytesToString(stringToBytesASCII(result)));
+        //return asciiBytesToString(byteArrayOutputStream.toByteArray());
+        return asciiBytesToString(stringToBytesASCII(result));
     }
 
+    private static byte[] stringToBytesASCII(String str) {
+        byte[] b = new byte[str.length()];
+        for (int i = 0; i < b.length; i++) {
+            b[i] = (byte) str.charAt(i);
+        }
+        return b;
+    }
     private static String asciiBytesToString( final byte[] ascii )
     {
         //deprecated constructor allowing data to be copied directly into String char[]. So convenient...
         return new String( ascii, 0 );
     }
-
 
     public static void main(String args[]) {
 
