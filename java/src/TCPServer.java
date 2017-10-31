@@ -25,20 +25,29 @@ class TCPServer {
                 // While loop that reads the incoming data.
                 if(connectionSocket.isConnected() && !connected){
                     System.out.println("Connected on socket " + port);
-                    connected = true;
+
                 }
 
-                while(connected) {
+                while(true) {
 
                     InputStream inputStream = connectionSocket.getInputStream();
+                    StringBuilder inputStringBuilder = new StringBuilder();
+
+                    /*
+                    String result ="";
+                    byte[] buffer = new byte[1024];
+                    result = "" + inputStream.read(buffer,1,3 );
+                    */
+
                     BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
                     String line = String.valueOf(bufferedReader);
-                    String result = "";
-                    if(line != null) {
-                        result += line;
-                        System.out.println(line);
+                    String result = bufferedReader.readLine();
+                    while(line != null) {
+                        inputStringBuilder.append(line);inputStringBuilder.append('\n');
+                        line = bufferedReader.readLine();
 
                     }
+                    System.out.println(inputStringBuilder.toString());
 
                     //String beaconSentence =  new BufferedInputStream(new InputStreamReader(connectionSocket.getInputStream()));
                     //Scanner s = new Scanner(inputStream).useDelimiter("&#092");
@@ -49,6 +58,7 @@ class TCPServer {
                     connectionSocket.close();
                     System.out.println("Connection lost on socket " + port);
                     connectionSocket = serverSocket.accept();
+
                     if(connectionSocket.isConnected()){
                         System.out.println("Connected on socket " + port);
 
