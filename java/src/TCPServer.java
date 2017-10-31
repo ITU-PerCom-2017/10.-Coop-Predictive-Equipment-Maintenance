@@ -13,40 +13,52 @@ class TCPServer {
     // Method for creating an input socket using a new thread.
     private static void createInputSocket(int port) {
         Thread t = new Thread(() -> {
-            boolean connected = false;
             System.out.println("starting thread for socket " + port);
+
             ServerSocket serverSocket = null;
 
             try {
 
                 serverSocket = new ServerSocket(port);
                 Socket connectionSocket = serverSocket.accept();
-
+                boolean connected = false;
                 // While loop that reads the incoming data.
-                if(connectionSocket.getInetAddress() != null && !connected){
+                if(connectionSocket.isConnected() && !connected){
                     System.out.println("Connected on socket " + port);
                     connected = true;
-
                 }
-                // The client is not connected if the data is null.
-                // It closes the connection and open it again.
 
+                while(connected) {
 
-                if(connected){
                     InputStream inputStream = connectionSocket.getInputStream();
                     BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
                     String line = String.valueOf(bufferedReader);
+                    String result = "";
+                    if(line != null) {
+                        result += line;
+                        System.out.println(line);
+
+                    }
+
+                    //String beaconSentence =  new BufferedInputStream(new InputStreamReader(connectionSocket.getInputStream()));
+                    //Scanner s = new Scanner(inputStream).useDelimiter("&#092");
+                    //String results = s.hasNext() ? s.next() : "";
+
+                    // The client is not connected if the data is null.
+                    // It closes the connection and open it again.
+                    connectionSocket.close();
+                    System.out.println("Connection lost on socket " + port);
+                    connectionSocket = serverSocket.accept();
+                    if(connectionSocket.isConnected()){
+                        System.out.println("Connected on socket " + port);
+
+                    }
 
                     // Translate the data here and store it in the rssi database. Example:
                     //mDatabase.putBeaconRssi("receiverId", "beaconId", 50);
                     //System.out.println("From " + connectionSocket.getInetAddress() + " : " + resultString);
 
-                } else if (!connected){
-                    System.out.println("Connection lost on socket " + port);
-
                 }
-                connectionSocket.close();
-                connectionSocket = serverSocket.accept();
 
             } catch (IOException e) {
                 e.printStackTrace();
