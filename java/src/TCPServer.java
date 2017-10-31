@@ -13,6 +13,7 @@ class TCPServer {
     // Method for creating an input socket using a new thread.
     private static void createInputSocket(int port) {
         Thread t = new Thread(() -> {
+            System.out.println("starting thread for socket " + port);
 
             ServerSocket serverSocket = null;
 
@@ -30,16 +31,23 @@ class TCPServer {
                 while(true) {
 
                     InputStream inputStream = connectionSocket.getInputStream();
+                    ByteArrayOutputStream result = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    while ((length = inputStream.read(buffer)) != -1){
+                        result.write(buffer, 0,length);
+                    }
+                   String resultString = result.toString("UTF-8");
+                    System.out.println(resultString);
+
                     //String beaconSentence =  new BufferedInputStream(new InputStreamReader(connectionSocket.getInputStream()));
-                    Scanner s = new Scanner(inputStream).useDelimiter("&#092");
-                    String results = s.hasNext() ? s.next() : "";
+                    //Scanner s = new Scanner(inputStream).useDelimiter("&#092");
+                    //String results = s.hasNext() ? s.next() : "";
 
                     // The client is not connected if the data is null.
                     // It closes the connection and open it again.
-                    if(results == null) {
-
+                    if(resultString == null) {
                         connectionSocket.close();
-
                         System.out.println("Connection lost on socket " + port);
                         connectionSocket = serverSocket.accept();
 
