@@ -63,7 +63,7 @@ class TCPServer {
         while((length = i.read(buffer)) != -1){
             byteArrayOutputStream.write(buffer,0,length);
         }
-        return asciiBytesToString(byteArrayOutputStream.toByteArray());
+        return asciiBytesToString(byteArrayOutputStream.toByteArray()).toString();
 
     }
 
