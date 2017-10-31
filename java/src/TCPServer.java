@@ -44,7 +44,7 @@ class TCPServer {
                     }
 
                     if (result.length() >= 2 ){
-                        System.out.println(result.);
+                        System.out.println(result);
                     }
                     //String beaconSentence =  new BufferedInputStream(new InputStreamReader(connectionSocket.getInputStream()));
                     //Scanner s = new Scanner(inputStream).useDelimiter("&#092");
