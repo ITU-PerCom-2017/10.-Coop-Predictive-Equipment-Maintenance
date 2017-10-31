@@ -31,14 +31,11 @@ class TCPServer {
                 while(true) {
 
                     InputStream inputStream = connectionSocket.getInputStream();
-                    ByteArrayOutputStream result = new ByteArrayOutputStream();
+                    //ByteArrayOutputStream result = new ByteArrayOutputStream();
                     byte[] buffer = new byte[1024];
-                    int length;
-                    while ((length = inputStream.read(buffer)) != -1){
-                        result.write(buffer, 0,length);
-                    }
-                   String resultString = result.toString("UTF-8");
-                    System.out.println("resultString " + resultString);
+                    int count = inputStream.read(buffer);
+                    System.out.println(count);
+                    System.out.println(inputStream.read());
 
                     //String beaconSentence =  new BufferedInputStream(new InputStreamReader(connectionSocket.getInputStream()));
                     //Scanner s = new Scanner(inputStream).useDelimiter("&#092");
@@ -46,7 +43,7 @@ class TCPServer {
 
                     // The client is not connected if the data is null.
                     // It closes the connection and open it again.
-                    if(resultString == null) {
+                    if(inputStream == null) {
                         connectionSocket.close();
                         System.out.println("Connection lost on socket " + port);
                         connectionSocket = serverSocket.accept();
