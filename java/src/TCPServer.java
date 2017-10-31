@@ -1,3 +1,5 @@
+import com.sun.org.apache.xerces.internal.impl.io.ASCIIReader;
+import com.sun.xml.internal.ws.util.ASCIIUtility;
 import sun.misc.IOUtils;
 
 import java.io.*;
@@ -31,12 +33,13 @@ class TCPServer {
                 }
 
                 while(true) {
-
                     InputStream inputStream = connectionSocket.getInputStream();
 
+                    System.out.println("inputStream. " + inputStream);
+                    System.out.println("inputStream.read() " + inputStream.read());
                     String result = inputMethod(inputStream);
                     if (result.length() >= 1 ){
-                        System.out.println(result);
+                        System.out.println("result " + result);
                     }
 
                     // The client is not connected if the data is null.
@@ -67,10 +70,13 @@ class TCPServer {
             byteArrayOutputStream.write(buffer,0,length);
         }
         result = byteArrayOutputStream.toString();
-        System.out.println("Input in ASCII "+ stringToBytesASCII(result));
-        System.out.println("Input in STRING "+ asciiBytesToString(stringToBytesASCII(result)));
+
+        System.out.println("byteArrayOutputStream "+ byteArrayOutputStream);
+        System.out.println("Input in ASCII "+ byteArrayOutputStream.toByteArray());
+        System.out.println("Input in STRING "+ asciiBytesToString(byteArrayOutputStream.toByteArray()));
         //return asciiBytesToString(byteArrayOutputStream.toByteArray());
-        return asciiBytesToString(stringToBytesASCII(result));
+
+        return asciiBytesToString(byteArrayOutputStream.toByteArray()).toString();
     }
 
     private static byte[] stringToBytesASCII(String str) {
