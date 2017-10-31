@@ -60,7 +60,6 @@ class TCPServer {
         t.start();
     }
     private static String inputMethod(InputStream i) throws IOException {
-        String result;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
         byte[] buffer = new byte[1024];
@@ -69,13 +68,11 @@ class TCPServer {
         while((length = i.read(buffer)) != -1){
             byteArrayOutputStream.write(buffer,0,length);
         }
-        result = byteArrayOutputStream.toString();
 
         System.out.println("byteArrayOutputStream "+ byteArrayOutputStream);
         System.out.println("Input in ASCII "+ byteArrayOutputStream.toByteArray());
         System.out.println("Input in STRING "+ asciiBytesToString(byteArrayOutputStream.toByteArray()));
-        //return asciiBytesToString(byteArrayOutputStream.toByteArray());
-
+        
         return asciiBytesToString(byteArrayOutputStream.toByteArray()).toString();
     }
 
