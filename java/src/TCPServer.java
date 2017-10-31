@@ -43,8 +43,9 @@ class TCPServer {
                     String line = String.valueOf(bufferedReader);
                     String result = bufferedReader.readLine();
                     while(line != null) {
-                        inputStringBuilder.append(line);inputStringBuilder.append('\n');
-                        line = bufferedReader.readLine();
+                        inputStringBuilder.append(line);
+                        inputStringBuilder.append('\n');
+                        line = String.valueOf(bufferedReader.lines().findFirst());
 
                     }
                     System.out.println(inputStringBuilder.toString());
