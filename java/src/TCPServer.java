@@ -41,11 +41,10 @@ class TCPServer {
                     String result = "";
                     while(line != null) {
                         result += line;
+                        System.out.println(result);
+
                     }
 
-                    if (result.length() >= 2 ){
-                        System.out.println(result);
-                    }
                     //String beaconSentence =  new BufferedInputStream(new InputStreamReader(connectionSocket.getInputStream()));
                     //Scanner s = new Scanner(inputStream).useDelimiter("&#092");
                     //String results = s.hasNext() ? s.next() : "";
