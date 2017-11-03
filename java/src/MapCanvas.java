@@ -5,7 +5,7 @@ import java.util.List;
 
 public class MapCanvas extends Canvas{
     private Canvas mCanvas;
-    // todo Burde det være et concurrentHashMap? er der ikke flere thread som tilgaar den samtidigt?
+    // todo Burde det vaere et concurrentHashMap? er der ikke flere thread som tilgaar den samtidigt?
     private Map<Integer, GeneralPath> mPaths;
     private Vector vector = new Vector();
     private static RssiDatabase mRssiDatabase;
@@ -77,7 +77,7 @@ public class MapCanvas extends Canvas{
         Graphics2D mReceiverGraphics = (Graphics2D) g;
         addReceivers(mReceiverGraphics);
         //todo fix mPathColors - der er et issue med at farverne paa baggrund og path overskriver?
-        // setPaint skulle sætte farven p ' hver path.
+        // setPaint skulle saette farven p ' hver path.
         // I Think we need a graphic per path color
         Graphics2D mBeaconPath1 = (Graphics2D) g;
         Graphics2D mBeaconPath2 = (Graphics2D) g;
