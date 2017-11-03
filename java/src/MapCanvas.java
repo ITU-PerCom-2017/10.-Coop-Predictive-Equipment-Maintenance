@@ -74,14 +74,13 @@ public class MapCanvas extends Canvas{
         // I Think we need a graphic per path color
         Graphics2D mBeaconPath1 = (Graphics2D) g;
         Graphics2D mBeaconPath2 = (Graphics2D) g;    //private Vector vector;
-
         Graphics2D mBeaconPath3 = (Graphics2D) g;
         Graphics2D mBeaconPath4 = (Graphics2D) g;
 
         test(mBeaconPath1,1);
         test(mBeaconPath2,2);
-        test(mBeaconPath1,3);
-        test(mBeaconPath2,4);
+        test(mBeaconPath3,3);
+        test(mBeaconPath4,4);
 
     }
     public void addReceiverPoint(int x, int y, Graphics2D g) {
