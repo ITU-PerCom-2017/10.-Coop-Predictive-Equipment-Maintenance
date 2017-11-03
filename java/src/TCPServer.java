@@ -32,7 +32,6 @@ class TCPServer {
                 while(true) {
                     InputStream inputStream = connectionSocket.getInputStream();
 
-                    System.out.println("inputStream. " + inputStream);
                     int LoPyId = inputStream.read();
                     int beaconId = inputStream.read();
                     int RSSI = inputStream.read();
