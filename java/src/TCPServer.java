@@ -1,6 +1,10 @@
+import com.sun.org.apache.xerces.internal.impl.io.ASCIIReader;
+import com.sun.xml.internal.ws.util.ASCIIUtility;
+import sun.misc.IOUtils;
 
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 
 class TCPServer {
     private static final int START_PORT = 6789; // Port to start from
@@ -31,7 +35,13 @@ class TCPServer {
                 while(true) {
                     InputStream inputStream = connectionSocket.getInputStream();
 
-                    byte[] result = inputMethod(inputStream);
+                    System.out.println("inputStream. " + inputStream);
+                    System.out.println("inputStream.read() " + inputStream.read());
+                    String result = inputMethod(inputStream);
+                    if (result.length() >= 1 ){
+                        System.out.println("result " + result);
+                    }
+
                     // The client is not connected if the data is null.
                     // It closes the connection and open it again.
                     connectionSocket.close();
@@ -49,7 +59,7 @@ class TCPServer {
         });
         t.start();
     }
-    private static byte[] inputMethod(InputStream i) throws IOException {
+    private static String inputMethod(InputStream i) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
         byte[] buffer = new byte[1024];
@@ -59,10 +69,13 @@ class TCPServer {
             byteArrayOutputStream.write(buffer,0,length);
         }
 
-        return byteArrayOutputStream.toByteArray();
-       // return asciiBytesToString(byteArrayOutputStream.toByteArray());
-    }
+        System.out.println("Input in ASCII "+ byteArrayOutputStream.toByteArray());
 
+        System.out.println("byteArrayOutputStream "+ byteArrayOutputStream);
+        System.out.println("Input in STRING "+ asciiBytesToString(byteArrayOutputStream.toByteArray()));
+
+        return asciiBytesToString(byteArrayOutputStream.toByteArray()).toString();
+    }
 
     private static String asciiBytesToString( final byte[] ascii )
     {
