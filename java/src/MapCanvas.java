@@ -45,7 +45,6 @@ public class MapCanvas extends Canvas{
         g.setStroke(new BasicStroke(1.5f));
 
         if(mPaths.containsKey(beaconId)){
-            System.out.println("Append to beacon " + beaconId + " path");
             //If path  exist in Map, then append new path to the old
             GeneralPath oldPath = mPaths.get(beaconId);
             GeneralPath newPath = new GeneralPath();
@@ -56,7 +55,6 @@ public class MapCanvas extends Canvas{
             oldPath.append(newPath,true);
 
         } else {
-            System.out.println("Add beaconPath" + beaconId );
             //If path does not exist in Map, then create new path
             GeneralPath newPath = new GeneralPath();
             newPath.moveTo(x,y);
