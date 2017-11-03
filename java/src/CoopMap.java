@@ -21,6 +21,7 @@ public class CoopMap {
         Container container = frame.getContentPane();
         container.add(canvas);
         frame.show();
+
     }
 
 
