@@ -73,15 +73,11 @@ public class MapCanvas extends Canvas{
         // setPaint skulle sætte farven på hver path.
         // I Think we need a graphic per path color
         Graphics2D mBeaconPath1 = (Graphics2D) g;
-        Graphics2D mBeaconPath2 = (Graphics2D) g;
+        Graphics2D mBeaconPath2 = (Graphics2D) g;    //private Vector vector;
+
         Graphics2D mBeaconPath3 = (Graphics2D) g;
         Graphics2D mBeaconPath4 = (Graphics2D) g;
-        for (int i = 0; i < vector.size(); i++){
-            mBeaconPath1.draw((GeneralPath) vector.elementAt(0));
-            mBeaconPath2.draw((GeneralPath) vector.elementAt(1));
-            mBeaconPath3.draw((GeneralPath) vector.elementAt(2));
-            mBeaconPath4.draw((GeneralPath) vector.elementAt(3));
-        }
+
         test(mBeaconPath1,1);
         test(mBeaconPath2,2);
         test(mBeaconPath1,3);
