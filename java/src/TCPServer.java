@@ -37,7 +37,7 @@ class TCPServer {
 
                     System.out.println("inputStream. " + inputStream);
                     System.out.println("inputStream.read() " + inputStream.read());
-                    String result = inputMethod(inputStream);
+                    byte[] result = inputMethod(inputStream);
                    // if (result.length() >= 1 ){
                         System.out.println("result " + result);
                     //}
@@ -59,7 +59,7 @@ class TCPServer {
         });
         t.start();
     }
-    private static String inputMethod(InputStream i) throws IOException {
+    private static byte[] inputMethod(InputStream i) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
         byte[] buffer = new byte[1024];
@@ -75,7 +75,7 @@ class TCPServer {
 
         System.out.println("byteArrayOutputStream "+ byteArrayOutputStream);
         System.out.println("Input in STRING "+ asciiBytesToString(byteArrayOutputStream.toByteArray()));
-        return byteArrayOutputStream.toString();
+        return byteArrayOutputStream.toByteArray();
        // return asciiBytesToString(byteArrayOutputStream.toByteArray());
     }
 
