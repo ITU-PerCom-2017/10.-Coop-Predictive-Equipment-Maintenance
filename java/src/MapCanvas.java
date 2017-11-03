@@ -5,7 +5,6 @@ import java.util.List;
 
 public class MapCanvas extends Canvas{
     private Canvas mCanvas;
-    //private Vector vector;
     // todo Burde det være et concurrentHashMap? er der ikke flere thread som tilgår den samtidigt?
     private Map<Integer, GeneralPath> mPaths;
     private Vector vector = new Vector();
