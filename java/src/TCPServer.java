@@ -34,6 +34,9 @@ class TCPServer {
 
                     System.out.println("inputStream. " + inputStream);
                     System.out.println("inputStream.read() " + inputStream.read());
+                    System.out.println("inputStream.read() " + inputStream.read());
+                    System.out.println("inputStream.read() " + inputStream.read());
+
                     String result = inputMethod(inputStream);
                     if (result.length() >= 1 ){
                         System.out.println("result " + result);
