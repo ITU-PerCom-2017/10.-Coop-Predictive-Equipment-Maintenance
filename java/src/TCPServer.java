@@ -69,10 +69,12 @@ class TCPServer {
             byteArrayOutputStream.write(buffer,0,length);
         }
 
-        System.out.println("byteArrayOutputStream "+ byteArrayOutputStream);
+        System.out.println("Test String ABC bytes to Ascii " + stringToBytesASCII("ABD"));
         System.out.println("Input in ASCII "+ byteArrayOutputStream.toByteArray());
+
+        System.out.println("byteArrayOutputStream "+ byteArrayOutputStream);
         System.out.println("Input in STRING "+ asciiBytesToString(byteArrayOutputStream.toByteArray()));
-        
+
         return asciiBytesToString(byteArrayOutputStream.toByteArray()).toString();
     }
 
