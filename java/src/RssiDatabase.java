@@ -19,10 +19,7 @@ public class RssiDatabase {
 
     // Singleton constructor
     public RssiDatabase() {
-
-        if (mPathMap != null) {
             mPathMap  = new HashMap<>();
-        }
     }
 
 
