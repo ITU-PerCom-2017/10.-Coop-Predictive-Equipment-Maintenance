@@ -5,10 +5,10 @@ import java.util.List;
 
 public class MapCanvas extends Canvas{
     private Canvas mCanvas;
-    // todo Burde det være et concurrentHashMap? er der ikke flere thread som tilgår den samtidigt?
+    // todo Burde det være et concurrentHashMap? er der ikke flere thread som tilgaar den samtidigt?
     private Map<Integer, GeneralPath> mPaths;
     private Vector vector = new Vector();
-
+    private static RssiDatabase mRssiDatabase;
     private int mWidth;
     private int mHeight;
     private final Color BACKGROUND_COLOR = Color.gray;
@@ -20,9 +20,10 @@ public class MapCanvas extends Canvas{
     //Setting color of each path
     private final List<Color> mPathColors = new ArrayList();
 
-    public MapCanvas(int width, int height) {
+    public MapCanvas(RssiDatabase database,int width, int height) {
         mCanvas = new Canvas();
         mPaths = new HashMap<>();
+        mRssiDatabase = database;
         setBackground(BACKGROUND_COLOR);
         mWidth = width;
         mHeight = height;
@@ -33,7 +34,13 @@ public class MapCanvas extends Canvas{
         mPathColors.add(Color.pink);
     }
 
-
+    /***
+     * Method for creating paths / or adding points to existing paths.
+     * @param beaconId
+     * @param x choordinate as int
+     * @param y choordinate as int
+     * @param g Graphics2D -
+     */
     public void addPoint(Integer beaconId, int x, int y, Graphics2D g) {
         g.setStroke(new BasicStroke(1.5f));
 
@@ -69,41 +76,46 @@ public class MapCanvas extends Canvas{
     public void paint(Graphics g) {
         Graphics2D mReceiverGraphics = (Graphics2D) g;
         addReceivers(mReceiverGraphics);
-        //todo fix mPathColors - der er et issue med at farverne på baggrund og path overskriver?
-        // setPaint skulle sætte farven på hver path.
+        //todo fix mPathColors - der er et issue med at farverne paa baggrund og path overskriver?
+        // setPaint skulle sætte farven p ' hver path.
         // I Think we need a graphic per path color
         Graphics2D mBeaconPath1 = (Graphics2D) g;
-        Graphics2D mBeaconPath2 = (Graphics2D) g;    //private Vector vector;
+        Graphics2D mBeaconPath2 = (Graphics2D) g;
         Graphics2D mBeaconPath3 = (Graphics2D) g;
         Graphics2D mBeaconPath4 = (Graphics2D) g;
-
-        test(mBeaconPath1,1);
-        test(mBeaconPath2,2);
-        test(mBeaconPath3,3);
-        test(mBeaconPath4,4);
-
-    }
-    public void addReceiverPoint(int x, int y, Graphics2D g) {
-        g.setStroke(new BasicStroke(1.5f));
-        g.setPaint(RECIEVER_COLOR);
-        int size = 20;
-        g.drawOval(x, y, size, size);
+        test(1,mBeaconPath1);
+        test(2,mBeaconPath2);
+        test(3,mBeaconPath3);
+        test(4,mBeaconPath4);
 
     }
+
     private void addReceivers(Graphics2D g){
         addReceiverPoint(RECIEVER_INDENTION_TO_MAP,RECIEVER_INDENTION_TO_MAP, g);
         addReceiverPoint(mWidth-RECIEVER_INDENTION_TO_MAP,mHeight-RECIEVER_INDENTION_TO_MAP, g);
         addReceiverPoint(RECIEVER_INDENTION_TO_MAP,mHeight-RECIEVER_INDENTION_TO_MAP, g);
         addReceiverPoint(mWidth-RECIEVER_INDENTION_TO_MAP,RECIEVER_INDENTION_TO_MAP, g);
     }
+    private void addReceiverPoint(int x, int y, Graphics2D g) {
+        g.setStroke(new BasicStroke(1.5f));
+        g.setPaint(RECIEVER_COLOR);
+        int size = 20;
+        g.drawOval(x, y, size, size);
 
-
-    private void test(Graphics2D g, int beaconId){
-        int min = 100;
-        int max = 900;
-        for(int i=5; i<100;i+=20){
+    }
+    private void insertFromDb(){
+    }
+    /***
+     * Test for drawing paths.
+     * @param beaconId - which beacon to draw
+     * @param g -Graphics2D
+     */
+    private void test(int beaconId, Graphics2D g){
+        int min = 50;
+        int max = 950;
+        for(int i=5; i<100;i+=2){
             try {
-                Thread.sleep(200);
+                Thread.sleep(20);
                 //int beacon =(int)(Math.random() * ((4 - 1) + 1)) + 1;
                 int beacon = beaconId;
                 addPoint(beacon,(int)(Math.random() * ((max - min) + 1)) + min,(int)(Math.random() * ((max - min) + 1)) + min , g );
@@ -112,7 +124,6 @@ public class MapCanvas extends Canvas{
             }
 
         }
-
 
     }
 }
