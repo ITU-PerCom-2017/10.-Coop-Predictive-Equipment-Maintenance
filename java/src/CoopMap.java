@@ -18,13 +18,9 @@ public class CoopMap {
 
         JFrame frame = new JFrame("COOP Indoor Location Lap");
         frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-        frame.getContentPane().add(canvas);
-        frame.setBackground(Color.gray);
-
+        Container container = frame.getContentPane();
+        container.add(canvas);
         frame.show();
-
-
-
 
     }
 
