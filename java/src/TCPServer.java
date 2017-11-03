@@ -38,9 +38,9 @@ class TCPServer {
                     System.out.println("inputStream. " + inputStream);
                     System.out.println("inputStream.read() " + inputStream.read());
                     String result = inputMethod(inputStream);
-                    if (result.length() >= 1 ){
+                   // if (result.length() >= 1 ){
                         System.out.println("result " + result);
-                    }
+                    //}
 
                     // The client is not connected if the data is null.
                     // It closes the connection and open it again.
@@ -69,13 +69,14 @@ class TCPServer {
             byteArrayOutputStream.write(buffer,0,length);
         }
 
-        System.out.println("Test String ABC bytes to Ascii " + stringToBytesASCII("ABD"));
+
+        System.out.println("Test String ABC bytes to Ascii " + stringToBytesASCII("ABC"));
         System.out.println("Input in ASCII "+ byteArrayOutputStream.toByteArray());
 
         System.out.println("byteArrayOutputStream "+ byteArrayOutputStream);
         System.out.println("Input in STRING "+ asciiBytesToString(byteArrayOutputStream.toByteArray()));
-
-        return asciiBytesToString(byteArrayOutputStream.toByteArray()).toString();
+        return byteArrayOutputStream.toString();
+       // return asciiBytesToString(byteArrayOutputStream.toByteArray());
     }
 
     private static byte[] stringToBytesASCII(String str) {
