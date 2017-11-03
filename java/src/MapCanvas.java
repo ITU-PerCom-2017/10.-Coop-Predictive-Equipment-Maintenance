@@ -27,21 +27,23 @@ public class MapCanvas extends Canvas{
     // Add point
     public void addPoint(Integer beaconId, int x, int y) {
         if(mPaths.containsKey(beaconId)){
+            //If path  exist in Map, then append new path to the old
+            GeneralPath oldPath = mPaths.get(beaconId);
+            GeneralPath newPath = new GeneralPath();
+            newPath.moveTo(x,y);
+            newPath.lineTo(x,y);
+            oldPath.append(newPath,true);
+
+        } else {
+            //If path does not exist in Map, then create new path
             GeneralPath newPath = new GeneralPath();
             newPath.moveTo(x,y);
             newPath.lineTo(x,y);
             vector.addElement(newPath);
+            mPaths.put(beaconId,newPath);
         }
     }
 
-
-
-    public void addPoint(int startX, int startY, GeneralPath appendToPath) {
-        GeneralPath tempPath = new GeneralPath();
-        tempPath.moveTo(startX,startY);
-        tempPath.lineTo(startX,startY);
-        appendToPath.append(tempPath,true);
-    }
 
     public void paint(Graphics g) {
         mG2d = (Graphics2D) g;
