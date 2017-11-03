@@ -2,31 +2,29 @@ import java.io.*;
 import java.net.*;
 
 class TCPServer {
-    private static final int START_PORT = 6789; // Port to start from
-    private static final int RECEIVERS = 4; // Number of receivers
 
-    private static RssiDatabase mDatabase;
+    public TCPServer(RssiDatabase database, int startPort, int receivers) {
+
+        // Creates XX number of receiver sockets. Each with a unique port
+        for(int i = 0; i < receivers; i++) {
+            final int tempPort = startPort+i;
+            createInputSocket(tempPort, database);
+        }
+    }
 
     // Method for creating an input socket using a new thread.
-    private static void createInputSocket(int port) {
-        mDatabase = new RssiDatabase();
+    private static void createInputSocket(int port, RssiDatabase database) {
+        //mDatabase = new RssiDatabase();
         Thread t = new Thread(() -> {
             System.out.println("starting thread for socket " + port);
 
             ServerSocket serverSocket = null;
-            boolean connected = false;
-            try {
 
+            try {
                 serverSocket = new ServerSocket(port);
                 Socket connectionSocket = serverSocket.accept();
 
                 // While loop that reads the incoming data.
-                if(connectionSocket.isConnected() && !connected){
-                    connected = true;
-                    System.out.println("Connected on socket " + port);
-
-                }
-
                 while(true) {
                     InputStream inputStream = connectionSocket.getInputStream();
 
@@ -41,25 +39,16 @@ class TCPServer {
                     connectionSocket.close();
                     connectionSocket = serverSocket.accept();
 
-                    // Translate the data here and store it in the rssi database. Example:
-                    mDatabase.putBeaconRssi(""+ LoPyId, "" + beaconId, RSSI);
-                    //System.out.println("From " + connectionSocket.getInetAddress() + " : " + resultString);
-
+                    database.putBeaconRssi("" + LoPyId, "" + beaconId, RSSI);
                 }
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
+
         t.start();
     }
 
-    public static void main(String args[]) {
 
-        // Creates XX number of receiver sockets. Each with a unique port
-        for(int i = 0; i < RECEIVERS; i++) {
-            final int tempPort = START_PORT+i;
-            createInputSocket(tempPort);
-        }
-    }
 }
