@@ -33,14 +33,11 @@ class TCPServer {
                     InputStream inputStream = connectionSocket.getInputStream();
 
                     System.out.println("inputStream. " + inputStream);
-                    System.out.println("inputStream.read() " + inputStream.read());
-                    System.out.println("inputStream.read() " + inputStream.read());
-                    System.out.println("inputStream.read() " + inputStream.read());
+                    int LoPyId = inputStream.read();
+                    int beaconId = inputStream.read();
+                    int RSSI = inputStream.read();
 
-                    String result = inputMethod(inputStream);
-                    if (result.length() >= 1 ){
-                        System.out.println("result " + result);
-                    }
+                    System.out.println("LoPy Id " + LoPyId + " beacon Id " + beaconId + " RSSI " + RSSI);
 
                     // The client is not connected if the data is null.
                     // It closes the connection and open it again.
@@ -58,29 +55,6 @@ class TCPServer {
             }
         });
         t.start();
-    }
-    private static String inputMethod(InputStream i) throws IOException {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
-        byte[] buffer = new byte[1024];
-        int length;
-
-        while((length = i.read(buffer)) != -1){
-            byteArrayOutputStream.write(buffer,0,length);
-        }
-
-        System.out.println("Input in ASCII "+ byteArrayOutputStream.toByteArray());
-
-        System.out.println("byteArrayOutputStream "+ byteArrayOutputStream);
-        System.out.println("Input in STRING "+ asciiBytesToString(byteArrayOutputStream.toByteArray()));
-
-        return asciiBytesToString(byteArrayOutputStream.toByteArray()).toString();
-    }
-
-    private static String asciiBytesToString( final byte[] ascii )
-    {
-        //deprecated constructor allowing data to be copied directly into String char[]. So convenient...
-        return new String( ascii, 0 );
     }
 
     public static void main(String args[]) {
