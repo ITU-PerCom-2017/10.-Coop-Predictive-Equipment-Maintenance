@@ -45,7 +45,7 @@ class TCPServer {
                     connectionSocket = serverSocket.accept();
 
                     // Translate the data here and store it in the rssi database. Example:
-                    //mDatabase.putBeaconRssi("receiverId", "beaconId", 50);
+                    mDatabase.putBeaconRssi(""+LoPyId, ""+beaconId, RSSI);
                     //System.out.println("From " + connectionSocket.getInetAddress() + " : " + resultString);
 
                 }
