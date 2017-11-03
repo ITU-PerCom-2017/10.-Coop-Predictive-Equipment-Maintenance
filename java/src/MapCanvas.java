@@ -24,6 +24,7 @@ public class MapCanvas extends Canvas{
     }
 
 
+    // Add point
     public void addPoint(Integer beaconId, int x, int y) {
         if(mPaths.containsKey(beaconId)){
             GeneralPath newPath = new GeneralPath();
@@ -32,6 +33,7 @@ public class MapCanvas extends Canvas{
             vector.addElement(newPath);
         }
     }
+
 
 
     public void addPoint(int startX, int startY, GeneralPath appendToPath) {
