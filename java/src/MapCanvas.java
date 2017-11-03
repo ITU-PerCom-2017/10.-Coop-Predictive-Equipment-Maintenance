@@ -8,7 +8,6 @@ public class MapCanvas extends Canvas{
     //private Vector vector;
     private Map<Integer, GeneralPath> mPaths;
     private Vector vector = new Vector();
-
     private Graphics2D mG2d;
 
     public MapCanvas() {
@@ -46,10 +45,10 @@ public class MapCanvas extends Canvas{
 
 
     public void paint(Graphics g) {
+        // I Thing we need a graphic per path color
         mG2d = (Graphics2D) g;
         mG2d.setPaint(Color.white);
 
-        vector = new Vector();
         for (int i = 0; i < vector.size(); i++){
             mG2d.draw((GeneralPath) vector.elementAt(i));
         }
