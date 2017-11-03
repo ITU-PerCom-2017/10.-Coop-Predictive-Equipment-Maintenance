@@ -83,6 +83,42 @@ public class RssiDatabase {
     public Map<Integer,Map<String, Integer>> getBeaconData(String beaconId) {
         return mPathMap.get(beaconId);
     }
+
+    public void calculateCoordinates() {
+        // Website formula https://math.stackexchange.com/questions/884807/find-x-location-using-3-known-x-y-location-using-trilateration
+
+        // First coordinate and rssi
+        int x1 = 1;
+        int y1 = 6;
+        int r1 = 3;
+
+        // Second coordinate and rssi
+        int x2 = 1;
+        int y2 = 1;
+        int r2 = 4;
+
+        // Third coordinate and rssi
+        int x3 = 6;
+        int y3 = 1;
+        int r3 = 3;
+
+        // Intermediate calculations
+        double A = (-2)*x1 + 2*x2;
+        double B = (-2)*y1 + 2*y2;
+        double C = (r1^2) - (r2^2) - (x1^2) + (x2^2) - (y1^2) + (y2^2);
+        double D = (-2)*x2 + 2*x3;
+        double E = (-2)*y2 + 2*y3;
+        double F = (r2^2) - (r3^2) - (x2^2) + (x3^2) - (y2^2) + (y3^2);
+
+        // Formula: x = (CE-FB)/(EA-BD)
+        double x = (C*E - F*B) / (E*A - B*D);
+
+        // Formula: y = (CD-AF)/(BD-AE)
+        double y = (C*D - A*F) / (B*D - A*E);
+
+
+
+    }
 }
 
 
