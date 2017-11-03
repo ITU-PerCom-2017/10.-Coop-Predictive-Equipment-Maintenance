@@ -1,10 +1,7 @@
-import com.sun.org.apache.xerces.internal.impl.io.ASCIIReader;
-import com.sun.xml.internal.ws.util.ASCIIUtility;
-import sun.misc.IOUtils;
+
 
 import java.io.*;
 import java.net.*;
-import java.util.Scanner;
 
 class TCPServer {
     private static final int START_PORT = 6789; // Port to start from
