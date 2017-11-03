@@ -60,7 +60,8 @@ public class MapCanvas extends Canvas{
         }
         if(!vector.isEmpty()){
             for (int i = 0; i < vector.size(); i++){
-                g.draw((GeneralPath) vector.elementAt(i));
+                g.draw((GeneralPath) vector.elementAt(beaconId-1));
+                g.setPaint(mPathColors.get(beaconId-1));
             }
         }
     }
@@ -73,17 +74,19 @@ public class MapCanvas extends Canvas{
         // setPaint skulle sætte farven på hver path.
         // I Think we need a graphic per path color
         Graphics2D mBeaconPath1 = (Graphics2D) g;
-        mBeaconPath1.setPaint(mPathColors.get(0));
-
         Graphics2D mBeaconPath2 = (Graphics2D) g;
-        mBeaconPath2.setPaint(mPathColors.get(1));
+        Graphics2D mBeaconPath3 = (Graphics2D) g;
+        Graphics2D mBeaconPath4 = (Graphics2D) g;
         for (int i = 0; i < vector.size(); i++){
-            mBeaconPath1.draw((GeneralPath) vector.elementAt(i));
-            mBeaconPath2.draw((GeneralPath) vector.elementAt(i));
-
+            mBeaconPath1.draw((GeneralPath) vector.elementAt(0));
+            mBeaconPath2.draw((GeneralPath) vector.elementAt(1));
+            mBeaconPath3.draw((GeneralPath) vector.elementAt(2));
+            mBeaconPath4.draw((GeneralPath) vector.elementAt(3));
         }
-
-        test(mBeaconPath1);
+        test(mBeaconPath1,1);
+        test(mBeaconPath2,2);
+        test(mBeaconPath1,3);
+        test(mBeaconPath2,4);
 
     }
     public void addReceiverPoint(int x, int y, Graphics2D g) {
@@ -101,16 +104,16 @@ public class MapCanvas extends Canvas{
     }
 
 
-    private void test(Graphics2D g){
+    private void test(Graphics2D g, int beaconId){
         int min = 100;
         int max = 900;
-        for(int i=5; i<1000;i+=20){
+        for(int i=5; i<100;i+=20){
             try {
                 Thread.sleep(200);
-                int beacon =(int)(Math.random() * ((4 - 1) + 1)) + 1;
+                //int beacon =(int)(Math.random() * ((4 - 1) + 1)) + 1;
+                int beacon = beaconId;
                 addPoint(beacon,(int)(Math.random() * ((max - min) + 1)) + min,(int)(Math.random() * ((max - min) + 1)) + min , g );
             } catch (InterruptedException e) {
-
                 e.printStackTrace();
             }
 
