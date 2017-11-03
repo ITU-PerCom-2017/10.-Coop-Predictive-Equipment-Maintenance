@@ -11,7 +11,7 @@ class TCPServer {
 
     // Method for creating an input socket using a new thread.
     private static void createInputSocket(int port) {
-
+        mDatabase = new RssiDatabase();
         Thread t = new Thread(() -> {
             System.out.println("starting thread for socket " + port);
 
@@ -45,7 +45,7 @@ class TCPServer {
                     connectionSocket = serverSocket.accept();
 
                     // Translate the data here and store it in the rssi database. Example:
-                    mDatabase.putBeaconRssi(""+LoPyId, ""+beaconId, RSSI);
+                    mDatabase.putBeaconRssi(""+ LoPyId, "" + beaconId, RSSI);
                     //System.out.println("From " + connectionSocket.getInetAddress() + " : " + resultString);
 
                 }
