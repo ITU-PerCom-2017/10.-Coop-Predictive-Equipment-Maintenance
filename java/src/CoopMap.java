@@ -14,14 +14,13 @@ public class CoopMap {
     public static void main(String[] args) {
         RssiDatabase database = new RssiDatabase();
         TCPServer server = new TCPServer(database, START_PORT, RECEIVERS);
-        MapCanvas canvas = new MapCanvas();
+        MapCanvas canvas = new MapCanvas(FRAME_WIDTH,FRAME_HEIGHT);
 
         JFrame frame = new JFrame("COOP Indoor Location Lap");
         frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         Container container = frame.getContentPane();
         container.add(canvas);
         frame.show();
-
     }
 
 
