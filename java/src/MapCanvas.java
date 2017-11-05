@@ -4,28 +4,27 @@ import java.util.*;
 import java.util.List;
 
 public class MapCanvas extends Canvas{
-    // todo Burde det vaere et concurrentHashMap? er der ikke flere thread som tilgaar den samtidigt?
+    private static final Color BACKGROUND_COLOR = Color.gray;
+    private static final Color RECEIVER_COLOR = Color.white;
+    private static final int RECEIVER_SIZE = 40;
+
+
+    //TODO Burde det vaere et concurrentHashMap? er der ikke flere thread som tilgaar den samtidigt?
     private Map<Integer, GeneralPath> mPaths;
     private List<GeneralPath> mReceivers;
-    private Vector mVector;
-    private int mWidth;
-    private int mHeight;
-    private final Color BACKGROUND_COLOR = Color.gray;
-    private final Color RECIEVER_COLOR = Color.white;
+    private Vector<GeneralPath> mVector;
 
     public MapCanvas(int width, int height) {
         mPaths = new HashMap<>();
-        mVector = new Vector();
+        mVector = new Vector<>();
         mReceivers = new ArrayList<>();
-        mWidth = width;
-        mHeight = height;
-        setSize(mWidth, mHeight);
+        setSize(width, height);
         setBackground(BACKGROUND_COLOR);
     }
 
-    /***
+    /**
      * Method for creating paths / or adding points to existing paths.
-     * @param beaconId
+     * @param beaconId the id of a beacon
      * @param x choordinate as int
      * @param y choordinate as int
      */
@@ -44,44 +43,47 @@ public class MapCanvas extends Canvas{
             mVector.addElement(newPath);
             mPaths.put(beaconId,newPath);
         }
-
     }
 
-    /***
+    /**
      * Add single receiver on coordinate
      * @param x
      * @param y
      */
     public void addReceiver(int x, int y) {
-        mReceivers.add(ne
+        GeneralPath receiver = new GeneralPath();
+        receiver.moveTo(x,y);
+        receiver.lineTo(x,y);
+        mReceivers.add(receiver);
     }
 
-    private Color getRandomColor(){
+    private Color getRandomColor() {
         int randomR = (int)(Math.random() * 255 + 1);
         int randomG = (int)(Math.random() * 255 + 1);
         int randomB = (int)(Math.random() * 255 + 1);
         return new Color(randomR,randomG,randomB);
     }
+
+
     public void paint(Graphics g) {
 
-        if(!mVector.isEmpty()){
+        if (!mVector.isEmpty()) {
             for (int i = 0; i < mVector.size(); i++){
                 Graphics2D path = (Graphics2D) g;
-                path.draw((GeneralPath) mVector.elementAt(i));
                 path.setPaint(getRandomColor());
+                path.draw(mVector.elementAt(i));
             }
         }
 
-        System.out.println(mReceivers.size());
-        if(!mReceivers.isEmpty()){
-            System.out.println(mReceivers.size());
-            for (int i = 0; i < mReceivers.size(); i++){
+        if (!mReceivers.isEmpty()) {
+            for (GeneralPath mReceiver : mReceivers) {
                 Graphics2D receiver = (Graphics2D) g;
-                receiver.drawOval(19,99,12,12);
-                receiver.setPaint(RECIEVER_COLOR);
-             // receiver.setStroke(new BasicStroke(1.5f));
+                receiver.setPaint(RECEIVER_COLOR);
+
+                int x = (int) mReceiver.getCurrentPoint().getX();
+                int y = (int) mReceiver.getCurrentPoint().getY();
+                receiver.drawOval(x, y, RECEIVER_SIZE, RECEIVER_SIZE);
             }
         }
     }
-
 }

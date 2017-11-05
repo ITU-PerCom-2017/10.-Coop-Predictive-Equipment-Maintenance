@@ -11,23 +11,53 @@ public class CoopMap {
     public static final int FRAME_HEIGHT = 600;
 
 
+
+
+
     public static void main(String[] args) {
         RssiDatabase database = new RssiDatabase();
-        TCPServer server = new TCPServer(database, START_PORT, RECEIVERS);
-        MapCanvas canvas = new MapCanvas(FRAME_WIDTH,FRAME_HEIGHT);
+        //TCPServer server = new TCPServer(database, START_PORT, RECEIVERS);
+        MapCanvas canvas = new MapCanvas(FRAME_WIDTH, FRAME_HEIGHT);
         JFrame frame = new JFrame("COOP Indoor Location Lap");
         frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         Container container = frame.getContentPane();
-       // canvas.addPoint(200,200);
         container.add(canvas);
-        canvas.addPoint(1,110,222);
-        canvas.addPoint(1,12,22);
-        canvas.addPoint(1,1000,522);
-        canvas.addPoint(2,120,222);
-        canvas.addPoint(2,152,22);
-        canvas.addPoint(2,100,522);
+
+
+
+
+        for (int i = 0; i < 500; i++) {
+
+            int id = (int)(Math.random() * 4 + 1);
+            int x = (int)(Math.random() * 900 + 1);
+            int y = (int)(Math.random() * 900 + 1);
+
+            try {
+
+                canvas.addPoint(id,x,y);
+
+                Thread.sleep(5);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
         canvas.addReceiver(222,222);
+        canvas.addReceiver(111,111);
+        canvas.addReceiver(111,222);
+        canvas.addReceiver(444,222);
+        canvas.addReceiver(111,444);
+        canvas.addReceiver(412,555);
+
+
+
         frame.show();
+
+
+
 
     }
 
