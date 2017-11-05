@@ -23,7 +23,9 @@ public class CoopMap {
         canvas.addPoint(1,110,222);
         canvas.addPoint(1,12,22);
         canvas.addPoint(1,1000,522);
-
+        canvas.addPoint(2,120,222);
+        canvas.addPoint(2,152,22);
+        canvas.addPoint(2,100,522);
         canvas.addReceiver(222,222);
         frame.show();
 

@@ -12,7 +12,6 @@ public class MapCanvas extends Canvas{
     private int mHeight;
     private final Color BACKGROUND_COLOR = Color.gray;
     private final Color RECIEVER_COLOR = Color.white;
-    private List<Color> mPathColors;
 
     public MapCanvas(int width, int height) {
         mPaths = new HashMap<>();
@@ -22,11 +21,6 @@ public class MapCanvas extends Canvas{
         mHeight = height;
         setSize(mWidth, mHeight);
         setBackground(BACKGROUND_COLOR);
-        mPathColors = new ArrayList<>();
-        mPathColors.add(Color.red);
-        mPathColors.add(Color.yellow);
-        mPathColors.add(Color.green);
-        mPathColors.add(Color.pink);
     }
 
     /***
@@ -36,7 +30,6 @@ public class MapCanvas extends Canvas{
      * @param y choordinate as int
      */
     public void addPoint(Integer beaconId, int x, int y) {
-        //g.setStroke(new BasicStroke(1.5f));
         if(mPaths.containsKey(beaconId)){
             //If path  exist in Map, then append new path to the old
             GeneralPath newPath = new GeneralPath();
@@ -60,10 +53,7 @@ public class MapCanvas extends Canvas{
      * @param y
      */
     public void addReceiver(int x, int y) {
-        GeneralPath receiver = new GeneralPath();
-        receiver.moveTo(x,y);
-        receiver.lineTo(x,y);
-        mReceivers.add(receiver);
+        mReceivers.add(ne
     }
 
     private Color getRandomColor(){
@@ -74,8 +64,6 @@ public class MapCanvas extends Canvas{
     }
     public void paint(Graphics g) {
 
-        //todo fix mPathColors - der er et issue med at farverne paa baggrund og path overskriver?
-
         if(!mVector.isEmpty()){
             for (int i = 0; i < mVector.size(); i++){
                 Graphics2D path = (Graphics2D) g;
@@ -84,12 +72,14 @@ public class MapCanvas extends Canvas{
             }
         }
 
+        System.out.println(mReceivers.size());
         if(!mReceivers.isEmpty()){
+            System.out.println(mReceivers.size());
             for (int i = 0; i < mReceivers.size(); i++){
                 Graphics2D receiver = (Graphics2D) g;
-                receiver.draw((GeneralPath) mReceivers.get(i));
+                receiver.drawOval(19,99,12,12);
                 receiver.setPaint(RECIEVER_COLOR);
-                receiver.setStroke(new BasicStroke(1.5f));
+             // receiver.setStroke(new BasicStroke(1.5f));
             }
         }
     }
