@@ -14,24 +14,21 @@ public class MapCanvas extends Canvas{
     private final Color BACKGROUND_COLOR = Color.gray;
     private final Color RECIEVER_COLOR = Color.white;
     private int RECIEVER_INDENTION_TO_MAP = 200;
-
-    //I Think we need to make a Graphic2D pr. path, in order to color each. path differently
-
-    //Setting color of each path
-    private final List<Color> mPathColors = new ArrayList();
+    private final List<Color> PATH_COLORS = new ArrayList();
 
     public MapCanvas(RssiDatabase database,int width, int height) {
         mCanvas = new Canvas();
         mPaths = new HashMap<>();
         mRssiDatabase = database;
-        setBackground(BACKGROUND_COLOR);
         mWidth = width;
         mHeight = height;
-        setSize(mWidth, height);
-        mPathColors.add(Color.red);
-        mPathColors.add(Color.yellow);
-        mPathColors.add(Color.green);
-        mPathColors.add(Color.pink);
+        setSize(mWidth, mHeight);
+        setBackground(BACKGROUND_COLOR);
+        PATH_COLORS.add(Color.red);
+        PATH_COLORS.add(Color.yellow);
+        PATH_COLORS.add(Color.green);
+        PATH_COLORS.add(Color.pink);
+
     }
 
     /***
@@ -65,7 +62,7 @@ public class MapCanvas extends Canvas{
         if(!vector.isEmpty()){
             for (int i = 0; i < vector.size(); i++){
                 g.draw((GeneralPath) vector.elementAt(beaconId-1));
-                g.setPaint(mPathColors.get(beaconId-1));
+                g.setPaint(PATH_COLORS.get(beaconId-1));
             }
         }
     }
@@ -74,13 +71,14 @@ public class MapCanvas extends Canvas{
     public void paint(Graphics g) {
         Graphics2D mReceiverGraphics = (Graphics2D) g;
         addReceivers(mReceiverGraphics);
-        //todo fix mPathColors - der er et issue med at farverne paa baggrund og path overskriver?
+        //todo fix PATH_COLORS - der er et issue med at farverne paa baggrund og path overskriver?
         // setPaint skulle saette farven p ' hver path.
         // I Think we need a graphic per path color
         Graphics2D mBeaconPath1 = (Graphics2D) g;
         Graphics2D mBeaconPath2 = (Graphics2D) g;
         Graphics2D mBeaconPath3 = (Graphics2D) g;
         Graphics2D mBeaconPath4 = (Graphics2D) g;
+
         test(1,mBeaconPath1);
         test(2,mBeaconPath2);
         test(3,mBeaconPath3);
@@ -88,12 +86,23 @@ public class MapCanvas extends Canvas{
 
     }
 
+    /***
+     * Add demo receivers
+     * @param g
+     */
     private void addReceivers(Graphics2D g){
         addReceiverPoint(RECIEVER_INDENTION_TO_MAP,RECIEVER_INDENTION_TO_MAP, g);
         addReceiverPoint(mWidth-RECIEVER_INDENTION_TO_MAP,mHeight-RECIEVER_INDENTION_TO_MAP, g);
         addReceiverPoint(RECIEVER_INDENTION_TO_MAP,mHeight-RECIEVER_INDENTION_TO_MAP, g);
         addReceiverPoint(mWidth-RECIEVER_INDENTION_TO_MAP,RECIEVER_INDENTION_TO_MAP, g);
     }
+
+    /***
+     * Add single receiver on coordinate
+     * @param x
+     * @param y
+     * @param g
+     */
     private void addReceiverPoint(int x, int y, Graphics2D g) {
         g.setStroke(new BasicStroke(1.5f));
         g.setPaint(RECIEVER_COLOR);
@@ -101,8 +110,7 @@ public class MapCanvas extends Canvas{
         g.drawOval(x, y, size, size);
 
     }
-    private void insertFromDb(){
-    }
+
     /***
      * Test for drawing paths.
      * @param beaconId - which beacon to draw
@@ -110,13 +118,15 @@ public class MapCanvas extends Canvas{
      */
     private void test(int beaconId, Graphics2D g){
         int min = 50;
-        int max = 950;
+        int maxWidth = CoopMap.FRAME_WIDTH-50;
+        int maxHeight = CoopMap.FRAME_HEIGHT-50;
+
         for(int i=5; i<100;i+=2){
             try {
                 Thread.sleep(20);
                 //int beacon =(int)(Math.random() * ((4 - 1) + 1)) + 1;
                 int beacon = beaconId;
-                addPoint(beacon,(int)(Math.random() * ((max - min) + 1)) + min,(int)(Math.random() * ((max - min) + 1)) + min , g );
+                addPoint(beacon,(int)(Math.random() * ((maxWidth - min) + 1)) + min,(int)(Math.random() * ((maxHeight - min) + 1)) + min , g );
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
