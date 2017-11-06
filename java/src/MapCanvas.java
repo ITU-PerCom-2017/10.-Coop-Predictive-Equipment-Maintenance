@@ -47,8 +47,7 @@ public class MapCanvas extends JPanel {
             mPaths.put(beaconId,newPath);
 
         }
-
-        update(this.getGraphics());
+        update(getGraphics());
     }
 
     /**
