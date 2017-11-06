@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by Johnni on 03-11-2017.
@@ -23,6 +24,7 @@ public class CoopMap {
         frame.setBackground(Color.gray);
         Container container = frame.getContentPane();
         container.add(canvas);
+        frame.show();
 
         canvas.addReceiver(222,222);
         canvas.addReceiver(111,111);
@@ -30,24 +32,20 @@ public class CoopMap {
         canvas.addReceiver(444,222);
         canvas.addReceiver(111,444);
         canvas.addReceiver(412,555);
-
         for (int i = 0; i < 500; i++) {
 
             int id = (int)(Math.random() * 4 + 1);
             int x = (int)(Math.random() * 900 + 1);
             int y = (int)(Math.random() * 900 + 1);
-
             try {
                 canvas.addPoint(id,x,y, canvas.getGraphics() );
-                Thread.sleep(5);
-
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
         }
 
-        frame.show();
 
 
 

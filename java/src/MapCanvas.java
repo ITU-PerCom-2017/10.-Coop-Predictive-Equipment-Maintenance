@@ -7,11 +7,11 @@ public class MapCanvas extends Canvas{
     private static final Color BACKGROUND_COLOR = Color.gray;
     private static final Color RECEIVER_COLOR = Color.white;
     private static final int RECEIVER_SIZE = 40;
-
+    public static  Graphics2D mPath;
 
     //TODO Burde det vaere et concurrentHashMap? er der ikke flere thread som tilgaar den samtidigt?
     private Map<Integer, GeneralPath> mPaths;
-    private List<GeneralPath> mReceivers;
+    private static  List<GeneralPath> mReceivers;
     private Vector<GeneralPath> mVector;
     private List<Color> mColors;
     public MapCanvas(int width, int height) {
@@ -45,7 +45,9 @@ public class MapCanvas extends Canvas{
             mVector.addElement(newPath);
             getRandomColor();
             mPaths.put(beaconId,newPath);
+
         }
+        update(g);
 
     }
 
@@ -54,7 +56,7 @@ public class MapCanvas extends Canvas{
      * @param x
      * @param y
      */
-    public void addReceiver(int x, int y) {
+    public static void addReceiver(int x, int y) {
         GeneralPath receiver = new GeneralPath();
         receiver.moveTo(x,y);
         receiver.lineTo(x,y);
@@ -72,9 +74,9 @@ public class MapCanvas extends Canvas{
     public void paint(Graphics g) {
         if (!mVector.isEmpty()) {
             for (int i = 0; i < mVector.size(); i++){
-                Graphics2D path = (Graphics2D) g;
-                path.setPaint(mColors.get(i));
-                path.draw(mVector.elementAt(i));
+               mPath = (Graphics2D) g;
+                mPath.setPaint(mColors.get(i));
+                mPath.draw(mVector.elementAt(i));
             }
         }
 
