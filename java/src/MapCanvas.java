@@ -4,14 +4,16 @@ import java.awt.geom.*;
 import java.util.*;
 import java.util.List;
 
-public class MapCanvas extends JPanel{
+public class MapCanvas extends JPanel {
     private static final Color BACKGROUND_COLOR = Color.gray;
     private static final Color RECEIVER_COLOR = Color.white;
     private static final int RECEIVER_SIZE = 40;
+
     private Map<Integer, GeneralPath> mPaths;
-    private static  List<GeneralPath> mReceivers;
+    private List<GeneralPath> mReceivers;
     private Vector<GeneralPath> mVector;
     private List<Color> mColors;
+
     public MapCanvas(int width, int height) {
         mPaths = new HashMap<>();
         mVector = new Vector<>();
@@ -27,8 +29,8 @@ public class MapCanvas extends JPanel{
      * @param x choordinate as int
      * @param y choordinate as int
      */
+    public void addPoint(Integer beaconId, int x, int y) {
 
-    public void addPoint(Integer beaconId, int x, int y,Graphics g) {
         if(mPaths.containsKey(beaconId)){
             //If path  exist in Map, then append new path to the old
             GeneralPath newPath = new GeneralPath();
@@ -45,7 +47,8 @@ public class MapCanvas extends JPanel{
             mPaths.put(beaconId,newPath);
 
         }
-        update(g);
+
+        update(this.getGraphics());
     }
 
     /**
