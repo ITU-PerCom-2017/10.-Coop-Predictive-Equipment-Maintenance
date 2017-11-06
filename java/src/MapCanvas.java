@@ -58,8 +58,8 @@ public class MapCanvas extends JPanel {
      */
     public void addReceiver(int x, int y) {
         GeneralPath receiver = new GeneralPath();
-        receiver.moveTo(x,y);
-        receiver.lineTo(x,y);
+        receiver.moveTo(x-RECEIVER_SIZE/2,y-RECEIVER_SIZE/2);
+        receiver.lineTo(x-RECEIVER_SIZE/2,y-RECEIVER_SIZE/2);
         mReceivers.add(receiver);
     }
 

@@ -33,7 +33,7 @@ public class CoopMap {
 
     }
     private static void test(MapCanvas canvas){
-        for (int i = 0; i < 1500; i++) {
+        for (int i = 0; i < 500; i++) {
             int id = (int)(Math.random() * 4 + 1);
             int x = (int)(Math.random() * 900 + 1);
             int y = (int)(Math.random() * 900 + 1);
@@ -42,7 +42,7 @@ public class CoopMap {
             }
             try {
                 canvas.addPoint(id, x, y);
-                Thread.sleep(20);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
