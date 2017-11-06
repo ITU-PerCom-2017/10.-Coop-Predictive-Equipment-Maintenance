@@ -1,15 +1,13 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 import java.util.List;
 
-public class MapCanvas extends Canvas{
+public class MapCanvas extends JPanel{
     private static final Color BACKGROUND_COLOR = Color.gray;
     private static final Color RECEIVER_COLOR = Color.white;
     private static final int RECEIVER_SIZE = 40;
-
-
-    //TODO Burde det vaere et concurrentHashMap? er der ikke flere thread som tilgaar den samtidigt?
     private Map<Integer, GeneralPath> mPaths;
     private static  List<GeneralPath> mReceivers;
     private Vector<GeneralPath> mVector;
@@ -55,7 +53,7 @@ public class MapCanvas extends Canvas{
      * @param x
      * @param y
      */
-    public static void addReceiver(int x, int y) {
+    public void addReceiver(int x, int y) {
         GeneralPath receiver = new GeneralPath();
         receiver.moveTo(x,y);
         receiver.lineTo(x,y);

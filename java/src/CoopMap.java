@@ -25,15 +25,13 @@ public class CoopMap {
         frame.setBackground(Color.gray);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container container = frame.getContentPane();
-
         container.add(canvas);
-
         frame.show();
 
         canvas.addReceiver(222,222);
         canvas.addReceiver(111,111);
         canvas.addReceiver(111,222);
-        canvas      .addReceiver(444,222);
+        canvas.addReceiver(444,222);
         canvas.addReceiver(412,555);
         for (int i = 0; i < 500; i++) {
 
