@@ -13,11 +13,12 @@ public class MapCanvas extends Canvas{
     private Map<Integer, GeneralPath> mPaths;
     private List<GeneralPath> mReceivers;
     private Vector<GeneralPath> mVector;
-
+    private List<Color> mColors;
     public MapCanvas(int width, int height) {
         mPaths = new HashMap<>();
         mVector = new Vector<>();
         mReceivers = new ArrayList<>();
+        mColors = new ArrayList<>();
         setSize(width, height);
         setBackground(BACKGROUND_COLOR);
     }
@@ -28,7 +29,8 @@ public class MapCanvas extends Canvas{
      * @param x choordinate as int
      * @param y choordinate as int
      */
-    public void addPoint(Integer beaconId, int x, int y) {
+
+    public void addPoint(Integer beaconId, int x, int y,Graphics g) {
         if(mPaths.containsKey(beaconId)){
             //If path  exist in Map, then append new path to the old
             GeneralPath newPath = new GeneralPath();
@@ -41,8 +43,10 @@ public class MapCanvas extends Canvas{
             newPath.moveTo(x,y);
             newPath.lineTo(x,y);
             mVector.addElement(newPath);
+            getRandomColor();
             mPaths.put(beaconId,newPath);
         }
+
     }
 
     /**
@@ -57,20 +61,19 @@ public class MapCanvas extends Canvas{
         mReceivers.add(receiver);
     }
 
-    private Color getRandomColor() {
+    private void getRandomColor() {
         int randomR = (int)(Math.random() * 255 + 1);
         int randomG = (int)(Math.random() * 255 + 1);
         int randomB = (int)(Math.random() * 255 + 1);
-        return new Color(randomR,randomG,randomB);
+        mColors.add(new Color(randomR,randomG,randomB));
     }
 
 
     public void paint(Graphics g) {
-
         if (!mVector.isEmpty()) {
             for (int i = 0; i < mVector.size(); i++){
                 Graphics2D path = (Graphics2D) g;
-                path.setPaint(getRandomColor());
+                path.setPaint(mColors.get(i));
                 path.draw(mVector.elementAt(i));
             }
         }
