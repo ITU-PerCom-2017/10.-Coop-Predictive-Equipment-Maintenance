@@ -76,7 +76,7 @@ public class MapCanvas extends JPanel {
             for (int i = 0; i < mVector.size(); i++){
                 Graphics2D path = (Graphics2D) g;
                 path.setPaint(mColors.get(i));
-                path.setStroke(new BasicStroke(3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10, new float[]{2,5}, 0));
+                path.setStroke(new BasicStroke(3.0f));
                 path.draw(mVector.elementAt(i));
             }
         }
