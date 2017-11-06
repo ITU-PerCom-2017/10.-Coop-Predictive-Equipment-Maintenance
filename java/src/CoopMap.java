@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 public class CoopMap {
     private static final int START_PORT = 6789; // Port to start from
-    private static final int RECEIVERS = 4; // Number of receivers
+    private static final int RECEIVERS = 8; // Number of receivers
     private static final int FRAME_WIDTH = 1000;
     private static final int FRAME_HEIGHT = 1000;
 
@@ -28,12 +28,16 @@ public class CoopMap {
         container.add(canvas);
         frame.show();
 
+        test(canvas);
 
+
+    }
+    private static void test(MapCanvas canvas){
         for (int i = 0; i < 500; i++) {
             int id = (int)(Math.random() * 4 + 1);
             int x = (int)(Math.random() * 900 + 1);
             int y = (int)(Math.random() * 900 + 1);
-            if(i<8){
+            if(i<RECEIVERS){
                 canvas.addReceiver(x,y);
             }
             try {
@@ -44,8 +48,6 @@ public class CoopMap {
             }
 
         }
-
     }
-
 
 }
