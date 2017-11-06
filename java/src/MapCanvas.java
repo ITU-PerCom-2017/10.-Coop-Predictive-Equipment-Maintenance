@@ -47,6 +47,7 @@ public class MapCanvas extends JPanel {
             mPaths.put(beaconId,newPath);
 
         }
+
         update(getGraphics());
     }
 
@@ -75,6 +76,7 @@ public class MapCanvas extends JPanel {
             for (int i = 0; i < mVector.size(); i++){
                 Graphics2D path = (Graphics2D) g;
                 path.setPaint(mColors.get(i));
+                path.setStroke(new BasicStroke(3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10, new float[]{2,5}, 0));
                 path.draw(mVector.elementAt(i));
             }
         }
@@ -83,7 +85,7 @@ public class MapCanvas extends JPanel {
             for (GeneralPath mReceiver : mReceivers) {
                 Graphics2D receiver = (Graphics2D) g;
                 receiver.setPaint(RECEIVER_COLOR);
-
+                receiver.setStroke(new BasicStroke(5.0f));
                 int x = (int) mReceiver.getCurrentPoint().getX();
                 int y = (int) mReceiver.getCurrentPoint().getY();
                 receiver.drawOval(x, y, RECEIVER_SIZE, RECEIVER_SIZE);
