@@ -19,18 +19,21 @@ public class CoopMap {
         RssiDatabase database = new RssiDatabase();
         //TCPServer server = new TCPServer(database, START_PORT, RECEIVERS);
         MapCanvas canvas = new MapCanvas(FRAME_WIDTH, FRAME_HEIGHT);
+
         JFrame frame = new JFrame("COOP Indoor Location Lap");
         frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         frame.setBackground(Color.gray);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container container = frame.getContentPane();
+
         container.add(canvas);
+
         frame.show();
 
         canvas.addReceiver(222,222);
         canvas.addReceiver(111,111);
         canvas.addReceiver(111,222);
-        canvas.addReceiver(444,222);
-        canvas.addReceiver(111,444);
+        canvas      .addReceiver(444,222);
         canvas.addReceiver(412,555);
         for (int i = 0; i < 500; i++) {
 
@@ -45,10 +48,6 @@ public class CoopMap {
             }
 
         }
-
-
-
-
 
     }
 

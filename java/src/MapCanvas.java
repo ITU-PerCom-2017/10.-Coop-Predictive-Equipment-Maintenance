@@ -7,7 +7,7 @@ public class MapCanvas extends Canvas{
     private static final Color BACKGROUND_COLOR = Color.gray;
     private static final Color RECEIVER_COLOR = Color.white;
     private static final int RECEIVER_SIZE = 40;
-    public static  Graphics2D mPath;
+
 
     //TODO Burde det vaere et concurrentHashMap? er der ikke flere thread som tilgaar den samtidigt?
     private Map<Integer, GeneralPath> mPaths;
@@ -48,7 +48,6 @@ public class MapCanvas extends Canvas{
 
         }
         update(g);
-
     }
 
     /**
@@ -74,9 +73,9 @@ public class MapCanvas extends Canvas{
     public void paint(Graphics g) {
         if (!mVector.isEmpty()) {
             for (int i = 0; i < mVector.size(); i++){
-               mPath = (Graphics2D) g;
-                mPath.setPaint(mColors.get(i));
-                mPath.draw(mVector.elementAt(i));
+                Graphics2D path = (Graphics2D) g;
+                path.setPaint(mColors.get(i));
+                path.draw(mVector.elementAt(i));
             }
         }
 
