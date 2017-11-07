@@ -53,7 +53,6 @@ public class MapCanvas extends JPanel {
             mPaths.put(beaconId, newPath);
         }
         repaint();
-        //update(getGraphics());
     }
 
 
@@ -91,7 +90,7 @@ public class MapCanvas extends JPanel {
 
                 int x = (int) receiver.getCurrentPoint().getX();
                 int y = (int) receiver.getCurrentPoint().getY();
-                graphics.drawOval(x, y, RECEIVER_SIZE, RECEIVER_SIZE);
+                graphics.drawOval(x-RECEIVER_SIZE/2, y-RECEIVER_SIZE/2, RECEIVER_SIZE, RECEIVER_SIZE);
             }
         }
     }

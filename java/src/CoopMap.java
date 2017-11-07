@@ -14,16 +14,15 @@ public class CoopMap {
     // Test method
     private static void testCoopMap(MapCanvas canvas) {
 
-        canvas.addReceiver(222,222);
-        canvas.addReceiver(111,111);
-        canvas.addReceiver(111,222);
-        canvas.addReceiver(444,222);
 
         for (int i = 0; i < 50; i++) {
 
             int id = (int)(Math.random() * 4 + 1);
             int x = (int)(Math.random() * FRAME_WIDTH + 1);
             int y = (int)(Math.random() * FRAME_HEIGHT + 1);
+            if(i<RECEIVERS) {
+                canvas.addReceiver(x,y);
+            }
 
             try {
                 canvas.addPoint(id, x, y);
