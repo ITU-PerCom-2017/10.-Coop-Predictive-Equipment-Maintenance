@@ -19,11 +19,11 @@ public class CoopMap {
         canvas.addReceiver(111,222);
         canvas.addReceiver(444,222);
 
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < 50; i++) {
 
             int id = (int)(Math.random() * 4 + 1);
-            int x = (int)(Math.random() * 900 + 1);
-            int y = (int)(Math.random() * 900 + 1);
+            int x = (int)(Math.random() * FRAME_WIDTH + 1);
+            int y = (int)(Math.random() * FRAME_HEIGHT + 1);
 
             try {
                 canvas.addPoint(id, x, y);
