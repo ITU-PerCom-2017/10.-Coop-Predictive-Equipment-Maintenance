@@ -80,23 +80,23 @@ public class RssiDatabase {
         return mPathMap.get(beaconId);
     }
 
-    public static CirclePoint calculateCoordinates(CirclePoint cp1, CirclePoint cp2, CirclePoint cp3) {
+    public static CirclePoint calculateCoordinates(CirclePoint receiver1, CirclePoint receiver2, CirclePoint receiver3) {
         // Website formula https://math.stackexchange.com/questions/884807/find-x-location-using-3-known-x-y-location-using-trilateration
 
         // First coordinate and rssi
-        double x1 = cp1.getX();
-        double y1 = cp1.getY();
-        double r1 = cp1.getR();
+        double x1 = receiver1.getX();
+        double y1 = receiver1.getY();
+        double r1 = receiver1.getR();
 
         // Second coordinate and rssi
-        double x2 = cp2.getX();
-        double y2 = cp2.getY();
-        double r2 = cp2.getR();
+        double x2 = receiver2.getX();
+        double y2 = receiver2.getY();
+        double r2 = receiver2.getR();
 
         // Third coordinate and rssi
-        double x3 = cp3.getX();
-        double y3 = cp3.getY();
-        double r3 = cp3.getR();
+        double x3 = receiver3.getX();
+        double y3 = receiver3.getY();
+        double r3 = receiver3.getR();
 
         // Intermediate calculations
         double A = (-2)*x1 + 2*x2;

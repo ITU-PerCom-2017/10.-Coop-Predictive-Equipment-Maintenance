@@ -1,8 +1,11 @@
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Johnni on 03-11-2017.
  */
+
 public class CoopMap {
     private static final int START_PORT = 6789; // Port to start from
     private static final int RECEIVERS = 4; // Number of receivers
@@ -11,8 +14,18 @@ public class CoopMap {
     private static final String TITLE = "COOP Indoor Location Map";
     private static final Color BG_COLOR = Color.gray;
 
+
+    private static List<CirclePoint> mReceiverCoordinates;
+
     // Test method
     private static void testCoopMap(MapCanvas canvas) {
+
+        mReceiverCoordinates.add(new CirclePoint(222, 222, -1));
+        mReceiverCoordinates.add(new CirclePoint(222, 222, -1));
+        mReceiverCoordinates.add(new CirclePoint(222, 222, -1));
+        mReceiverCoordinates.add(new CirclePoint(222, 222, -1));
+
+
 
         canvas.addReceiver(222,222);
         canvas.addReceiver(111,111);
@@ -36,6 +49,12 @@ public class CoopMap {
 
 
     public static void main(String[] args) {
+
+        mReceiverCoordinates = new ArrayList<>();
+
+
+
+
         RssiDatabase database = new RssiDatabase();
         //TCPServer server = new TCPServer(database, START_PORT, RECEIVERS);
         MapCanvas canvas = new MapCanvas(TITLE, FRAME_WIDTH, FRAME_HEIGHT, BG_COLOR);
