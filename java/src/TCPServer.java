@@ -4,11 +4,8 @@ import java.net.*;
  * Created by Thomas on 1-10-2017.
  */
 class TCPServer {
-    /***
-     * @param database
-     * @param startPort
-     * @param receivers
-     */
+
+
     public TCPServer(RssiDatabase database, int startPort, int receivers) {
 
         // Creates XX number of receiver sockets. Each with a unique port
@@ -18,13 +15,8 @@ class TCPServer {
         }
     }
 
-    /***
-     *  Method for creating an input socket using a new thread.
-     * @param port
-     * @param database
-     */
+    // Method for creating an input socket using a new thread.
     private static void createInputSocket(int port, RssiDatabase database) {
-        //mDatabase = new RssiDatabase();
         Thread t = new Thread(() -> {
             System.out.println("starting thread for socket " + port);
 
@@ -58,6 +50,4 @@ class TCPServer {
         });
         t.start();
     }
-
-
 }

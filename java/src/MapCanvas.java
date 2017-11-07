@@ -5,7 +5,6 @@ import java.util.*;
 import java.util.List;
 
 public class MapCanvas extends JPanel {
-    private static final Color BACKGROUND_COLOR = Color.gray;
     private static final Color RECEIVER_COLOR = Color.white;
     private static final int RECEIVER_SIZE = 40;
 
@@ -14,60 +13,64 @@ public class MapCanvas extends JPanel {
     private Vector<GeneralPath> mVector;
     private List<Color> mColors;
 
-    public MapCanvas(int width, int height) {
+    public MapCanvas(String title, int width, int height, Color bgColor) {
+
         mPaths = new HashMap<>();
         mVector = new Vector<>();
         mReceivers = new ArrayList<>();
         mColors = new ArrayList<>();
-        setSize(width, height);
-        setBackground(BACKGROUND_COLOR);
+
+        JFrame frame = new JFrame(title);
+        frame.setSize(width, height);
+        frame.setBackground(bgColor);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(this);
+        frame.setVisible(true);
     }
 
     /**
      * Method for creating paths / or adding points to existing paths.
      * @param beaconId the id of a beacon
-     * @param x choordinate as int
-     * @param y choordinate as int
+     * @param x coordinate as int
+     * @param y coordinate as int
      */
     public void addPoint(Integer beaconId, int x, int y) {
 
-        if(mPaths.containsKey(beaconId)){
-            //If path  exist in Map, then append new path to the old
+        if(mPaths.containsKey(beaconId)) {
+            // If the path already exist, then append a new path to the old one
             GeneralPath newPath = new GeneralPath();
-            newPath.moveTo(x,y);
-            newPath.lineTo(x,y);
-            mPaths.get(beaconId).append(newPath,true);
-        } else {
-            //If path does not exist in Map, then create new path
-            GeneralPath newPath = new GeneralPath();
-            newPath.moveTo(x,y);
-            newPath.lineTo(x,y);
-            mVector.addElement(newPath);
-            getRandomColor();
-            mPaths.put(beaconId,newPath);
+            newPath.moveTo(x, y);
+            newPath.lineTo(x, y);
+            mPaths.get(beaconId).append(newPath, true);
 
+        } else {
+            // If the path does not exist, then create a new path
+            GeneralPath newPath = new GeneralPath();
+            newPath.moveTo(x, y);
+            newPath.lineTo(x, y);
+            mVector.addElement(newPath);
+            mColors.add(getRandomColor());
+            mPaths.put(beaconId, newPath);
         }
         repaint();
         //update(getGraphics());
     }
 
-    /**
-     * Add single receiver on coordinate
-     * @param x
-     * @param y
-     */
+
+    // Add a receiver on a coordinate
     public void addReceiver(int x, int y) {
         GeneralPath receiver = new GeneralPath();
-        receiver.moveTo(x,y);
-        receiver.lineTo(x,y);
+        receiver.moveTo(x, y);
+        receiver.lineTo(x, y);
         mReceivers.add(receiver);
     }
 
-    private void getRandomColor() {
-        int randomR = (int)(Math.random() * 255 + 1);
-        int randomG = (int)(Math.random() * 255 + 1);
-        int randomB = (int)(Math.random() * 255 + 1);
-        mColors.add(new Color(randomR,randomG,randomB));
+
+    private Color getRandomColor() {
+        int r = (int) (Math.random() * 255 + 1);
+        int g = (int) (Math.random() * 255 + 1);
+        int b = (int) (Math.random() * 255 + 1);
+        return new Color(r, g, b);
     }
 
 
@@ -82,13 +85,13 @@ public class MapCanvas extends JPanel {
         }
 
         if (!mReceivers.isEmpty()) {
-            for (GeneralPath mReceiver : mReceivers) {
-                Graphics2D receiver = (Graphics2D) g;
-                receiver.setPaint(RECEIVER_COLOR);
-                receiver.setStroke(new BasicStroke(5.0f));
-                int x = (int) mReceiver.getCurrentPoint().getX();
-                int y = (int) mReceiver.getCurrentPoint().getY();
-                receiver.drawOval(x-RECEIVER_SIZE/2, y-RECEIVER_SIZE/2, RECEIVER_SIZE, RECEIVER_SIZE);
+            for (GeneralPath receiver : mReceivers) {
+                Graphics2D graphics = (Graphics2D) g;
+                graphics.setPaint(RECEIVER_COLOR);
+
+                int x = (int) receiver.getCurrentPoint().getX();
+                int y = (int) receiver.getCurrentPoint().getY();
+                graphics.drawOval(x, y, RECEIVER_SIZE, RECEIVER_SIZE);
             }
         }
     }
