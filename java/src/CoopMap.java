@@ -29,6 +29,7 @@ public class CoopMap {
 
             if (i < RECEIVERS) {
                 mReceiverCoordinates.add(new CirclePoint(x, y, -1));
+                canvas.addReceiver(x,y);
             }
         }
         /*
@@ -56,7 +57,5 @@ public class CoopMap {
         canvas.addPoint(1, 10, 10);
         canvas.addPoint(1, (int)cp.getX(), (int)cp.getY());
 
-
-        //testCoopMap(canvas);
     }
 }
