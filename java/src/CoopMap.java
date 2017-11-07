@@ -54,10 +54,12 @@ public class CoopMap {
         testCoopMap(canvas);
         canvas.addPoint(1, 10, 10);
         CirclePoint coordinate = RssiDatabase.calculateCoordinates(mReceiverCoordinates.get(0), mReceiverCoordinates.get(1), mReceiverCoordinates.get(2));
-        if(database.getDatabase().size() >= mTempDbSize){
-            mTempDbSize ++;
+        int dbSize = database.getDatabase().size();
+        if(dbSize >= mTempDbSize){
+            mTempDbSize =dbSize;
             System.out.println(mTempDbSize);
-            canvas.addPoint(1, (int)coordinate.getX(), (int)coordinate.getY());
+            canvas.addPoint(1, (int)coordinate.getX(), (int)coordinate.getY());'
+            dbSize = database.getDatabase().size();
         }
 
     }
