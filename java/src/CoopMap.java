@@ -22,15 +22,16 @@ public class CoopMap {
 
         for (int i = 0; i < 50; i++) {
 
-            int id = (int)(Math.random() * 4 + 1);
-            int x = (int)(Math.random() * FRAME_WIDTH + 1);
-            int y = (int)(Math.random() * FRAME_HEIGHT + 1);
+            //int id = (int) (Math.random() * 4 + 1);
+            int x = (int) (Math.random() * FRAME_WIDTH + 1);
+            int y = (int) (Math.random() * FRAME_HEIGHT + 1);
 
 
             if (i < RECEIVERS) {
                 mReceiverCoordinates.add(new CirclePoint(x, y, -1));
             }
-
+        }
+        /*
             try {
                 canvas.addPoint(id, x, y);
                 Thread.sleep(20);
@@ -38,6 +39,7 @@ public class CoopMap {
                 e.printStackTrace();
             }
         }
+        */
     }
 
 
@@ -48,10 +50,8 @@ public class CoopMap {
         RssiDatabase database = new RssiDatabase();
         TCPServer server = new TCPServer(database, START_PORT, RECEIVERS);
         MapCanvas canvas = new MapCanvas(TITLE, FRAME_WIDTH, FRAME_HEIGHT, BG_COLOR);
-
-
+        testCoopMap(canvas);
         CirclePoint cp = RssiDatabase.calculateCoordinates(mReceiverCoordinates.get(0), mReceiverCoordinates.get(1), mReceiverCoordinates.get(2));
-
 
         canvas.addPoint(1, 10, 10);
         canvas.addPoint(1, (int)cp.getX(), (int)cp.getY());
