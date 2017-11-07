@@ -13,7 +13,7 @@ public class CoopMap {
     private static final int FRAME_HEIGHT = 600;
     private static final String TITLE = "COOP Indoor Location Map";
     private static final Color BG_COLOR = Color.gray;
-
+    private static int mTempDbSize =0;
 
     private static List<CirclePoint> mReceiverCoordinates;
 
@@ -53,9 +53,9 @@ public class CoopMap {
         MapCanvas canvas = new MapCanvas(TITLE, FRAME_WIDTH, FRAME_HEIGHT, BG_COLOR);
         testCoopMap(canvas);
         canvas.addPoint(1, 10, 10);
-
-        while(true){
-            CirclePoint coordinate = RssiDatabase.calculateCoordinates(mReceiverCoordinates.get(0), mReceiverCoordinates.get(1), mReceiverCoordinates.get(2));
+        CirclePoint coordinate = RssiDatabase.calculateCoordinates(mReceiverCoordinates.get(0), mReceiverCoordinates.get(1), mReceiverCoordinates.get(2));
+        if(database.getDatabase().size() > mTempDbSize){
+            mTempDbSize ++;
             canvas.addPoint(1, (int)coordinate.getX(), (int)coordinate.getY());
         }
 
