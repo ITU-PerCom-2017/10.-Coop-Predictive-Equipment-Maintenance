@@ -46,15 +46,17 @@ public class CoopMap {
         mReceiverCoordinates = new ArrayList<>();
 
         RssiDatabase database = new RssiDatabase();
-        //TCPServer server = new TCPServer(database, START_PORT, RECEIVERS);
+        TCPServer server = new TCPServer(database, START_PORT, RECEIVERS);
         MapCanvas canvas = new MapCanvas(TITLE, FRAME_WIDTH, FRAME_HEIGHT, BG_COLOR);
 
 
         CirclePoint cp = RssiDatabase.calculateCoordinates(mReceiverCoordinates.get(0), mReceiverCoordinates.get(1), mReceiverCoordinates.get(2));
 
+
+        canvas.addPoint(1, 10, 10);
         canvas.addPoint(1, (int)cp.getX(), (int)cp.getY());
 
 
-        testCoopMap(canvas);
+        //testCoopMap(canvas);
     }
 }
