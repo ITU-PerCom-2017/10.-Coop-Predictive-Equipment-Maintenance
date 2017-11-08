@@ -42,97 +42,106 @@ public class CoopMap {
 
 
     private static void testNewDatabase(RssiDatabase database, MapCanvas canvas) {
+        int time = 0;
 
         for (int i = 0; i < 60000; i++) {
 
-            Map<String, Map<String, Integer>> beacons = database.getLatestBeaconData();
+            // Checks if there is new data since last update
+            if (!(time == database.time())) {
+
+                Map<String, Map<String, Integer>> beacons = database.getLatestBeaconData();
 
 
-            if (beacons != null && beacons.size() > 0) {
+                if (beacons != null && beacons.size() > 0) {
 
-                for (String beaconId : beacons.keySet()) {
-                    Map<String, Integer> receivers = beacons.get(beaconId);
+                    for (String beaconId : beacons.keySet()) {
+                        Map<String, Integer> receivers = beacons.get(beaconId);
 
-                    if (receivers.size() > 2) {
-
-
-
-                        // Sorting the map by value
-                        receivers = receivers.entrySet()
-                                .stream()
-                                .sorted(Map.Entry.comparingByValue(/*Collections.reverseOrder()*/ ))
-                                .collect(Collectors.toMap(
-                                        Map.Entry::getKey,
-                                        Map.Entry::getValue,
-                                        (e1, e2) -> e1,
-                                        LinkedHashMap::new
-                                ));
+                        if (receivers.size() > 2) {
 
 
 
-                        System.out.println("receivers.size =  " + receivers.size());
+                            // Sorting the map by value
+                            receivers = receivers.entrySet()
+                                    .stream()
+                                    .sorted(Map.Entry.comparingByValue(/*Collections.reverseOrder()*/ ))
+                                    .collect(Collectors.toMap(
+                                            Map.Entry::getKey,
+                                            Map.Entry::getValue,
+                                            (e1, e2) -> e1,
+                                            LinkedHashMap::new
+                                    ));
 
 
 
-                        int count = 0;
-                        CirclePoint[] circlePoints = new CirclePoint[3];
-                        // Get the first three receivers
-                        for (Map.Entry<String, Integer> entry : receivers.entrySet()) {
-
-                            if (count < 3) {
-                                String key = entry.getKey();
-                                Integer value = entry.getValue();
-
-                                System.out.println("count < 3 - KEY =  " + key);
-                                System.out.println("count < 3 - VAL =  " + value);
+                            System.out.println("receivers.size =  " + receivers.size());
 
 
 
-                                double distance = rssiToDistance(value);
-                                double x = 0.0;
-                                double y = 0.0;
+                            int count = 0;
+                            CirclePoint[] circlePoints = new CirclePoint[3];
+                            // Get the first three receivers
+                            for (Map.Entry<String, Integer> entry : receivers.entrySet()) {
 
-                                System.out.println("-----------------------");
+                                if (count < 3) {
+                                    String key = entry.getKey();
+                                    Integer value = entry.getValue();
 
-                                for (BeaconReceiver receiver : sReceiverCoordinates) {
-
-                                    System.out.println("TEST: key             : " + key);
-                                    System.out.println("TEST: receiver.getId(): " + receiver.getId());
-
-                                    if (key.equals(receiver.getId())) {
-
+                                    System.out.println("count < 3 - KEY =  " + key);
+                                    System.out.println("count < 3 - VAL =  " + value);
 
 
-                                        x = receiver.getX();
-                                        y = receiver.getY();
-                                        System.out.println("       distance =  " + distance);
-                                        System.out.println("receiver.getX() =  " + x);
-                                        System.out.println("receiver.getY() =  " + y);
+
+                                    double distance = rssiToDistance(value);
+                                    double x = 0.0;
+                                    double y = 0.0;
+
+                                    System.out.println("-----------------------");
+
+                                    for (BeaconReceiver receiver : sReceiverCoordinates) {
+
+                                        System.out.println("TEST: key             : " + key);
+                                        System.out.println("TEST: receiver.getId(): " + receiver.getId());
+
+                                        if (key.equals(receiver.getId())) {
+
+
+
+                                            x = receiver.getX();
+                                            y = receiver.getY();
+                                            System.out.println("       distance =  " + distance);
+                                            System.out.println("receiver.getX() =  " + x);
+                                            System.out.println("receiver.getY() =  " + y);
+                                        }
                                     }
+
+                                    CirclePoint cp = new CirclePoint(x, y, distance);
+                                    circlePoints[count] = cp;
+
+                                    count++;
                                 }
-
-                                CirclePoint cp = new CirclePoint(x, y, distance);
-                                circlePoints[count] = cp;
-
-                                count++;
                             }
+
+
+
+                            // Beacon coordinate
+                            CirclePoint bCoordinate = calculateCoordinates(circlePoints[0], circlePoints[1], circlePoints[2]);
+                            System.out.println("Coordinate x =  " + bCoordinate.getX());
+                            System.out.println("Coordinate y =  " + bCoordinate.getY());
+                            System.out.println("---------------------");
+
+
+                            // Draws the point to canvas
+                            canvas.addPoint(beaconId, (int)bCoordinate.getX(), (int)bCoordinate.getY());
+
                         }
-
-
-
-                        // Beacon coordinate
-                        CirclePoint bCoordinate = calculateCoordinates(circlePoints[0], circlePoints[1], circlePoints[2]);
-                        System.out.println("Coordinate x =  " + bCoordinate.getX());
-                        System.out.println("Coordinate y =  " + bCoordinate.getY());
-                        System.out.println("---------------------");
-
-
-                        // Draws the point to canvas
-                        canvas.addPoint(beaconId, (int)bCoordinate.getX(), (int)bCoordinate.getY());
-
                     }
                 }
+
+                time = database.time();
             }
+
+
 
             try {
                 Thread.sleep(900);

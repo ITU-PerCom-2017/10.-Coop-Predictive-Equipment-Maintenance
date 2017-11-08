@@ -41,6 +41,8 @@ public class MapCanvas extends JPanel {
         double yy = y * 0.01;
         x = (int)xx;
         y = (int)yy;
+        x += 600;
+        y += 600;
         // Test factor end
 
         if(mPaths.containsKey(beaconId)) {
