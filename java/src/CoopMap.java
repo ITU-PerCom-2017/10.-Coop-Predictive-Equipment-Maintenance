@@ -43,7 +43,7 @@ public class CoopMap {
 
     private static void testNewDatabase(RssiDatabase database, MapCanvas canvas) {
 
-        for (int i = 0; i < 600; i++) {
+        for (int i = 0; i < 60000; i++) {
 
             Map<String, Map<String, Integer>> beacons = database.getLatestBeaconData();
 
@@ -83,11 +83,16 @@ public class CoopMap {
                                 String key = entry.getKey();
                                 Integer value = entry.getValue();
 
+                                System.out.println("count < 3 - KEY =  " + key);
+                                System.out.println("count < 3 - VAL =  " + value);
+
+
+
                                 double distance = rssiToDistance(value);
                                 double x = 0.0;
                                 double y = 0.0;
 
-                                System.out.println("TEST: count < 3");
+                                System.out.println("-----------------------");
 
                                 for (BeaconReceiver receiver : sReceiverCoordinates) {
 
@@ -100,6 +105,7 @@ public class CoopMap {
 
                                         x = receiver.getX();
                                         y = receiver.getY();
+                                        System.out.println("       distance =  " + distance);
                                         System.out.println("receiver.getX() =  " + x);
                                         System.out.println("receiver.getY() =  " + y);
                                     }
@@ -249,20 +255,5 @@ public class CoopMap {
                 System.out.println("Wrong input. Try again.");
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }
