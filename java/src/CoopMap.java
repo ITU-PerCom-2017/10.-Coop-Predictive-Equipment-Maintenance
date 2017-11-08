@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 public class CoopMap {
     private static final int START_PORT = 6789; // Port to start from
     private static final int RECEIVERS = 4; // Number of receivers
-    private static final int FRAME_WIDTH = 400;
-    private static final int FRAME_HEIGHT = 400;
+    private static final int FRAME_WIDTH = 2000;
+    private static final int FRAME_HEIGHT = 2000;
     private static final String TITLE = "COOP Indoor Location Map";
     private static final Color BG_COLOR = Color.gray;
 
