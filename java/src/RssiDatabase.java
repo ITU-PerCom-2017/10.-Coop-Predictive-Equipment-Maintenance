@@ -30,6 +30,7 @@ public class RssiDatabase {
         //sPathMap = new ConcurrentHashMap<>();
         //sDatabase = Collections.synchronizedList(new LinkedList<>());
         sDatabase = new Vector<>();
+        sTime = 0;
     }
 
 
