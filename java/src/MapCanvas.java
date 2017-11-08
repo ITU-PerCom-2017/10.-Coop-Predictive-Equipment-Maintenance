@@ -37,8 +37,8 @@ public class MapCanvas extends JPanel {
     public void addPoint(String beaconId, int x, int y) {
 
         // Test factor DELETE AFTER USE
-        double xx = x * 0.1;
-        double yy = y * 0.1;
+        double xx = x * 0.01;
+        double yy = y * 0.01;
         x = (int)xx;
         y = (int)yy;
         // Test factor end
