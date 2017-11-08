@@ -70,6 +70,7 @@ public class CoopMap {
 
 
 
+                        System.out.println("receivers.size =  " + receivers.size());
 
 
 
@@ -82,14 +83,16 @@ public class CoopMap {
                                 String key = entry.getKey();
                                 Integer value = entry.getValue();
 
-                                int distance = rssiToDistance(value);
-                                double x = 0;
-                                double y = 0;
+                                double distance = rssiToDistance(value);
+                                double x = 0.0;
+                                double y = 0.0;
 
                                 for (BeaconReceiver receiver : sReceiverCoordinates) {
                                     if (key.equals(receiver.getId())) {
                                         x = receiver.getX();
                                         y = receiver.getY();
+                                        System.out.println("receiver.getX() =  " + x);
+                                        System.out.println("receiver.getY() =  " + y);
                                     }
                                 }
 

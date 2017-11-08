@@ -30,7 +30,7 @@ public class RssiDatabase {
     public void putBeaconRssi(String beaconId, String receiverId, Integer rssi) {
 
         // Reads the time from the system. This is used for keys.
-        Double doubleTime = System.currentTimeMillis() * 0.0001; // Milliseconds to 10 seconds.
+        Double doubleTime = System.currentTimeMillis() * 0.000_05; // Milliseconds to 20 seconds.
         Integer time = doubleTime.intValue();
 
         // Checks if the current time is equal to the last timestamp, then gets the last element.
