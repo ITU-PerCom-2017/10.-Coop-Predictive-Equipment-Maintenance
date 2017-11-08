@@ -41,7 +41,7 @@ class TCPServer {
                     connectionSocket.close();
                     connectionSocket = serverSocket.accept();
 
-                    database.putBeaconRssi("" + LoPyId, "" + beaconId, RSSI);
+                    database.putBeaconRssi(beaconId, LoPyId, RSSI);
                 }
 
             } catch (IOException e) {
