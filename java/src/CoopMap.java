@@ -87,8 +87,17 @@ public class CoopMap {
                                 double x = 0.0;
                                 double y = 0.0;
 
+                                System.out.println("TEST: count < 3");
+
                                 for (BeaconReceiver receiver : sReceiverCoordinates) {
+
+                                    System.out.println("TEST: key             : " + key);
+                                    System.out.println("TEST: receiver.getId(): " + receiver.getId());
+
                                     if (key.equals(receiver.getId())) {
+
+
+
                                         x = receiver.getX();
                                         y = receiver.getY();
                                         System.out.println("receiver.getX() =  " + x);
@@ -98,9 +107,9 @@ public class CoopMap {
 
                                 CirclePoint cp = new CirclePoint(x, y, distance);
                                 circlePoints[count] = cp;
-                            }
 
-                            count++;
+                                count++;
+                            }
                         }
 
 
@@ -176,6 +185,10 @@ public class CoopMap {
 
         return -1;
     }
+
+
+
+
 
 
 
