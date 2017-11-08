@@ -4,21 +4,21 @@
  */
 
 public class BeaconReceiver {
-    private Integer mId;
+    private String mId;
     private double mX;
     private double mY;
 
-    public BeaconReceiver(Integer id, double x, double y) {
+    public BeaconReceiver(String id, double x, double y) {
         mId = id;
         mX = x;
         mY = y;
     }
 
-    public Integer getId() {
+    public String getId() {
         return mId;
     }
 
-    public void setId(Integer mId) {
+    public void setId(String mId) {
         this.mId = mId;
     }
 

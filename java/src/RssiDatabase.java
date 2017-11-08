@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * This database uses a Vector list to keep it thread safe.
  * New elements is added to the end for each whole second.
  * Its putBeaconRssi method runs in XXX time.
+ * Its getLatestBeaconData method runs in XXX time.
  */
 public class RssiDatabase {
 
@@ -19,7 +20,7 @@ public class RssiDatabase {
 
     // First  map: Beacon ID map
     // Second map: Receiver ID map with RSSI values
-    private static volatile Vector<Map<Integer, Map<Integer, Integer>>> sDatabase;
+    private static volatile Vector<Map<String, Map<String, Integer>>> sDatabase;
 
     // Latest timestamp in seconds
     private static Integer sTime;
@@ -33,27 +34,27 @@ public class RssiDatabase {
 
 
 
-    // Primary method to put beacon rssi data into the database
-    public void putBeaconRssi(Integer beaconId, Integer receiverId, Integer rssi) {
+    // Primary method to put beacon rssi data into the database.
+    public void putBeaconRssi(String beaconId, String receiverId, Integer rssi) {
 
         // Reads the time from the system. This is used for keys.
-        Double doubleTime = System.currentTimeMillis() * 0.001; // Milliseconds to seconds
+        Double doubleTime = System.currentTimeMillis() * 0.001; // Milliseconds to seconds.
         Integer time = doubleTime.intValue();
 
         // Checks if the current time is equal to the last timestamp, then gets the last element.
         if (time.intValue() == sTime.intValue()) {
 
-            Map<Integer, Map<Integer, Integer>> beacons = sDatabase.lastElement();
+            Map<String, Map<String, Integer>> beacons = sDatabase.lastElement();
 
             // Checks if there are data from the beacon for that specific timestamp, then gets the map and store the rssi data.
             if (beacons.containsKey(beaconId)) {
 
-                Map<Integer, Integer> receivers = beacons.get(beaconId);
+                Map<String, Integer> receivers = beacons.get(beaconId);
                 receivers.put(receiverId, rssi);
 
                 // Else create a new map and store the rssi data.
             } else {
-                Map<Integer, Integer> receivers = new HashMap<>();
+                Map<String, Integer> receivers = new HashMap<>();
                 receivers.put(receiverId, rssi);
                 beacons.put(beaconId, receivers);
             }
@@ -61,11 +62,11 @@ public class RssiDatabase {
 
             // If there is no data for on the beacon on the specific timestamp, create a new map and store the data.
         } else {
-            Map<Integer, Map<Integer, Integer>> beacons = new HashMap<>(600); // 600 correspond to 10 minutes of data collection.
-            Map<Integer, Integer> receivers = new HashMap<>();
+            Map<String, Map<String, Integer>> beacons = new HashMap<>(600); // 600 correspond to 10 minutes of data collection.
+            Map<String, Integer> receivers = new HashMap<>();
 
             receivers.put(receiverId, rssi);
-            beacons.put(time, receivers);
+            beacons.put(beaconId, receivers);
             sDatabase.add(beacons);
 
             // Updates the timestamp
@@ -74,24 +75,25 @@ public class RssiDatabase {
     }
 
 
-
-    // Returns the number of beacons
-    public int size() {
-        return sDatabase.size();
-    }
-
-    // Returns the entire database
-    public Vector<Map<Integer, Map<Integer, Integer>>> getDatabase() {
-        return sDatabase;
-    }
-
-    // Copies and returns the latest receiver data for all beacons
-    public Map<Integer, Map<Integer, Integer>> getLatestBeaconData() {
+    // Copies and returns the latest receiver data for all beacons. Can be null.
+    public Map<String, Map<String, Integer>> getLatestBeaconData() {
         if (sDatabase.size() > 1) {
             return new HashMap<>(sDatabase.get(sDatabase.size() - 2));
         }
 
         return null;
+    }
+
+
+    // Returns the latest timestamp.
+    public int time() {
+        return sTime;
+    }
+
+
+    // Returns the number of beacons.
+    public int size() {
+        return sDatabase.size();
     }
 
 

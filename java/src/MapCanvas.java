@@ -8,7 +8,7 @@ public class MapCanvas extends JPanel {
     private static final Color RECEIVER_COLOR = Color.white;
     private static final int RECEIVER_SIZE = 40;
 
-    private Map<Integer, GeneralPath> mPaths;
+    private Map<String, GeneralPath> mPaths;
     private List<GeneralPath> mReceivers;
     private Vector<GeneralPath> mVector;
     private List<Color> mColors;
@@ -34,7 +34,7 @@ public class MapCanvas extends JPanel {
      * @param x coordinate as int
      * @param y coordinate as int
      */
-    public void addPoint(Integer beaconId, int x, int y) {
+    public void addPoint(String beaconId, int x, int y) {
 
         if(mPaths.containsKey(beaconId)) {
             // If the path already exist, then append a new path to the old one
@@ -57,7 +57,7 @@ public class MapCanvas extends JPanel {
 
 
     // Add a receiver on a coordinate
-    public void addReceiver(int x, int y) {
+    public void addReceiver(String id, int x, int y) {
         GeneralPath receiver = new GeneralPath();
         receiver.moveTo(x, y);
         receiver.lineTo(x, y);
