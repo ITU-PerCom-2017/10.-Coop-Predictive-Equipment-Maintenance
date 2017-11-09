@@ -40,6 +40,21 @@ public class CoopMap {
     }
 
 
+    private static Map<String, Integer> sortMapByValue(Map<String, Integer> map) {
+        return map.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(/*Collections.reverseOrder()*/ ))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+
+    }
+
+
+
 
     private static void testNewDatabase(RssiDatabase database, MapCanvas canvas) {
         int time = 0;
@@ -62,15 +77,7 @@ public class CoopMap {
 
 
                             // Sorting the map by value
-                            receivers = receivers.entrySet()
-                                    .stream()
-                                    .sorted(Map.Entry.comparingByValue(/*Collections.reverseOrder()*/ ))
-                                    .collect(Collectors.toMap(
-                                            Map.Entry::getKey,
-                                            Map.Entry::getValue,
-                                            (e1, e2) -> e1,
-                                            LinkedHashMap::new
-                                    ));
+                            receivers = sortMapByValue(receivers);
 
 
 
