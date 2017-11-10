@@ -45,7 +45,7 @@ class TCPServer {
                     int LoPyId = inputStream.read();
                     int beaconId = inputStream.read();
                     int RSSI = inputStream.read();
-                    double timePassed = System.currentTimeMillis() - startTime;
+                    double timePassed = (System.currentTimeMillis() - startTime)* 0.001;
 
                     // The client is not connected if the data is null.
                     // It closes the connection and open it again.
@@ -59,7 +59,6 @@ class TCPServer {
                     System.out.println("Time " + timePassed + " , B" + beaconId + "," + RSSI + "");
                     System.setOut(console);
                     System.out.println("R" + LoPyId + ", Time " + timePassed + " , B" + beaconId + "," + RSSI + "");
-
                 }
 
             } catch (IOException e) {
