@@ -22,7 +22,6 @@ class TCPServer {
 
             ServerSocket serverSocket = null;
 
-            FileWriter fw = null;
             BufferedWriter bw = null;
 
 
@@ -32,10 +31,8 @@ class TCPServer {
                 //fw = new FileWriter("out.txt");
 
 
-                File fout = new File("out.txt");
-                FileOutputStream fos = new FileOutputStream(fout);
-
-                bw = new BufferedWriter(new OutputStreamWriter(fos));
+                System.out.println("Output file created");
+                bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("out.txt"))));
 
 
 
