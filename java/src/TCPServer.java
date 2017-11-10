@@ -55,9 +55,9 @@ class TCPServer {
 
                     //Write data to log file
                     System.setOut(o);
-                    System.out.println("{B" + beaconId + ",R" + LoPyId + "," + RSSI + "}");
+                    System.out.println("R" + LoPyId + ", B" + beaconId + "," + RSSI + "");
                     System.setOut(console);
-                    System.out.println("{B" + beaconId + ",R" + LoPyId + "," + RSSI + "}");
+                    System.out.println("R" + LoPyId + ", B" + beaconId + "," + RSSI + "");
 
                 }
 
