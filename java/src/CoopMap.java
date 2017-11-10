@@ -141,8 +141,8 @@ public class CoopMap {
             //TODO Test feature, correct later
             int val = TEST_VALUES[rssi];
 
-            if (val > 30) {
-                val -= 30;
+            if (val > 50) {
+                val -= 50;
             }
             return val;
         }

@@ -34,7 +34,7 @@ class TCPServer {
                     int beaconId = inputStream.read();
                     int RSSI = inputStream.read();
 
-                    System.out.println("LoPy Id " + LoPyId + " beacon Id " + beaconId + " RSSI " + RSSI);
+                    //System.out.println("LoPy Id " + LoPyId + " - Beacon Id " + beaconId + " - RSSI " + RSSI);
 
                     // The client is not connected if the data is null.
                     // It closes the connection and open it again.
