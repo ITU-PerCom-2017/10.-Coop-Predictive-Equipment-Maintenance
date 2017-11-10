@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.List;
 
 public class MapCanvas extends JPanel {
-    private static final Color RECEIVER_COLOR = Color.white;
+    private static final Color RECEIVER_COLOR = Color.black;
     private static final int RECEIVER_SIZE = 40;
 
     private Map<String, GeneralPath> mPaths;
@@ -23,9 +23,15 @@ public class MapCanvas extends JPanel {
         JFrame frame = new JFrame(title);
         frame.setSize(width, height);
         frame.setBackground(bgColor);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(this);
         frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Adds scroll panels
+        JScrollPane jsp = new JScrollPane(this);
+        jsp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        frame.getContentPane().add(jsp);
     }
 
     /**

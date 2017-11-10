@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by Johnni on 17-10-2017.
@@ -17,20 +18,21 @@ public class RssiDatabase {
     private static volatile Vector<Map<String, Map<String, Integer>>> sDatabase;
 
     // Latest timestamp in seconds
-    private static Integer sTime;
+    private static AtomicInteger sTime;
+    private static double sTimeResolution;
 
     // Constructor
-    public RssiDatabase() {
+    public RssiDatabase(int resolution) {
         sDatabase = new Vector<>();
-        sTime = 0;
+        sTime = new AtomicInteger(0);
+        sTimeResolution = 1.0 / (resolution * 1000); // Resolution of the database in seconds. 5 means there is a data point every fifth second.
     }
-
 
     // Primary method to put beacon rssi data into the database.
     public void putBeaconRssi(String beaconId, String receiverId, Integer rssi) {
 
         // Reads the time from the system. This is used for keys.
-        Double doubleTime = System.currentTimeMillis() * 0.000_05; // Milliseconds to 20 seconds.
+        Double doubleTime = System.currentTimeMillis() * sTimeResolution;
         Integer time = doubleTime.intValue();
 
         // Checks if the current time is equal to the last timestamp, then gets the last element.
@@ -62,7 +64,7 @@ public class RssiDatabase {
             sDatabase.add(beacons);
 
             // Updates the timestamp
-            sTime = doubleTime.intValue();
+            sTime.set(doubleTime.intValue());
         }
     }
 
@@ -79,7 +81,7 @@ public class RssiDatabase {
 
     // Returns the latest timestamp.
     public int time() {
-        return sTime;
+        return sTime.get();
     }
 
 
