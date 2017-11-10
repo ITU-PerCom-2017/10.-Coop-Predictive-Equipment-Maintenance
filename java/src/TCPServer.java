@@ -43,7 +43,7 @@ class TCPServer {
                     connectionSocket = serverSocket.accept();
 
                     database.putBeaconRssi("B" + beaconId, "R" + LoPyId, RSSI);
-                    System.out.println("Output file created");
+                    System.out.println(LoPyId + ".txt file created");
                     PrintStream o = new PrintStream(new File(LoPyId + ".txt"));
                     // Store current System.out before assigning a new value
                     PrintStream console = System.out;
