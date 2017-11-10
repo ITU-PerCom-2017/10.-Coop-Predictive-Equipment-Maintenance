@@ -30,6 +30,7 @@ class TCPServer {
 
                 PrintStream o = new PrintStream(new File("out.txt"));
                 System.out.println("Output file created");
+                PrintStream console = System.out;
 
                 // While loop that reads the incoming data.
                 while(true) {
@@ -51,7 +52,7 @@ class TCPServer {
                     System.out.println("{B" + beaconId + ",R" + LoPyId + "," + RSSI + "}");
                     System.setOut(o);
                     System.out.println("{B" + beaconId + ",R" + LoPyId + "," + RSSI + "}");
-                    System.setOut(System.out);
+                    System.setOut(console);
 
 
 
