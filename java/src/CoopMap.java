@@ -172,7 +172,7 @@ public class CoopMap {
                 CirclePoint[] circlePoints = getCirclePointsFromReceivers(receiverCoordinates, receivers, 3);
 
                 if (circlePoints != null && circlePoints.length > 2) {
-
+                    System.setOut(console);
                     // Calculate the beacon's coordinate
                     CirclePoint bCoordinate = calculateCoordinates(circlePoints[0], circlePoints[1], circlePoints[2]);
                     System.out.println("Beacon Coordinate: X=" + bCoordinate.getX() + "-Y=" + bCoordinate.getY());
@@ -182,7 +182,7 @@ public class CoopMap {
                     canvas.addPoint(beaconId, (int)bCoordinate.getX(), (int)bCoordinate.getY());
                     System.setOut(o);
                     System.out.println(""+beaconId + ", (" + bCoordinate.getX() + "," + (int)bCoordinate.getY()+")");
-
+                    System.setOut(console);
                 }
             }
         }
@@ -317,7 +317,6 @@ public class CoopMap {
         // Store current System.out before assigning a new value
         console = System.out;
         //Create logfile and set output stream
-
         try {
             System.out.println( "coordinates.txt file created");
             o = new PrintStream(new File("log/coordinates.txt"));
