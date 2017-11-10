@@ -28,7 +28,7 @@ class TCPServer {
             PrintStream o = null;
             try {
                 System.out.println(port + ".txt file created");
-                o = new PrintStream(new File(port + ".txt"));
+                o = new PrintStream(new File("log/"+port + ".txt"));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
