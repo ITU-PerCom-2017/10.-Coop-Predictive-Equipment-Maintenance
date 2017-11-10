@@ -23,6 +23,9 @@ class TCPServer {
             ServerSocket serverSocket = null;
 
             BufferedWriter bw = null;
+            try{}catch (FileNotFoundException){
+                e.printStackTrace();
+            }
             PrintStream o = new PrintStream(new File("A.txt"));
 
             // Store current System.out before assigning a new value
