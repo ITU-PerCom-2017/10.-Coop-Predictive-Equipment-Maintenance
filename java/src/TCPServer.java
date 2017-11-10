@@ -19,6 +19,7 @@ class TCPServer {
     // Method for creating an input socket using a new thread.
     private void createInputSocket(int port, RssiDatabase database) {
         Thread t = new Thread(() -> {
+            double startTime = System.currentTimeMillis();
             System.out.println("starting thread for socket " + port);
 
             ServerSocket serverSocket = null;
@@ -44,7 +45,7 @@ class TCPServer {
                     int LoPyId = inputStream.read();
                     int beaconId = inputStream.read();
                     int RSSI = inputStream.read();
-
+                    double timePassed = System.currentTimeMillis() - startTime;
 
                     // The client is not connected if the data is null.
                     // It closes the connection and open it again.
@@ -55,9 +56,9 @@ class TCPServer {
 
                     //Write data to log file
                     System.setOut(o);
-                    System.out.println("Time " + System.currentTimeMillis() + " , B" + beaconId + "," + RSSI + "");
+                    System.out.println("Time " + timePassed- + " , B" + beaconId + "," + RSSI + "");
                     System.setOut(console);
-                    System.out.println("Time " + System.currentTimeMillis() + " , B" + beaconId + "," + RSSI + "");
+                    System.out.println("R" + LoPyId + ", Time " + timePassed + " , B" + beaconId + "," + RSSI + "");
 
                 }
 
