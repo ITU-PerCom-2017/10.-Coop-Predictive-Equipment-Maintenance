@@ -16,7 +16,7 @@ class TCPServer {
     }
 
     // Method for creating an input socket using a new thread.
-    private static void createInputSocket(int port, RssiDatabase database) {
+    private void createInputSocket(int port, RssiDatabase database) {
         Thread t = new Thread(() -> {
             System.out.println("starting thread for socket " + port);
 

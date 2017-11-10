@@ -67,7 +67,7 @@ public class RssiDatabase {
     }
 
 
-    // Copies and returns the latest receiver data for all beacons. Can be null.
+    // Copies and returns the latest receiver data for all beacons. Can be null. Size of database must be 2 or higher.
     public Map<String, Map<String, Integer>> getLatestBeaconData() {
         if (sDatabase.size() > 1) {
             return new HashMap<>(sDatabase.get(sDatabase.size() - 2));
