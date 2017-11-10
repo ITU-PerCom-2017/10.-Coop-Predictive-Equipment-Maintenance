@@ -4,10 +4,7 @@ import java.net.*;
  * Created by Thomas on 1-10-2017.
  */
 class TCPServer {
-
-
     public TCPServer(RssiDatabase database, int startPort, int receivers) {
-
         // Creates XX number of receiver sockets. Each with a unique port
         for(int i = 0; i < receivers; i++) {
             final int tempPort = startPort+i;
@@ -19,9 +16,8 @@ class TCPServer {
     // Method for creating an input socket using a new thread.
     private void createInputSocket(int port, RssiDatabase database) {
         Thread t = new Thread(() -> {
-            double startTime = System.currentTimeMillis();
+            long startTime = System.currentTimeMillis();
             System.out.println("starting thread for socket " + port);
-
             ServerSocket serverSocket = null;
             // Store current System.out before assigning a new value
             PrintStream console = System.out;
@@ -41,20 +37,17 @@ class TCPServer {
                 // While loop that reads the incoming data.
                 while(true) {
                     InputStream inputStream = connectionSocket.getInputStream();
-
                     int LoPyId = inputStream.read();
                     int beaconId = inputStream.read();
                     int RSSI = inputStream.read();
-                    double timePassed = (System.currentTimeMillis() - startTime)* 0.001;
-
+                    long timePassed = (long) ((System.currentTimeMillis() - startTime)* 0.001);
                     // The client is not connected if the data is null.
                     // It closes the connection and open it again.
                     connectionSocket.close();
                     connectionSocket = serverSocket.accept();
 
-                    database.putBeaconRssi("B" + beaconId, "R" + LoPyId, RSSI);
-
                     //Write data to log file
+                    database.putBeaconRssi("B" + beaconId, "R" + LoPyId, RSSI);
                     System.setOut(o);
                     System.out.println("Time " + timePassed + " , B" + beaconId + "," + RSSI + "");
                     System.setOut(console);
