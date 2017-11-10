@@ -15,6 +15,7 @@ class TCPServer {
         }
     }
 
+
     // Method for creating an input socket using a new thread.
     private void createInputSocket(int port, RssiDatabase database) {
         Thread t = new Thread(() -> {
@@ -26,6 +27,7 @@ class TCPServer {
             try {
                 serverSocket = new ServerSocket(port);
                 Socket connectionSocket = serverSocket.accept();
+
                 PrintStream o = new PrintStream(new File("out.txt"));
                 System.out.println("Output file created");
 
