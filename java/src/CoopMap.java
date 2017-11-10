@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  */
 
 public class CoopMap {
-    private static final int TIME_RESOLUTION = 1; // Resolution of the database in seconds. 5 means there is a data point every fifth second.
+    private static final int TIME_RESOLUTION = 5; // Resolution of the database in seconds. 5 means there is a data point every fifth second.
     private static final int START_PORT = 6789; // Port to start from
     private static final int RECEIVERS = 4; // Number of receivers
     private static final int FRAME_WIDTH = 800;
@@ -284,11 +284,25 @@ public class CoopMap {
     }
 
 
+    // Testing method for calculating coordinates
+    private static void testCoordinates() {
+        CirclePoint cp1 = new CirclePoint(1,1,6);
+        CirclePoint cp2 = new CirclePoint(1,5,4);
+        CirclePoint cp3 = new CirclePoint(5,1,4);
+
+        CirclePoint cp4 = calculateCoordinates(cp1, cp2, cp3);
+
+        System.out.println("X:" + cp4.getX() + " Y:" + cp4.getY());
+    }
 
 
     public static void main(String[] args) {
         System.out.println("Welcome to " + TITLE);
         System.out.println("_____________________________________");
+
+
+        //testCoordinates();
+
         getUserInput();
     }
 }
