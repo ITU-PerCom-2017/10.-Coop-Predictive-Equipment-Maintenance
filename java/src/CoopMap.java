@@ -1,7 +1,5 @@
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -151,6 +149,16 @@ public class CoopMap {
 
     // Draws a new point to the canvas for each beacon
     private static void drawBeacons(List<BeaconReceiver> receiverCoordinates, Map<String, Map<String, Integer>> beacons, MapCanvas canvas) {
+        // Store current System.out before assigning a new value
+        PrintStream console = System.out;
+        //Create logfile and set output stream
+        PrintStream o = null;
+        try {
+            System.out.println( "coordinates.txt file created");
+            o = new PrintStream(new File("log/coordinates.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         // Checks if the conditions are met
         if (beacons == null || beacons.size() < 1) {
@@ -180,6 +188,11 @@ public class CoopMap {
 
                     // Draws the point to canvas
                     canvas.addPoint(beaconId, (int)bCoordinate.getX(), (int)bCoordinate.getY());
+                    System.setOut(o);
+                    System.out.println(""+beaconId + ", (" + bCoordinate.getX() + "," + (int)bCoordinate.getY()+")");
+                    System.setOut(console);
+
+
                 }
             }
         }
@@ -191,13 +204,13 @@ public class CoopMap {
     private static void startCoopMap(List<BeaconReceiver> receiverCoordinates, RssiDatabase database, MapCanvas canvas) {
         Thread t = new Thread(() -> {
             int time = 0;
-
             while (true) {
 
                 // Checks if there is new data since last update
                 if (!(time == database.time())) {
                     time = database.time();
                     drawBeacons(receiverCoordinates, database.getLatestBeaconData(), canvas);
+
                 }
 
                 // Waits 0.8 seconds before checking for new data again
@@ -224,6 +237,7 @@ public class CoopMap {
             System.out.println("ID = Find this on the receiver hardware.");
             System.out.println("XX = Coordinate between 0 and " + FRAME_WIDTH);
             System.out.println("YY = Coordinate between 0 and " + FRAME_HEIGHT);
+
 
             // While loop that listens for user input
             while (true) {
