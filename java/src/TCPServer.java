@@ -24,18 +24,17 @@ class TCPServer {
             ServerSocket serverSocket = null;
             // Store current System.out before assigning a new value
             PrintStream console = System.out;
-            System.out.println(port + ".txt file created");
             PrintStream o = null;
-            try {
-                o = new PrintStream(new File(port + ".txt"));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
 
             try {
                 serverSocket = new ServerSocket(port);
                 Socket connectionSocket = serverSocket.accept();
-
+                try {
+                    System.out.println(port + ".txt file created");
+                    o = new PrintStream(new File(port + ".txt"));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
                 // While loop that reads the incoming data.
                 while(true) {
                     InputStream inputStream = connectionSocket.getInputStream();
