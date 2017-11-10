@@ -57,6 +57,7 @@ class TCPServer {
                     System.out.println("{B" + beaconId + ",R" + LoPyId + "," + RSSI + "}");
                     bw.write("{B" + beaconId + ",R" + LoPyId + "," + RSSI + "}");
                     bw.newLine();
+                    bw.close();
 
 
                 }
@@ -67,7 +68,6 @@ class TCPServer {
 
                 if (bw != null) {
                     try {
-                        bw.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
