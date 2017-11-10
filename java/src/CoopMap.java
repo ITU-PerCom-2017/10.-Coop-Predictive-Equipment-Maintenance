@@ -24,13 +24,6 @@ public class CoopMap {
     // Test register to get a distance in cm from a rssi value
     private static final int[] TEST_VALUES = {4,4,4,5,5,6,6,6,7,8,8,9,10,10,11,12,13,14,15,16,18,19,21,22,24,26,28,30,33,35,38,41,44,48,52,56,60,65,70,76,82,89,96,103,112,121,130,141,152,164,177,191,207,223,241,260,281,304,328,354,383,413,446,482,521,562,607,656,708,765,826,892,964,1041,1124,1214,1311,1416,1529,1652,1784,1927,2081,2247,2427,2621,2831,3057,3302,3566,3851,4160,4492,4852,5240,5659,6112,6601,7129,7699};
 
-
-    private static List<BeaconReceiver> sReceiverCoordinates;
-    private static RssiDatabase sDatabase;
-    private static TCPServer sServer;
-    private static MapCanvas sCanvas;
-
-
     // Sorts a map of receivers by rssi value in ascending order
     private static Map<String, Integer> sortMapByValue(Map<String, Integer> map) {
         return map.entrySet()
@@ -47,7 +40,7 @@ public class CoopMap {
 
 
     // Creates an array of receiver CirclePoints from a map of receiver ids
-    private static CirclePoint[] getCirclePointsFromReceivers(Map<String, Integer> receivers, int amount) {
+    private static CirclePoint[] getCirclePointsFromReceivers(List<BeaconReceiver> receiverCoordinates, Map<String, Integer> receivers, int amount) {
 
         // Checks if the conditions are met
         if (amount < 1 || receivers.size() < amount) {
@@ -79,7 +72,7 @@ public class CoopMap {
             System.out.println("-----------------------");
 
             // Uses a receiver's id to find its coordinates
-            for (BeaconReceiver receiver : sReceiverCoordinates) {
+            for (BeaconReceiver receiver : receiverCoordinates) {
 
                 if (key.equals(receiver.getId())) {
 
@@ -151,7 +144,7 @@ public class CoopMap {
 
 
     // Draws a new point to the canvas for each beacon
-    private static void drawBeacons(Map<String, Map<String, Integer>> beacons) {
+    private static void drawBeacons(List<BeaconReceiver> receiverCoordinates, Map<String, Map<String, Integer>> beacons, MapCanvas canvas) {
 
         // Checks if the conditions are met
         if (beacons == null || beacons.size() < 1) {
@@ -170,7 +163,7 @@ public class CoopMap {
                 receivers = sortMapByValue(receivers);
 
                 // Gets the first 3 receivers
-                CirclePoint[] circlePoints = getCirclePointsFromReceivers(receivers, 3);
+                CirclePoint[] circlePoints = getCirclePointsFromReceivers(receiverCoordinates, receivers, 3);
 
                 if (circlePoints != null && circlePoints.length > 2) {
 
@@ -180,7 +173,7 @@ public class CoopMap {
                     System.out.println("---------------------");
 
                     // Draws the point to canvas
-                    sCanvas.addPoint(beaconId, (int)bCoordinate.getX(), (int)bCoordinate.getY());
+                    canvas.addPoint(beaconId, (int)bCoordinate.getX(), (int)bCoordinate.getY());
                 }
             }
         }
@@ -189,16 +182,16 @@ public class CoopMap {
 
 
     // Starts drawing points to the canvas on a new thread. If there is no new data to draw then it waits 0.8 seconds.
-    private static void startCoopMap() {
+    private static void startCoopMap(List<BeaconReceiver> receiverCoordinates, RssiDatabase database, MapCanvas canvas) {
         Thread t = new Thread(() -> {
             int time = 0;
 
             while (true) {
 
                 // Checks if there is new data since last update
-                if (!(time == sDatabase.time())) {
-                    time = sDatabase.time();
-                    drawBeacons(sDatabase.getLatestBeaconData());
+                if (!(time == database.time())) {
+                    time = database.time();
+                    drawBeacons(receiverCoordinates, database.getLatestBeaconData(), canvas);
                 }
 
                 // Waits 0.8 seconds before checking for new data again
@@ -213,73 +206,89 @@ public class CoopMap {
     }
 
 
+    private static void getUserInput() {
+        Thread t = new Thread(() -> {
+            boolean started = false;
+            RssiDatabase database = new RssiDatabase(TIME_RESOLUTION);
+            TCPServer server = null;
+            MapCanvas canvas = null;
+            List<BeaconReceiver> receiverCoordinates = new ArrayList<>();
 
-    public static void main(String[] args) throws IOException {
-        sReceiverCoordinates = new ArrayList<>();
-        sDatabase = new RssiDatabase(TIME_RESOLUTION);
-        boolean started = false;
+            System.out.println("Type in a receiver: >ID XX YY<. Insert minimum 3 receivers.");
+            System.out.println("ID = Find this on the receiver hardware.");
+            System.out.println("XX = Coordinate between 0 and " + FRAME_WIDTH);
+            System.out.println("YY = Coordinate between 0 and " + FRAME_HEIGHT);
 
+            // While loop that listens for user input
+            while (true) {
+
+                try {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+                    String input = reader.readLine();
+                    String[] splitInput = input.split("\\s+"); // Splits the string for each 'space'
+
+                    // Checks for exactly 3 inputs
+                    if (splitInput.length == 3) {
+
+                        String id = splitInput[0];
+                        int x = Integer.parseInt(splitInput[1]);
+                        int y = Integer.parseInt(splitInput[2]);
+
+                        // Checks if the X and Y values match the canvas size.
+                        if (x >= 0 && x <= FRAME_WIDTH && y >= 0 && y <= FRAME_HEIGHT) {
+
+                            receiverCoordinates.add(new BeaconReceiver(id, x, y));
+                            System.out.println("Receiver added. Total receivers: " + receiverCoordinates.size());
+
+                            // Checks if there is at least 3 receivers and that the service is not yet started.
+                            if (receiverCoordinates.size() > 2 && !started) {
+
+                                server = new TCPServer(database, START_PORT, RECEIVERS);
+                                canvas = new MapCanvas(TITLE, FRAME_WIDTH, FRAME_HEIGHT, BG_COLOR);
+
+                                startCoopMap(receiverCoordinates, database, canvas);
+
+                                started = true;
+                                System.out.println("SYSTEM STARTED");
+                            }
+
+                            // Draws the receivers to the canvas if the application is running
+                            if (started && receiverCoordinates.size() > 0 && canvas != null) {
+                                for (BeaconReceiver receiver : receiverCoordinates) {
+                                    String rId = receiver.getId();
+                                    int rX = (int)receiver.getX();
+                                    int rY = (int)receiver.getY();
+                                    canvas.addReceiver(rId, rX, rY);
+                                }
+                            }
+
+                        } else {
+                            System.out.println("Coordinates does not match. Try again.");
+                        }
+
+                    } else {
+                        System.out.println("Wrong input. Try again.");
+                        System.out.println("_____________________________________");
+                        System.out.println("Type in a receiver: >ID XX YY<. Insert minimum 3 receivers.");
+                        System.out.println("ID = Find this on the receiver hardware.");
+                        System.out.println("XX = Coordinate between 0 and " + FRAME_WIDTH);
+                        System.out.println("YY = Coordinate between 0 and " + FRAME_HEIGHT);
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
+    }
+
+
+
+
+    public static void main(String[] args) {
         System.out.println("Welcome to " + TITLE);
         System.out.println("_____________________________________");
-        System.out.println("Type in a receiver: >ID XX YY<. Insert minimum 3 receivers.");
-        System.out.println("ID = Find this on the receiver hardware.");
-        System.out.println("XX = Coordinate between 0 and " + FRAME_WIDTH);
-        System.out.println("YY = Coordinate between 0 and " + FRAME_HEIGHT);
-
-
-        // While loop that listens for user input
-        while (true) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            String input = reader.readLine();
-            String[] splitInput = input.split("\\s+"); // Splits the string for each 'space'
-
-            // Checks for exactly 3 inputs
-            if (splitInput.length == 3) {
-
-                String id = splitInput[0];
-                int x = Integer.parseInt(splitInput[1]);
-                int y = Integer.parseInt(splitInput[2]);
-
-                // Checks if the X and Y values match the canvas size.
-                if (x >= 0 && x <= FRAME_WIDTH && y >= 0 && y <= FRAME_HEIGHT) {
-
-                    sReceiverCoordinates.add(new BeaconReceiver(id, x, y));
-                    System.out.println("Receiver added. Total receivers: " + sReceiverCoordinates.size());
-
-                    // Checks if there is at least 3 receivers and that the service is not yet started.
-                    if (sReceiverCoordinates.size() > 2 && !started) {
-
-                        sServer = new TCPServer(sDatabase, START_PORT, RECEIVERS);
-                        sCanvas = new MapCanvas(TITLE, FRAME_WIDTH, FRAME_HEIGHT, BG_COLOR);
-
-                        startCoopMap();
-
-                        started = true;
-                        System.out.println("SYSTEM STARTED");
-                    }
-
-                    // Draws the receivers to the canvas if the application is running
-                    if (started && sReceiverCoordinates.size() > 0) {
-                        for (BeaconReceiver receiver : sReceiverCoordinates) {
-                            String rId = receiver.getId();
-                            int rX = (int)receiver.getX();
-                            int rY = (int)receiver.getY();
-                            sCanvas.addReceiver(rId, rX, rY);
-                        }
-                    }
-
-                } else {
-                    System.out.println("Coordinates does not match. Try again.");
-                }
-
-            } else {
-                System.out.println("Wrong input. Try again.");
-                System.out.println("_____________________________________");
-                System.out.println("Type in a receiver: >ID XX YY<. Insert minimum 3 receivers.");
-                System.out.println("ID = Find this on the receiver hardware.");
-                System.out.println("XX = Coordinate between 0 and " + FRAME_WIDTH);
-                System.out.println("YY = Coordinate between 0 and " + FRAME_HEIGHT);
-            }
-        }
+        getUserInput();
     }
 }
