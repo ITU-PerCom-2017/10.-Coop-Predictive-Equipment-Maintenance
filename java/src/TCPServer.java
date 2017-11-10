@@ -30,7 +30,7 @@ class TCPServer {
 
 
                 System.out.println("Output file created");
-                PrintStream o = new PrintStream(new File("A.txt"));
+                PrintStream o = new PrintStream(new File("out.txt"));
                 // Store current System.out before assigning a new value
                 PrintStream console = System.out;
 
