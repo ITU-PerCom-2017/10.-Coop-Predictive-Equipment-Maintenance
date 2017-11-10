@@ -15,6 +15,7 @@ class TCPServer {
         }
     }
 
+
     // Method for creating an input socket using a new thread.
     private void createInputSocket(int port, RssiDatabase database) {
         Thread t = new Thread(() -> {
@@ -26,7 +27,7 @@ class TCPServer {
             try {
                 serverSocket = new ServerSocket(port);
                 Socket connectionSocket = serverSocket.accept();
-                //fw = new FileWriter("out.txt");
+
                 // While loop that reads the incoming data.
                 while(true) {
                     InputStream inputStream = connectionSocket.getInputStream();
@@ -51,6 +52,9 @@ class TCPServer {
                     // Assign o to output stream
                     System.setOut(o);
                     System.out.println("{B" + beaconId + ",R" + LoPyId + "," + RSSI + "}");
+                    System.setOut(o);
+                    System.out.println("{B" + beaconId + ",R" + LoPyId + "," + RSSI + "}");
+                    System.setOut(console);
 
 
 
