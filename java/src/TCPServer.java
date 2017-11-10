@@ -57,6 +57,7 @@ class TCPServer {
 
                     database.putBeaconRssi("B" + beaconId, "R" + LoPyId, RSSI);
 
+                    System.out.println("{B" + beaconId + ",R" + LoPyId + "," + RSSI + "}");
                     bw.write("{B" + beaconId + ",R" + LoPyId + "," + RSSI + "}");
                     bw.newLine();
 
