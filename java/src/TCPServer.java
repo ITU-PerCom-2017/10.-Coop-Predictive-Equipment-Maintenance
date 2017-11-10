@@ -22,7 +22,15 @@ class TCPServer {
             System.out.println("starting thread for socket " + port);
 
             ServerSocket serverSocket = null;
-
+            // Store current System.out before assigning a new value
+            PrintStream console = System.out;
+            System.out.println(port + ".txt file created");
+            PrintStream o = null;
+            try {
+                o = new PrintStream(new File(port + ".txt"));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
 
             try {
                 serverSocket = new ServerSocket(port);
@@ -44,19 +52,12 @@ class TCPServer {
                     connectionSocket = serverSocket.accept();
 
                     database.putBeaconRssi("B" + beaconId, "R" + LoPyId, RSSI);
-                    System.out.println(LoPyId + ".txt file created");
-                    PrintStream o = new PrintStream(new File(LoPyId + ".txt"));
-                    // Store current System.out before assigning a new value
-                    PrintStream console = System.out;
 
                     // Assign o to output stream
                     System.setOut(o);
                     System.out.println("{B" + beaconId + ",R" + LoPyId + "," + RSSI + "}");
-                    System.setOut(o);
-                    System.out.println("{B" + beaconId + ",R" + LoPyId + "," + RSSI + "}");
                     System.setOut(console);
-
-
+                    System.out.println("{B" + beaconId + ",R" + LoPyId + "," + RSSI + "}");
 
                 }
 
