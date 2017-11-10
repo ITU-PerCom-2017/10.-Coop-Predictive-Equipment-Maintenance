@@ -22,9 +22,13 @@ class TCPServer {
 
             ServerSocket serverSocket = null;
 
+            FileWriter fw = null;
+
+
             try {
                 serverSocket = new ServerSocket(port);
                 Socket connectionSocket = serverSocket.accept();
+                fw = new FileWriter("out.txt");
 
                 // While loop that reads the incoming data.
                 while(true) {
@@ -42,10 +46,22 @@ class TCPServer {
                     connectionSocket = serverSocket.accept();
 
                     database.putBeaconRssi("B" + beaconId, "R" + LoPyId, RSSI);
+
+                    fw.write("B" + beaconId + ",R" + LoPyId + "," + RSSI);
+                    
                 }
 
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+
+                if (fw != null) {
+                    try {
+                        fw.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         t.start();

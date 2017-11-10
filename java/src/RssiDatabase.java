@@ -90,6 +90,10 @@ public class RssiDatabase {
         return sDatabase.size();
     }
 
+    public Vector<Map<String, Map<String, Integer>>> getDatabaseCopy() {
+        return new Vector<>(sDatabase);
+    }
+
 }
 
 
