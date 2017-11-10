@@ -16,7 +16,8 @@ public class CoopMap {
     private static final int FRAME_HEIGHT = 1000;
     private static final String TITLE = "COOP Indoor Location Map";
     private static final Color BG_COLOR = Color.gray; // Background color of the map window
-
+    private static PrintStream o = null;
+    private static PrintStream console = null;
     // Test register to get a distance in cm from a rssi value
     private static final int[] TEST_VALUES = {4,4,4,5,5,6,6,6,7,8,8,9,10,10,11,12,13,14,15,16,18,19,21,22,24,26,28,30,33,35,38,41,44,48,52,56,60,65,70,76,82,89,96,103,112,121,130,141,152,164,177,191,207,223,241,260,281,304,328,354,383,413,446,482,521,562,607,656,708,765,826,892,964,1041,1124,1214,1311,1416,1529,1652,1784,1927,2081,2247,2427,2621,2831,3057,3302,3566,3851,4160,4492,4852,5240,5659,6112,6601,7129,7699};
 
@@ -149,16 +150,7 @@ public class CoopMap {
 
     // Draws a new point to the canvas for each beacon
     private static void drawBeacons(List<BeaconReceiver> receiverCoordinates, Map<String, Map<String, Integer>> beacons, MapCanvas canvas) {
-        // Store current System.out before assigning a new value
-        PrintStream console = System.out;
-        //Create logfile and set output stream
-        PrintStream o = null;
-        try {
-            System.out.println( "coordinates.txt file created");
-            o = new PrintStream(new File("log/coordinates.txt"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+
 
         // Checks if the conditions are met
         if (beacons == null || beacons.size() < 1) {
@@ -190,8 +182,6 @@ public class CoopMap {
                     canvas.addPoint(beaconId, (int)bCoordinate.getX(), (int)bCoordinate.getY());
                     System.setOut(o);
                     System.out.println(""+beaconId + ", (" + bCoordinate.getX() + "," + (int)bCoordinate.getY()+")");
-                    System.setOut(console);
-
 
                 }
             }
@@ -324,5 +314,15 @@ public class CoopMap {
         //testCoordinates();
 
         getUserInput();
+        // Store current System.out before assigning a new value
+        console = System.out;
+        //Create logfile and set output stream
+
+        try {
+            System.out.println( "coordinates.txt file created");
+            o = new PrintStream(new File("log/coordinates.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
