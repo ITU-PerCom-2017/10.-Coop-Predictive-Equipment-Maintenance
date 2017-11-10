@@ -31,6 +31,7 @@ public class RssiDatabase {
     // Primary method to put beacon rssi data into the database.
     public void putBeaconRssi(String beaconId, String receiverId, Integer rssi) {
 
+
         // Reads the time from the system. This is used for keys.
         Double doubleTime = System.currentTimeMillis() * sTimeResolution;
         Integer time = doubleTime.intValue();
@@ -51,6 +52,7 @@ public class RssiDatabase {
                 Map<String, Integer> receivers = new HashMap<>();
                 receivers.put(receiverId, rssi);
                 beacons.put(beaconId, receivers);
+
             }
 
 

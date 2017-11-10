@@ -27,17 +27,6 @@ class TCPServer {
                 serverSocket = new ServerSocket(port);
                 Socket connectionSocket = serverSocket.accept();
                 //fw = new FileWriter("out.txt");
-
-
-                System.out.println("Output file created");
-                PrintStream o = new PrintStream(new File("out.txt"));
-                // Store current System.out before assigning a new value
-                PrintStream console = System.out;
-
-                // Assign o to output stream
-                System.setOut(o);
-
-
                 // While loop that reads the incoming data.
                 while(true) {
                     InputStream inputStream = connectionSocket.getInputStream();
@@ -54,7 +43,13 @@ class TCPServer {
                     connectionSocket = serverSocket.accept();
 
                     database.putBeaconRssi("B" + beaconId, "R" + LoPyId, RSSI);
+                    System.out.println("Output file created");
+                    PrintStream o = new PrintStream(new File(LoPyId + ".txt"));
+                    // Store current System.out before assigning a new value
+                    PrintStream console = System.out;
 
+                    // Assign o to output stream
+                    System.setOut(o);
                     System.out.println("{B" + beaconId + ",R" + LoPyId + "," + RSSI + "}");
 
 
