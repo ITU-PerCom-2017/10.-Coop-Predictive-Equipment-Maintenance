@@ -26,7 +26,8 @@ class TCPServer {
             try{
                 PrintStream o = new PrintStream(new File("A.txt"));
 
-            }catch (FileNotFoundException){
+            }catch (FileNotFoundException e){
+
                 e.printStackTrace();
             }
 
