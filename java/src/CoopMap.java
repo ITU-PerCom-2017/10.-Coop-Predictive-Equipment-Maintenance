@@ -16,8 +16,8 @@ public class CoopMap {
     private static final int TIME_RESOLUTION = 5; // Resolution of the database in seconds. 5 means there is a data point every fifth second.
     private static final int START_PORT = 6789; // Port to start from
     private static final int RECEIVERS = 4; // Number of receivers
-    private static final int FRAME_WIDTH = 800;
-    private static final int FRAME_HEIGHT = 500;
+    private static final int FRAME_WIDTH = 1050;
+    private static final int FRAME_HEIGHT = 1000;
     private static final String TITLE = "COOP Indoor Location Map";
     private static final Color BG_COLOR = Color.gray; // Background color of the map window
 
@@ -136,7 +136,15 @@ public class CoopMap {
     private static int getDistance(int rssi) {
 
         if (rssi >= 0 && rssi < TEST_VALUES.length) {
-            return TEST_VALUES[rssi];
+
+
+            //TODO Test feature, correct later
+            int val = TEST_VALUES[rssi];
+
+            if (val > 30) {
+                val -= 30;
+            }
+            return val;
         }
 
         return -1;
