@@ -31,6 +31,10 @@ class TCPServer {
                 // Assign o to output stream
                 System.setOut(o);
                 System.out.println("This will be written to the text file");
+                // Use stored value for output stream
+                System.setOut(console);
+                System.out.println("This will be written on the console!");
+
             }catch (FileNotFoundException e){
 
                 e.printStackTrace();
@@ -38,9 +42,6 @@ class TCPServer {
 
 
 
-            // Use stored value for output stream
-            System.setOut(console);
-            System.out.println("This will be written on the console!");
 
             try {
                 serverSocket = new ServerSocket(port);
