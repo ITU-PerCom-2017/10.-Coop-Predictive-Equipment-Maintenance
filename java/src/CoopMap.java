@@ -14,7 +14,6 @@ public class CoopMap {
     private static final int RECEIVERS = 4; // Number of receivers
     private static final int FRAME_WIDTH = 1050;
     private static final int FRAME_HEIGHT = 1000;
-    private static final String LOG_FOLDER= "~/Documents/code/google-drive/SDT/Pervasive Computing Project 2017 shared/Logs/";
     private static final String TITLE = "COOP Indoor Location Map";
     private static final Color BG_COLOR = Color.gray; // Background color of the map window
     private static PrintStream o = null;
@@ -320,7 +319,7 @@ public class CoopMap {
         //Create logfile and set output stream
         try {
             System.out.println( "coordinates.txt file created");
-            o = new PrintStream(new File(LOG_FOLDER + "coordinates.txt"));
+            o = new PrintStream(new File("log/coordinates.txt"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

@@ -4,8 +4,6 @@ import java.net.*;
  * Created by Thomas on 1-10-2017.
  */
 class TCPServer {
-    private static final String LOG_FOLDER= "~/Documents/code/google-drive/SDT/Pervasive Computing Project 2017 shared/Logs/";
-
     public TCPServer(RssiDatabase database, int startPort, int receivers) {
         // Creates XX number of receiver sockets. Each with a unique port
         for(int i = 0; i < receivers; i++) {
@@ -27,7 +25,7 @@ class TCPServer {
             PrintStream o = null;
             try {
                 System.out.println(port + ".txt file created");
-                o = new PrintStream(new File(LOG_FOLDER + port + ".txt"));
+                o = new PrintStream(new File("log/"+port + ".txt"));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
