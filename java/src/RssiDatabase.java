@@ -49,7 +49,7 @@ public class RssiDatabase {
                 // Checks if the receiver is already added. If it is, then it average out the two rssi values.
                 if (receivers.containsKey(receiverId)) {
                     Integer oldRssi = receivers.get(receiverId);
-                    rssi = (rssi + oldRssi) / 2;
+                    rssi = (int) Math.round((rssi + oldRssi) * 0.5);
                 }
 
                 // Puts the data into the database
@@ -63,7 +63,6 @@ public class RssiDatabase {
                 beacons.put(beaconId, receivers);
 
             }
-
 
             // If there is no data for on the beacon on the specific timestamp, create a new map and store the data.
         } else {
