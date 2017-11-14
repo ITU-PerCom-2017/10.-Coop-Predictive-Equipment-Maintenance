@@ -45,7 +45,16 @@ public class RssiDatabase {
             if (beacons.containsKey(beaconId)) {
 
                 Map<String, Integer> receivers = beacons.get(beaconId);
+
+                // Checks if the receiver is already added. If it is, then it average out the two rssi values.
+                if (receivers.containsKey(receiverId)) {
+                    Integer oldRssi = receivers.get(receiverId);
+                    rssi = (rssi + oldRssi) / 2;
+                }
+
+                // Puts the data into the database
                 receivers.put(receiverId, rssi);
+
 
                 // Else create a new map and store the rssi data.
             } else {
