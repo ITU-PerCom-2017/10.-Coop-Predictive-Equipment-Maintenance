@@ -19,6 +19,10 @@ public class MapCanvas extends JPanel {
         mVector = new Vector<>();
         mReceivers = new ArrayList<>();
         mColors = new ArrayList<>();
+        mColors.add(Color.green);
+        mColors.add(Color.red);
+        mColors.add(Color.blue);
+        mColors.add(Color.black);
 
         JFrame frame = new JFrame(title);
         frame.setSize(width, height);
@@ -66,7 +70,7 @@ public class MapCanvas extends JPanel {
             newPath.moveTo(x, y);
             newPath.lineTo(x, y);
             mVector.addElement(newPath);
-            mColors.add(getRandomColor());
+           // mColors.add(getRandomColor());
             mPaths.put(beaconId, newPath);
         }
         repaint();

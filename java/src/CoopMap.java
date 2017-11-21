@@ -219,7 +219,8 @@ public class CoopMap {
         Thread t = new Thread(() -> {
             boolean started = false;
             RssiDatabase database = new RssiDatabase(TIME_RESOLUTION);
-            TCPServer server = null;
+            //TCPServer server = null;
+            UDPServer server = null;
             MapCanvas canvas = null;
             List<BeaconReceiver> receiverCoordinates = new ArrayList<>();
 
@@ -251,9 +252,10 @@ public class CoopMap {
                             System.out.println("Receiver added. Total receivers: " + receiverCoordinates.size());
 
                             // Checks if there is at least 3 receivers and that the service is not yet started.
-                            if (receiverCoordinates.size() > 2 && !started) {
+                            if (receiverCoordinates.size() > 3 && !started) {
 
-                                server = new TCPServer(database, START_PORT, RECEIVERS);
+                                //server = new TCPServer(database, START_PORT, RECEIVERS);
+                                server = new UDPServer(database);
                                 canvas = new MapCanvas(TITLE, FRAME_WIDTH, FRAME_HEIGHT, BG_COLOR);
 
                                 startCoopMap(receiverCoordinates, database, canvas);

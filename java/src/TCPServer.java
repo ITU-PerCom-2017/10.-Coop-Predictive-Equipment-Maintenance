@@ -43,8 +43,8 @@ class TCPServer {
                     long timePassed = (long) ((System.currentTimeMillis() - startTime)* 0.001);
                     // The client is not connected if the data is null.
                     // It closes the connection and open it again.
-                    connectionSocket.close();
-                    connectionSocket = serverSocket.accept();
+                    //connectionSocket.close();
+                    //connectionSocket = serverSocket.accept();
 
                     //Write data to log file
                     database.putBeaconRssi("B" + beaconId, "R" + LoPyId, RSSI);
