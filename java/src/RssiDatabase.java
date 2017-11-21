@@ -31,6 +31,7 @@ public class RssiDatabase {
     // Primary method to put beacon rssi data into the database.
     public void putBeaconRssi(String beaconId, String receiverId, Integer rssi) {
 
+        rssi = getDistance(receiverId, beaconId, rssi);
 
         // Reads the time from the system. This is used for keys.
         Double doubleTime = System.currentTimeMillis() * sTimeResolution;
@@ -104,6 +105,78 @@ public class RssiDatabase {
         return new Vector<>(sDatabase);
     }
 
+    // Converts rssi to distance in centimeter
+    private static int getDistance(String receiverId, String beaconId, int rssi) {
+
+        String id = receiverId + beaconId;
+
+        int val = -1;
+
+        if (rssi >= 0 && rssi < CoopMap.R1B1_VALUES.length) {
+
+            switch (id) {
+                // Receiver 1
+                case "R1B1":
+                    val = CoopMap.R1B1_VALUES[rssi];
+                    break;
+                case "R1B2":
+                    val = CoopMap.R1B2_VALUES[rssi];
+                    break;
+                case "R1B3":
+                    val = CoopMap.R1B3_VALUES[rssi];
+                    break;
+                case "R1B4":
+                    val = CoopMap.R1B4_VALUES[rssi];
+                    break;
+
+                // Receiver 2
+                case "R2B1":
+                    val = CoopMap.R2B1_VALUES[rssi];
+                    break;
+                case "R2B2":
+                    val = CoopMap.R2B2_VALUES[rssi];
+                    break;
+                case "R2B3":
+                    val = CoopMap.R2B3_VALUES[rssi];
+                    break;
+                case "R2B4":
+                    val = CoopMap.R2B4_VALUES[rssi];
+                    break;
+
+                // Receiver 3
+                case "R3B1":
+                    val = CoopMap.R3B1_VALUES[rssi];
+                    break;
+                case "R3B2":
+                    val = CoopMap.R3B2_VALUES[rssi];
+                    break;
+                case "R3B3":
+                    val = CoopMap.R3B3_VALUES[rssi];
+                    break;
+                case "R3B4":
+                    val = CoopMap.R3B4_VALUES[rssi];
+                    break;
+
+                // Receiver 4
+                case "R4B1":
+                    val = CoopMap.R4B1_VALUES[rssi];
+                    break;
+                case "R4B2":
+                    val = CoopMap.R4B2_VALUES[rssi];
+                    break;
+                case "R4B3":
+                    val = CoopMap.R4B3_VALUES[rssi];
+                    break;
+                case "R4B4":
+                    val = CoopMap.R4B4_VALUES[rssi];
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        return val;
+    }
 }
 
 
