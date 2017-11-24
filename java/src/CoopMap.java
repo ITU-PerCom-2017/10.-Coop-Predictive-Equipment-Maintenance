@@ -116,17 +116,17 @@ public class CoopMap {
     private static CirclePoint calculateCoordinates(CirclePoint receiver1, CirclePoint receiver2, CirclePoint receiver3) {
         // Website formula https://math.stackexchange.com/questions/884807/find-x-location-using-3-known-x-y-location-using-trilateration
 
-        // First coordinate and rssi
+        // First coordinate and distance
         double x1 = receiver1.getX();
         double y1 = receiver1.getY();
         double r1 = receiver1.getR();
 
-        // Second coordinate and rssi
+        // Second coordinate and distance
         double x2 = receiver2.getX();
         double y2 = receiver2.getY();
         double r2 = receiver2.getR();
 
-        // Third coordinate and rssi
+        // Third coordinate and distance
         double x3 = receiver3.getX();
         double y3 = receiver3.getY();
         double r3 = receiver3.getR();
