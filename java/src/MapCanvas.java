@@ -46,17 +46,6 @@ public class MapCanvas extends JPanel {
      */
     public void addPoint(String beaconId, int x, int y) {
 
-        /*
-        // Test factor DELETE AFTER USE
-        double xx = x * 0.01;
-        double yy = y * 0.01;
-        x = (int)xx;
-        y = (int)yy;
-        x += 600;
-        y += 600;
-        // Test factor end
-        */
-
         if(mPaths.containsKey(beaconId)) {
             // If the path already exist, then append a new path to the old one
             GeneralPath newPath = new GeneralPath();

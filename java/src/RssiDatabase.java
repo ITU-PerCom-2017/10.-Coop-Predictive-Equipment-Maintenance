@@ -29,7 +29,7 @@ public class RssiDatabase {
     }
 
     // Primary method to put beacon rssi data into the database.
-    public void putBeaconRssi(String beaconId, String receiverId, Integer rssi) {
+    public void putBeaconRssi(String receiverId, String beaconId, Integer rssi) {
 
         rssi = getDistance(receiverId, beaconId, rssi);
 
@@ -178,6 +178,3 @@ public class RssiDatabase {
         return val;
     }
 }
-
-
-

@@ -10,8 +10,7 @@ import java.util.stream.Collectors;
 
 public class CoopMap {
     public static final int TIME_RESOLUTION = 5; // Resolution of the database in seconds. 5 means there is a data point every fifth second.
-    public static final int START_PORT = 6789; // Port to start from
-    public static final int RECEIVERS = 4; // Number of receivers
+    public static final int PORT = 7007; // Port to start from
     public static final int FRAME_WIDTH = 1050;
     public static final int FRAME_HEIGHT = 1000;
     public static final String TITLE = "COOP Indoor Location Map";
@@ -56,14 +55,13 @@ public class CoopMap {
                         (e1, e2) -> e1,
                         LinkedHashMap::new
                 ));
-
     }
 
 
     // Creates an array of receiver CirclePoints from a map of receiver ids
     private static CirclePoint[] getCirclePointsFromReceivers(List<BeaconReceiver> receiverCoordinates, Map<String, Integer> receivers, int amount) {
 
-        // Checks if the conditions are met
+        // Checks if there are data in the list and that there are enough data (not less than 3) to create CirclePoints
         if (amount < 1 || receivers.size() < amount) {
             return null;
         }
@@ -154,7 +152,6 @@ public class CoopMap {
     // Draws a new point to the canvas for each beacon
     private static void drawBeacons(List<BeaconReceiver> receiverCoordinates, Map<String, Map<String, Integer>> beacons, MapCanvas canvas) {
 
-
         // Checks if the conditions are met
         if (beacons == null || beacons.size() < 1) {
             return;
@@ -222,7 +219,6 @@ public class CoopMap {
         Thread t = new Thread(() -> {
             boolean started = false;
             RssiDatabase database = new RssiDatabase(TIME_RESOLUTION);
-            //TCPServer server = null;
             UDPServer server = null;
             MapCanvas canvas = null;
             List<BeaconReceiver> receiverCoordinates = new ArrayList<>();
@@ -231,7 +227,6 @@ public class CoopMap {
             System.out.println("ID = Find this on the receiver hardware.");
             System.out.println("XX = Coordinate between 0 and " + FRAME_WIDTH);
             System.out.println("YY = Coordinate between 0 and " + FRAME_HEIGHT);
-
 
             // While loop that listens for user input
             while (true) {
