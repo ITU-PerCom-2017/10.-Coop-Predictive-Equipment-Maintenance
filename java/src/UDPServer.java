@@ -7,10 +7,12 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 
 public class UDPServer {
+
     public UDPServer(RssiDatabase database) {
         // Creates XX number of receiver sockets. Each with a unique port
         Thread t = new Thread(() -> {
             listenToData(database);
+
         });
         t.start();
     }
@@ -18,36 +20,37 @@ public class UDPServer {
         long startTime = System.currentTimeMillis();
         PrintStream console = System.out;
         PrintStream o = null;
-
+        try {
+            System.out.println("log.txt file created");
+            o = new PrintStream(new File("log/log.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         DatagramSocket aSocket = null;
         try{
             aSocket = new DatagramSocket(7007);
             // create socket at agreed port
-            byte[] buffer = new byte[1000];
             while(true){
+                byte[] buffer = new byte[100];
                 DatagramPacket request = new DatagramPacket(buffer, buffer.length);
                 aSocket.receive(request);
-                System.out.println("UDP packet from: " + new String(request.getAddress().toString()));
+
                 byte[] data = request.getData();
                 String message = new String(data);
 
                 String[] contentOfMsg = message.split(",");
                 String LoPyId = contentOfMsg[0];
                 String beaconId = contentOfMsg[1];
-                String RSSI = contentOfMsg[2];
-
+                int RSSI = Integer.parseInt(contentOfMsg[2]);
                 long timePassed = (long) ((System.currentTimeMillis() - startTime)* 0.001);
-                try {
-                    System.out.println(LoPyId + ".txt file created");
-                    o = new PrintStream(new File("log/log.txt"));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                if(timePassed != 0 && LoPyId != null && beaconId != null && RSSI != 0){
+                    database.putBeaconRssi(beaconId, LoPyId, RSSI);
+                    System.setOut(o);
+                    System.out.println(timePassed + ","+ LoPyId +  "," + beaconId + "," + RSSI);
+                    System.setOut(console);
+                    System.out.println(timePassed + ","+ LoPyId +  "," + beaconId + "," + RSSI);
                 }
-                database.putBeaconRssi("B" + beaconId, "R" + LoPyId, Integer.parseInt(RSSI));
-                System.setOut(o);
-                System.out.println(timePassed + ",R"+ LoPyId +  ",B" + beaconId + "," + RSSI + "");
-                System.setOut(console);
-                System.out.println(timePassed + ",R"+ LoPyId +  ",B" + beaconId + "," + RSSI + "");
+
 
             }
         }catch (SocketException e){System.out.println("Socket: " + e.getMessage());
