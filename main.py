@@ -10,7 +10,7 @@ import binascii
 from machine import Timer
 pycom.heartbeat(False)
 pycom.rgbled(0x000000) # turn off led
-port = 7007
+port = 6791
 
 lopyID = 3 # set this unique to each lopy
 print('started! lopy id: ', lopyID, ' port: ', port)
@@ -62,17 +62,21 @@ bluetooth = Bluetooth()
 bluetooth.start_scan(-1)
 adv = None # bluetooth advertisementa
 
-#socket.IPPROTO_UDP
+
 time.sleep(1)
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, socket.IPPROTO_UDP)
 #s.connect(socket.getaddrinfo('10.42.0.1', port)[0][-1])
 
 def sendToSocket(beaconID, rssi):
     RSSIpositive = rssi * -1
-    string = str(lopyID) + "," + str(beaconID) + "," + str(RSSIpositive) + ","
-    data = bytearray(string)
-    addr = socket.getaddrinfo('10.42.0.1', 7007)[0][-1]
-    s.sendto(data, addr)
+    data = bytearray()
+    data.append(lopyID)
+    data.append(beaconID)
+    data.append(RSSIpositive)
+#    delimiter = 666;
+    data.append(delimiter)
+    s.sendTo(data, 10.42.0.1)
+    test = bytearray(buffer('data'))
 
 # new mac adresses:
 #C7:C3:83:EE:AA:A4
