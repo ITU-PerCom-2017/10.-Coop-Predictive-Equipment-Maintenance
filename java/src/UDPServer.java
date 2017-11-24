@@ -30,14 +30,11 @@ public class UDPServer {
                 System.out.println("UDP packet from: " + new String(request.getAddress().toString()));
                 byte[] data = request.getData();
                 String message = new String(data);
-                //message = message.replaceAll("\0+$", "");
-                String LoPyId = message.substring(0, 1);
-                String beaconId = message.substring(1, 2);
-                String RSSI = message.substring(2,5);
-                String delimiter = message.substring(5,8);
-                if(delimiter.equals(666)){
-                    System.out.println(" found " + delimiter + " ------------ ");
-                }
+
+                String[] contentOfMsg = message.split(",");
+                String LoPyId = contentOfMsg[0];
+                String beaconId = contentOfMsg[1];
+                String RSSI = contentOfMsg[2];
 
                 long timePassed = (long) ((System.currentTimeMillis() - startTime)* 0.001);
                 try {
