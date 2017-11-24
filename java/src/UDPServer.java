@@ -42,15 +42,15 @@ public class UDPServer {
                 long timePassed = (long) ((System.currentTimeMillis() - startTime)* 0.001);
                 try {
                     System.out.println(LoPyId + ".txt file created");
-                    o = new PrintStream(new File("log/"+LoPyId + ".txt"));
+                    o = new PrintStream(new File("log/log.txt"));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
                 database.putBeaconRssi("B" + beaconId, "R" + LoPyId, Integer.parseInt(RSSI));
                 System.setOut(o);
-                System.out.println("Time " + timePassed + " , B" + beaconId + "," + RSSI + "");
+                System.out.println(timePassed + ",R"+ LoPyId +  ",B" + beaconId + "," + RSSI + "");
                 System.setOut(console);
-                System.out.println("R" + LoPyId + ", Time " + timePassed + " , B" + beaconId + "," + RSSI + "");
+                System.out.println(timePassed + ",R"+ LoPyId +  ",B" + beaconId + "," + RSSI + "");
 
             }
         }catch (SocketException e){System.out.println("Socket: " + e.getMessage());
