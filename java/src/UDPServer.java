@@ -11,6 +11,7 @@ public class UDPServer {
     public UDPServer(RssiDatabase database) {
         Thread t = new Thread(() -> listenForData(database));
         t.start();
+        System.out.println("UDP SERVER STARTED");
     }
     private void listenForData(RssiDatabase database){
         long startTime = System.currentTimeMillis();
@@ -19,8 +20,8 @@ public class UDPServer {
         DatagramSocket aSocket = null;
 
         try {
-            System.out.println("log.txt file created");
             outputFile = new PrintStream(new File("log/log.txt"));
+            System.out.println("log/log.txt PrintStream ready");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

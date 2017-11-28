@@ -26,6 +26,8 @@ public class RssiDatabase {
         sDatabase = new Vector<>();
         sTime = new AtomicInteger(0);
         sTimeResolution = 1.0 / (resolution * 1000); // Resolution of the database in seconds. 5 means there is a data point every fifth second.
+
+        System.out.println("DATABASE CREATED");
     }
 
     // Primary method to put beacon rssi data into the database.

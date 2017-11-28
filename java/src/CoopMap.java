@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 public class CoopMap {
     public static final int TIME_RESOLUTION = 1; // Resolution of the database in seconds. 5 means there is a data point every fifth second.
     public static final int PORT = 7007; // Port to start from
-    public static final int FRAME_WIDTH = 1050;
-    public static final int FRAME_HEIGHT = 1000;
+    public static final int FRAME_WIDTH = 1315; // Measured width of DesignLab
+    public static final int FRAME_HEIGHT = 1140; // Measured height of DesignLab
     public static final String TITLE = "COOP Indoor Location Map";
     public static final Color BG_COLOR = Color.gray; // Background color of the map window
 
@@ -205,7 +205,7 @@ public class CoopMap {
 
                 // Waits 0.8 seconds before checking for new data again
                 try {
-                    Thread.sleep(800);
+                    Thread.sleep(400);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -215,6 +215,45 @@ public class CoopMap {
     }
 
 
+    private static List<BeaconReceiver> readReceiversFromFile() {
+        List<BeaconReceiver> receiverCoordinates = new ArrayList<>();
+
+        String fileName = "receiver_coordinates.txt";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] splitInput = line.split("\\s+"); // Splits the string for each 'space'
+
+                // Checks for exactly 3 inputs
+                if (splitInput.length == 3) {
+
+                    String id = splitInput[0];
+                    int x = Integer.parseInt(splitInput[1]);
+                    int y = Integer.parseInt(splitInput[2]);
+
+                    // Checks if the X and Y values match the canvas size.
+                    if (x >= 0 && x < FRAME_WIDTH && y >= 0 && y < FRAME_HEIGHT) {
+
+                        receiverCoordinates.add(new BeaconReceiver(id, x, y));
+                        System.out.println("Receiver added. Total receivers: " + receiverCoordinates.size());
+
+                    } else {
+                        System.out.println("Coordinates does not match. Try again.");
+                    }
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return receiverCoordinates;
+    }
+
+
+    /*
     private static void getUserInput() {
         Thread t = new Thread(() -> {
             boolean started = false;
@@ -293,6 +332,8 @@ public class CoopMap {
         t.start();
     }
 
+    */
+
 
     // Testing method for calculating coordinates
     private static void testCoordinates() {
@@ -310,16 +351,38 @@ public class CoopMap {
         System.out.println("Welcome to " + TITLE);
         System.out.println("_____________________________________");
 
+        RssiDatabase database = null;
+        MapCanvas canvas = null;
 
-        //testCoordinates();
+        // Reads the coordinates and id for each receiver from a file
+        List<BeaconReceiver> receiverCoordinates = readReceiversFromFile();
 
-        getUserInput();
+
+        // Checks if there is at least 3 receivers and that the service is not yet started.
+        if (receiverCoordinates.size() > 3) {
+            database = new RssiDatabase(TIME_RESOLUTION);
+            canvas = new MapCanvas(TITLE, FRAME_WIDTH, FRAME_HEIGHT, BG_COLOR);
+
+            // Draws the receivers to the canvas
+            for (BeaconReceiver receiver : receiverCoordinates) {
+                String rId = receiver.getId();
+                int rX = (int)receiver.getX();
+                int rY = (int)receiver.getY();
+                canvas.addReceiver(rId, rX, rY);
+            }
+
+            new UDPServer(database);
+        }
+
+        startCoopMap(receiverCoordinates, database, canvas);
+
+
         // Store current System.out before assigning a new value
         console = System.out;
         //Create logfile and set output stream
         try {
-            System.out.println( "coordinates.txt file created");
             file = new PrintStream(new File("log/coordinates.txt"));
+            System.out.println( "log/coordinates.txt PrintStream ready");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

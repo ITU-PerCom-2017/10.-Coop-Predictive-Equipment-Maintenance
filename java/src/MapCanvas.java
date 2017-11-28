@@ -1,6 +1,10 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
@@ -30,13 +34,36 @@ public class MapCanvas extends JPanel {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Adds scroll panels
-        JScrollPane jsp = new JScrollPane(this);
-        jsp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(new File("dl_clean.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        // Adds scroll panels. Does not work right now.
+        BufferedImage finalImage = image;
+        JScrollPane jsp = new JScrollPane(this, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(finalImage, 0, 0, null);
+            }
+        };
+
+
+
+        //jsp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        //jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         frame.getContentPane().add(jsp);
     }
+
+
+
+
 
     /**
      * Method for creating paths / or adding points to existing paths.
@@ -75,11 +102,9 @@ public class MapCanvas extends JPanel {
     }
 
 
-    private Color getRandomColor() {
-        int r = (int) (Math.random() * 255 + 1);
-        int g = (int) (Math.random() * 255 + 1);
-        int b = (int) (Math.random() * 255 + 1);
-        return new Color(r, g, b);
+    private void drawBackground() {
+
+
     }
 
 
