@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  */
 
 public class CoopMap {
-    public static final int TIME_RESOLUTION = 5; // Resolution of the database in seconds. 5 means there is a data point every fifth second.
+    public static final int TIME_RESOLUTION = 1; // Resolution of the database in seconds. 5 means there is a data point every fifth second.
     public static final int PORT = 7007; // Port to start from
     public static final int FRAME_WIDTH = 1050;
     public static final int FRAME_HEIGHT = 1000;
