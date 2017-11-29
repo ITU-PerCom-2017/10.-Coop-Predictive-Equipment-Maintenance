@@ -29,7 +29,11 @@ public class MapCanvas extends JPanel {
         mColors.add(Color.black);
 
         JFrame frame = new JFrame(title);
-        frame.setSize(width, height);
+        //frame.setSize(width, height);
+
+        //frame.setSize(new Dimension(width, height));
+        frame.setSize(new Dimension(400, 400));
+
         frame.setBackground(bgColor);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,7 +49,7 @@ public class MapCanvas extends JPanel {
 
         // Adds scroll panels. Does not work right now.
         BufferedImage finalImage = image;
-        JScrollPane jsp = new JScrollPane(this, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED) {
+        JScrollPane jsp = new JScrollPane(this, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS) {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);

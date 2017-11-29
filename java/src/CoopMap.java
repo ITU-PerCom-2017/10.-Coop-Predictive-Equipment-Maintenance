@@ -189,7 +189,6 @@ public class CoopMap {
     }
 
 
-
     // Starts drawing points to the canvas on a new thread. If there is no new data to draw then it waits 0.8 seconds.
     private static void startCoopMap(List<BeaconReceiver> receiverCoordinates, RssiDatabase database, MapCanvas canvas) {
         Thread t = new Thread(() -> {
@@ -251,88 +250,6 @@ public class CoopMap {
 
         return receiverCoordinates;
     }
-
-
-    /*
-    private static void getUserInput() {
-        Thread t = new Thread(() -> {
-            boolean started = false;
-            RssiDatabase database = new RssiDatabase(TIME_RESOLUTION);
-            UDPServer server = null;
-            MapCanvas canvas = null;
-            List<BeaconReceiver> receiverCoordinates = new ArrayList<>();
-
-            System.out.println("Type in a receiver: >ID XX YY<. Insert minimum 3 receivers.");
-            System.out.println("ID = Find this on the receiver hardware.");
-            System.out.println("XX = Coordinate between 0 and " + FRAME_WIDTH);
-            System.out.println("YY = Coordinate between 0 and " + FRAME_HEIGHT);
-
-            // While loop that listens for user input
-            while (true) {
-
-                try {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-                    String input = reader.readLine();
-                    String[] splitInput = input.split("\\s+"); // Splits the string for each 'space'
-
-                    // Checks for exactly 3 inputs
-                    if (splitInput.length == 3) {
-
-                        String id = splitInput[0];
-                        int x = Integer.parseInt(splitInput[1]);
-                        int y = Integer.parseInt(splitInput[2]);
-
-                        // Checks if the X and Y values match the canvas size.
-                        if (x >= 0 && x <= FRAME_WIDTH && y >= 0 && y <= FRAME_HEIGHT) {
-
-                            receiverCoordinates.add(new BeaconReceiver(id, x, y));
-                            System.out.println("Receiver added. Total receivers: " + receiverCoordinates.size());
-
-                            // Checks if there is at least 3 receivers and that the service is not yet started.
-                            if (receiverCoordinates.size() > 3 && !started) {
-
-                                //server = new TCPServer(database, START_PORT, RECEIVERS);
-                                server = new UDPServer(database);
-                                canvas = new MapCanvas(TITLE, FRAME_WIDTH, FRAME_HEIGHT, BG_COLOR);
-
-                                startCoopMap(receiverCoordinates, database, canvas);
-
-                                started = true;
-                                System.out.println("SYSTEM STARTED");
-                            }
-
-                            // Draws the receivers to the canvas if the application is running
-                            if (started && receiverCoordinates.size() > 0 && canvas != null) {
-                                for (BeaconReceiver receiver : receiverCoordinates) {
-                                    String rId = receiver.getId();
-                                    int rX = (int)receiver.getX();
-                                    int rY = (int)receiver.getY();
-                                    canvas.addReceiver(rId, rX, rY);
-                                }
-                            }
-
-                        } else {
-                            System.out.println("Coordinates does not match. Try again.");
-                        }
-
-                    } else {
-                        System.out.println("Wrong input. Try again.");
-                        System.out.println("_____________________________________");
-                        System.out.println("Type in a receiver: >ID XX YY<. Insert minimum 3 receivers.");
-                        System.out.println("ID = Find this on the receiver hardware.");
-                        System.out.println("XX = Coordinate between 0 and " + FRAME_WIDTH);
-                        System.out.println("YY = Coordinate between 0 and " + FRAME_HEIGHT);
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        t.start();
-    }
-
-    */
 
 
     // Testing method for calculating coordinates
