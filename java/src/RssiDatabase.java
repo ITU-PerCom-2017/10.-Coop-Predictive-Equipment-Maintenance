@@ -7,9 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * This database uses a Vector list to keep it thread safe.
- * New elements is added to the end for each whole second.
- * Its putBeaconRssi method runs in XXX time.
- * Its getLatestBeaconData method runs in XXX time.
+ * New elements is added to the end for each whole 'time resolution'. Could be each second or each 5 seconds.
  */
 public class RssiDatabase {
 
@@ -19,8 +17,11 @@ public class RssiDatabase {
 
     // Latest timestamp in seconds
     private static AtomicInteger sTime;
+
+    // Time resolution of the database
     private static double sTimeResolution;
 
+    // Distance from rssi value array
     private static int[] r1b1, r1b2, r1b3, r1b4;
     private static int[] r2b1, r2b2, r2b3, r2b4;
     private static int[] r3b1, r3b2, r3b3, r3b4;
@@ -32,7 +33,8 @@ public class RssiDatabase {
         sTime = new AtomicInteger(0);
         sTimeResolution = 1.0 / (resolution * 1000); // Resolution of the database in seconds. 5 means there is a data point every fifth second.
 
-        // Generating distance values for each receiver and beacons
+        // Generating distance values for each receiver and beacon.
+        // a and b Values has been calculated from data measured in DesignLab.
         r1b1 = generateDistValues(3.39,10.7);
         r1b2 = generateDistValues(27.5, 6.48);
         r1b3 = generateDistValues(-18.5, 13.8);
@@ -208,7 +210,7 @@ public class RssiDatabase {
 
 
     // Calculating the correspondent distance for each rssi value
-    // Formula: x = exp( (y-a)/b )
+    // Equation: x = exp( (y-a)/b )
     // where x is distance in cm and y is the rssi value.
     // a is a constant and b is the coefficient.
     private int[] generateDistValues(double a, double b) {

@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -240,6 +241,27 @@ public class CoopMap {
     }
 
 
+    // Method to get real time printed out
+    private static void testTime() {
+        Thread t = new Thread(() -> {
+            while (true) {
+
+                String time = LocalDateTime.now().toLocalTime().toString();
+
+                System.out.println(time);
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
+    }
+
+
+
     public static void main(String[] args) {
         System.out.println("Welcome to " + TITLE);
         System.out.println("_____________________________________");
@@ -248,12 +270,14 @@ public class CoopMap {
         MapCanvas canvas = null;
 
 
+        testTime();
+
 
         // Reads the coordinates and id for each receiver from a file
         List<BeaconReceiver> receiverCoordinates = readReceiversFromFile();
 
 
-        // Checks if there is at least 3 receivers and that the service is not yet started.
+        // Checks if there is at least 4 receivers. Then sets up the system.
         if (receiverCoordinates.size() > 3) {
             database = new RssiDatabase(TIME_RESOLUTION);
             canvas = new MapCanvas(TITLE, FRAME_WIDTH, FRAME_HEIGHT, BG_COLOR);
@@ -269,7 +293,7 @@ public class CoopMap {
             new UDPServer(database);
         }
 
-        startCoopMap(receiverCoordinates, database, canvas);
+        //startCoopMap(receiverCoordinates, database, canvas);
 
 
         // Store current System.out before assigning a new value
