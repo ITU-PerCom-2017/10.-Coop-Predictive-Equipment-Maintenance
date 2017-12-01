@@ -66,9 +66,6 @@ public class MapCanvas extends JPanel {
     }
 
 
-
-
-
     /**
      * Method for creating paths / or adding points to existing paths.
      * @param beaconId the id of a beacon
@@ -105,11 +102,6 @@ public class MapCanvas extends JPanel {
         mReceivers.add(receiver);
     }
 
-
-    private void drawBackground() {
-
-
-    }
 
 
     public void paint(Graphics g) {

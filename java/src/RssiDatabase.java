@@ -21,11 +21,37 @@ public class RssiDatabase {
     private static AtomicInteger sTime;
     private static double sTimeResolution;
 
+    private static int[] r1b1, r1b2, r1b3, r1b4;
+    private static int[] r2b1, r2b2, r2b3, r2b4;
+    private static int[] r3b1, r3b2, r3b3, r3b4;
+    private static int[] r4b1, r4b2, r4b3, r4b4;
+
     // Constructor
     public RssiDatabase(int resolution) {
         sDatabase = new Vector<>();
         sTime = new AtomicInteger(0);
         sTimeResolution = 1.0 / (resolution * 1000); // Resolution of the database in seconds. 5 means there is a data point every fifth second.
+
+        // Generating distance values for each receiver and beacons
+        r1b1 = generateDistValues(3.39,10.7);
+        r1b2 = generateDistValues(27.5, 6.48);
+        r1b3 = generateDistValues(-18.5, 13.8);
+        r1b4 = generateDistValues(8.34,9.45);
+
+        r2b1 = generateDistValues(29.9, 6.48);
+        r2b2 = generateDistValues(-13.7, 14.2);
+        r2b3 = generateDistValues(-29, 16.6);
+        r2b4 = generateDistValues(1.79, 11.8);
+
+        r3b1 = generateDistValues(8.82, 9.56);
+        r3b2 = generateDistValues(31.8, 6.12);
+        r3b3 = generateDistValues(8.61, 10.2);
+        r3b4 = generateDistValues(-9.89, 13.5);
+
+        r4b1 = generateDistValues(7.84, 10.3);
+        r4b2 = generateDistValues(46.3, 3.25);
+        r4b3 = generateDistValues(28.7, 6.98);
+        r4b4 = generateDistValues(1.79, 11.8);
 
         System.out.println("DATABASE CREATED");
     }
@@ -114,63 +140,63 @@ public class RssiDatabase {
 
         int val = -1;
 
-        if (rssi >= 0 && rssi < CoopMap.R1B1_VALUES.length) {
+        if (rssi >= 0 && rssi < r1b1.length) {
 
             switch (id) {
                 // Receiver 1
                 case "R1B1":
-                    val = CoopMap.R1B1_VALUES[rssi];
+                    val = r1b1[rssi];
                     break;
                 case "R1B2":
-                    val = CoopMap.R1B2_VALUES[rssi];
+                    val = r1b2[rssi];
                     break;
                 case "R1B3":
-                    val = CoopMap.R1B3_VALUES[rssi];
+                    val = r1b3[rssi];
                     break;
                 case "R1B4":
-                    val = CoopMap.R1B4_VALUES[rssi];
+                    val = r1b4[rssi];
                     break;
 
                 // Receiver 2
                 case "R2B1":
-                    val = CoopMap.R2B1_VALUES[rssi];
+                    val = r2b1[rssi];
                     break;
                 case "R2B2":
-                    val = CoopMap.R2B2_VALUES[rssi];
+                    val = r2b2[rssi];
                     break;
                 case "R2B3":
-                    val = CoopMap.R2B3_VALUES[rssi];
+                    val = r2b3[rssi];
                     break;
                 case "R2B4":
-                    val = CoopMap.R2B4_VALUES[rssi];
+                    val = r2b4[rssi];
                     break;
 
                 // Receiver 3
                 case "R3B1":
-                    val = CoopMap.R3B1_VALUES[rssi];
+                    val = r3b1[rssi];
                     break;
                 case "R3B2":
-                    val = CoopMap.R3B2_VALUES[rssi];
+                    val = r3b2[rssi];
                     break;
                 case "R3B3":
-                    val = CoopMap.R3B3_VALUES[rssi];
+                    val = r3b3[rssi];
                     break;
                 case "R3B4":
-                    val = CoopMap.R3B4_VALUES[rssi];
+                    val = r3b4[rssi];
                     break;
 
                 // Receiver 4
                 case "R4B1":
-                    val = CoopMap.R4B1_VALUES[rssi];
+                    val = r4b1[rssi];
                     break;
                 case "R4B2":
-                    val = CoopMap.R4B2_VALUES[rssi];
+                    val = r4b2[rssi];
                     break;
                 case "R4B3":
-                    val = CoopMap.R4B3_VALUES[rssi];
+                    val = r4b3[rssi];
                     break;
                 case "R4B4":
-                    val = CoopMap.R4B4_VALUES[rssi];
+                    val = r4b4[rssi];
                     break;
 
                 default:
@@ -178,5 +204,21 @@ public class RssiDatabase {
             }
         }
         return val;
+    }
+
+
+    // Calculating the correspondent distance for each rssi value
+    // Formula: x = exp( (y-a)/b )
+    // where x is distance in cm and y is the rssi value.
+    // a is a constant and b is the coefficient.
+    private int[] generateDistValues(double a, double b) {
+        int[] array = new int[150];
+
+        for (int y = 0; y < array.length; y++) {
+            double distance = Math.exp((y-a)/b);
+            array[y] = (int)distance;
+        }
+
+        return array;
     }
 }
