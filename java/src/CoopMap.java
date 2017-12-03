@@ -270,7 +270,7 @@ public class CoopMap {
         MapCanvas canvas = null;
 
 
-        testTime();
+        //testTime();
 
 
         // Reads the coordinates and id for each receiver from a file
@@ -293,7 +293,7 @@ public class CoopMap {
             new UDPServer(database);
         }
 
-        //startCoopMap(receiverCoordinates, database, canvas);
+        startCoopMap(receiverCoordinates, database, canvas);
 
 
         // Store current System.out before assigning a new value

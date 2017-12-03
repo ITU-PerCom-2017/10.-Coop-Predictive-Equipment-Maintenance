@@ -13,6 +13,7 @@ public class UDPServer {
         t.start();
         System.out.println("UDP SERVER STARTED");
     }
+
     private void listenForData(RssiDatabase database){
         long startTime = System.currentTimeMillis();
         PrintStream console = System.out;
@@ -26,11 +27,11 @@ public class UDPServer {
             e.printStackTrace();
         }
 
-        try{
+        try {
             // Creates a socket on the specified port
             aSocket = new DatagramSocket(CoopMap.PORT);
 
-            while(true){
+            while (true) {
                 byte[] buffer = new byte[100];
                 DatagramPacket request = new DatagramPacket(buffer, buffer.length);
                 aSocket.receive(request);
@@ -38,8 +39,8 @@ public class UDPServer {
                 byte[] data = request.getData();
                 String message = new String(data);
                 String[] contentOfMsg = message.split(",");
-                String LoPyId = contentOfMsg[0];
-                String beaconId = contentOfMsg[1];
+                String LoPyId = "R" + contentOfMsg[0];
+                String beaconId = "B" + contentOfMsg[1];
                 int RSSI = Integer.parseInt(contentOfMsg[2]);
                 long timePassed = (long) ((System.currentTimeMillis() - startTime)* 0.001);
 
@@ -52,8 +53,8 @@ public class UDPServer {
                 }
             }
 
-        }catch (SocketException e){System.out.println("Socket: " + e.getMessage());
-        }catch (IOException e) {System.out.println("IO: " + e.getMessage());
-        }finally {if(aSocket != null) aSocket.close();}
+        } catch (SocketException e) {System.out.println("Socket: " + e.getMessage());
+        } catch (IOException e) {System.out.println("IO: " + e.getMessage());
+        } finally {if (aSocket != null) aSocket.close();}
     }
 }

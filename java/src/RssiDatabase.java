@@ -56,6 +56,7 @@ public class RssiDatabase {
         r4b4 = generateDistValues(1.79, 11.8);
 
         System.out.println("DATABASE CREATED");
+
     }
 
     // Primary method to put beacon rssi data into the database.
@@ -205,6 +206,7 @@ public class RssiDatabase {
                     break;
             }
         }
+
         return val;
     }
 
