@@ -158,7 +158,7 @@ public class CoopMap {
                     // Draws the point to canvas
                     canvas.addPoint(beaconId, (int)bCoordinate.getX(), (int)bCoordinate.getY());
                     System.setOut(file);
-                    System.out.println(""+beaconId + ", (" + bCoordinate.getX() + "," + (int)bCoordinate.getY()+")");
+                    System.out.println(beaconId + "," + (int)bCoordinate.getX() + "," + (int)bCoordinate.getY());
                     System.setOut(console);
                 }
             }
